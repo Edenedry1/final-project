@@ -1,0 +1,50 @@
+.upload-container {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  .upload-container h1 {
+    font-size: 2em;
+    color: #00ffcc;
+  }
+  
+  .upload-container form {
+    margin-top: 20px;
+  }
+  
+  .upload-container input[type="file"] {
+    margin-bottom: 15px;
+  }
+  
+  .upload-container button {
+    padding: 10px 20px;
+    background-color: #00ffcc;
+    border: none;
+    border-radius: 5px;
+    color: #000;
+    cursor: pointer;
+  }
+  
+  .upload-container button:hover {
+    background-color: #00e6b3;
+  }
+  
+  /* כפתור התנתקות קטן בצד ימין למעלה */
+  .logout-button {
+    position: absolute; /* למיקום מדויק */
+    top: 10px; /* מרחק מהחלק העליון */
+    right: 20px; /* מרחק מהצד הימני */
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 5px 10px; /* כפתור קטן יותר */
+    border-radius: 5px;
+    font-size: 12px; /* טקסט קטן יותר */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .logout-button:hover {
+    background-color: #d32f2f;
+  }
+  

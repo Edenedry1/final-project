@@ -1,0 +1,58 @@
+/* עיצוב בסיסי */
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(to bottom, #1a1a2e, #16213e, #0f3460);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* מכולת העמוד */
+.home-container {
+  text-align: center;
+  max-width: 800px;
+  padding: 20px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.7);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* עיצוב הלוגו */
+.logo {
+  width: 150px;
+  margin-bottom: 20px;
+}
+
+/* כותרת ראשית */
+.home-header h1 {
+  font-size: 2.5em;
+  color: #00adb5;
+}
+
+.home-header p {
+  font-size: 1.2em;
+  margin: 10px 0 20px;
+  color: #c5c6c7;
+}
+
+/* כפתורים */
+.home-buttons .btn {
+  text-decoration: none;
+  padding: 15px 30px;
+  margin: 10px;
+  background: #00adb5;
+  color: white;
+  font-size: 1.2em;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.home-buttons .btn:hover {
+  background: #007b7f;
+  transform: scale(1.05);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+}
