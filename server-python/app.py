@@ -8,7 +8,7 @@ import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-CORS(app)  # מאפשר בקשות מ-Frontend
+CORS(app)
 
 # התחברות למסד הנתונים
 db_path = './users.db'
@@ -19,26 +19,22 @@ if not os.path.exists(db_path):
                         username TEXT NOT NULL,
                         email TEXT NOT NULL UNIQUE,
                         password TEXT NOT NULL,
-                        is_institution INTEGER DEFAULT 0
-                    )''')
-    conn.execute('''CREATE TABLE feedback (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        username TEXT NOT NULL,
-                        message TEXT NOT NULL
+                        is_institution INTEGER DEFAULT 0,
+                        feedback TEXT DEFAULT ''
                     )''')
     conn.commit()
     conn.close()
     print("Database and tables created successfully.")
 else:
-    # בדיקה אם העמודה is_institution קיימת
+    # בדיקה אם העמודה feedback קיימת
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     cursor.execute("PRAGMA table_info(users)")
     columns = [column[1] for column in cursor.fetchall()]
-    if "is_institution" not in columns:
-        cursor.execute("ALTER TABLE users ADD COLUMN is_institution INTEGER DEFAULT 0")
+    if "feedback" not in columns:
+        cursor.execute("ALTER TABLE users ADD COLUMN feedback TEXT DEFAULT ''")
         conn.commit()
-        print("Column 'is_institution' added successfully.")
+        print("Column 'feedback' added successfully.")
     conn.close()
 
 # בדיקת קיום קובץ המודל
@@ -74,7 +70,7 @@ def sign_up():
     conn.close()
 
     return jsonify({'message': 'User registered successfully!'}), 201
-    
+
 @app.route('/api/users', methods=['GET'])
 def get_users():
     """
@@ -83,53 +79,47 @@ def get_users():
     try:
         conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
-        cursor.execute("SELECT id, username, email, is_institution FROM users")
+        cursor.execute("SELECT id, username, email, is_institution, feedback FROM users")
         users = cursor.fetchall()
         conn.close()
 
-        users_list = [{'id': row[0], 'username': row[1], 'email': row[2], 'is_institution': row[3]} for row in users]
+        users_list = [{'id': row[0], 'username': row[1], 'email': row[2], 'is_institution': row[3], 'feedback': row[4]} for row in users]
         return jsonify(users_list), 200
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
-@app.route('/api/feedback', methods=['GET'])
-def get_feedback():
-    """
-    נתיב להחזרת רשימת הפידבקים.
-    """
-    try:
-        conn = sqlite3.connect(db_path)
-        cursor = conn.cursor()
-        cursor.execute("SELECT id, username, message FROM feedback")
-        feedbacks = cursor.fetchall()
-        conn.close()
-
-        feedback_list = [{'id': row[0], 'username': row[1], 'message': row[2]} for row in feedbacks]
-        return jsonify(feedback_list), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
 @app.route('/api/feedback', methods=['POST'])
 def add_feedback():
     """
-    נתיב להוספת פידבק חדש.
+    נתיב להוספת פידבק חדש עם דירוג מפורט.
     """
     try:
         data = request.json
-        username = data.get('username', 'Anonymous')
+        username = data.get('username')
         message = data.get('message')
-
-        if not message:
-            return jsonify({'error': 'Message is required'}), 400
+        usability_rating = data.get('questionRatings', {}).get('usability', 0)
+        design_rating = data.get('questionRatings', {}).get('design', 0)
+        performance_rating = data.get('questionRatings', {}).get('performance', 0)
 
         conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO feedback (username, message) VALUES (?, ?)", (username, message))
+        cursor.execute(
+            """
+            UPDATE users 
+            SET feedback = ?, 
+                usability_rating = ?, 
+                design_rating = ?, 
+                performance_rating = ? 
+            WHERE username = ?
+            """,
+            (message, usability_rating, design_rating, performance_rating, username),
+        )
         conn.commit()
         conn.close()
         return jsonify({'message': 'Feedback submitted successfully!'}), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
 
 @app.route('/api/login', methods=['POST'])
 def login():
@@ -143,16 +133,18 @@ def login():
 
         conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
-        cursor.execute("SELECT password FROM users WHERE email = ?", (email,))
+        cursor.execute("SELECT id, username, password FROM users WHERE email = ?", (email,))
         row = cursor.fetchone()
         conn.close()
 
-        if row and check_password_hash(row[0], password):
-            return jsonify({'message': 'Login successful'}), 200
+        if row and check_password_hash(row[2], password):
+            user = {'id': row[0], 'username': row[1], 'email': email}
+            return jsonify({'message': 'Login successful', 'user': user}), 200
         else:
             return jsonify({'error': 'Invalid email or password'}), 401
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
 
 @app.route('/api/upload', methods=['POST'])
 def upload_audio():
@@ -180,6 +172,35 @@ def upload_audio():
         return jsonify({'error': f"Librosa processing error: {str(librosa_error)}"}), 500
     except Exception as e:
         return jsonify({'error': f"Failed to process audio file: {str(e)}"}), 500
+
+@app.route('/api/profile/<int:user_id>', methods=['GET'])
+def get_profile(user_id):
+    """
+    מחזיר את פרטי המשתמש לפי user_id מהמסד
+    """
+    try:
+        conn = sqlite3.connect(db_path)
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT username, email, is_institution, feedback
+            FROM users
+            WHERE id = ?
+        """, (user_id,))
+        row = cursor.fetchone()
+        conn.close()
+
+        if row:
+            return jsonify({
+                'username': row[0],
+                'email': row[1],
+                'is_institution': row[2],
+                'feedback': row[3]
+            }), 200
+        else:
+            return jsonify({'error': 'User not found'}), 404
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 
 if __name__ == '__main__':
     try:

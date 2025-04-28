@@ -1,4 +1,3 @@
-
 .login-container {
   display: flex;
   flex-direction: column;
@@ -15,6 +14,7 @@
   height: 100px;
   margin-bottom: 20px;
 }
+
 
 h1 {
   font-size: 2rem;
@@ -77,4 +77,25 @@ label {
 
 label input[type="checkbox"] {
   margin-right: 10px;
+}
+
+/* New styles for navigation */
+.navbar-nav .nav-link {
+  color: white; /* צבע לבן */
+  font-size: 16px;
+  margin-right: 10px;
+  text-decoration: none;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #ccc; /* צבע אפור בהיר כשעוברים עם העכבר */
+  text-decoration: underline; /* קו תחתון להדגשה */
+}
+
+.navbar-brand {
+  color: white; /* גם הלוגו מתאים */
+}
+
+.navbar-brand:hover {
+  color: #ccc;
 }

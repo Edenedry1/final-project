@@ -1,0 +1,182 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #121212;
+    color: white;
+    height: 100%;
+  }
+  
+  .navbar .container-fluid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  header .toolbar-icons {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+  }
+  
+  header .toolbar-icons a {
+    color: white;
+    font-size: 1.5rem;
+    text-decoration: none;
+    transition: color 0.3s;
+    filter: brightness(0) invert(1); 
+  }
+  
+  header .toolbar-icons a:hover {
+    color: #90caf9;
+  }
+  
+  .level-container {
+    padding-top: 120px;
+    text-align: center;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  .question-block {
+    margin-top: 2rem;
+  }
+  
+  .audio-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 4rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+  
+  .audio-box {
+    background-color: #1e1e1e;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+    width: 340px;
+    max-width: 90%;
+  }
+  
+  .audio-box p {
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+  
+  .audio-box button {
+    margin-top: 0.7rem;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #1976d2;
+    color: white;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .audio-box button:hover {
+    background-color: #115293;
+  }
+  
+  .feedback-message {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-top: 1rem;
+  }
+  
+  .feedback-message.success {
+    color: #4caf50;
+  }
+  
+  .feedback-message.error {
+    color: rgb(228, 15, 15);
+  }
+  
+  .completion-block {
+    margin-top: 3rem;
+    background-color: #222;
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 0 15px #000;
+  }
+  
+  .completion-block h3 {
+    margin-bottom: 1.2rem;
+    font-size: 1.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+
+  
+  .completion-block p {
+    font-size: 1.3rem;
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  
+  .completion-block .btn {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.8rem 1.8rem;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 10px;
+    background-color: #1976d2;
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .completion-block .btn:hover {
+    background-color: #115293;
+  }
+  
+  .logo {
+    height: 60px;
+    object-fit: contain;
+  }
+  .coin-animation {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    pointer-events: none;
+    display: flex;
+    gap: 10px;
+  }
+  
+  .coin {
+    font-size: 2.4rem;
+    animation: jumpUp 1.2s ease-out forwards;
+    opacity: 0;
+    animation-delay: calc(var(--i) * 0.2s);
+  }
+  
+  @keyframes jumpUp {
+    0% {
+      transform: translateY(100px);
+      opacity: 0;
+    }
+    50% {
+      transform: translateY(-30px);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-100px);
+      opacity: 0;
+    }
+  }
+  
+  

@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import '../styles/SignUp.css';
 import axios from 'axios';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
 
 const SignUp = () => {
   const [name, setName] = useState('');
@@ -36,9 +38,53 @@ const SignUp = () => {
   };
 
   return (
+    <>
+    {/* Header */}
+    <header data-bs-theme="dark">
+    <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <div className="container-fluid">
+        <div className="navbar-brand" href="#">
+          <img src={require('../images/logo.png')} alt="DeepFakeAudio Logo" className="logo" />
+          DeepFakeAudio
+        </div>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarCollapse"
+          aria-controls="navbarCollapse"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarCollapse">
+          <ul className="navbar-nav me-auto mb-2 mb-md-0">
+            <li className="nav-item">
+
+              <a className="nav-link active" aria-current="page" href="/">
+                Home
+              </a>
+            </li>
+          </ul>
+          <form className="d-flex" role="search">
+            <input
+              className="form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <button className="btn btn-outline-success" type="submit">
+              Search
+            </button>
+          </form>
+        </div>
+      </div>
+    </nav>
+  </header>
     <div className="login-container">
       <div className="logo">
-        <img src="https://via.placeholder.com/100" alt="Deepfake Audio Logo" />
+      <img src={require('../images/userlogo.png')} alt="DeepFakeAudio Logo" className="logo" />
       </div>
       <h1>Sign Up</h1>
       <form onSubmit={handleSignUp}>
@@ -87,6 +133,8 @@ const SignUp = () => {
       </form>
       {message && <p>{message}</p>}
     </div>
+    </>
+
   );
 };
 

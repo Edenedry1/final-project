@@ -1,0 +1,165 @@
+/* GLOBAL STYLES -------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif; /* שינוי גופן לכל העמוד */
+    padding-top: 4rem; /* מרווח מעל */
+    padding-bottom: 4rem; /* מרווח מתחת */
+    color: rgb(var(--bs-tertiary-color-rgb));
+    background-color: #121212; /* רקע כהה יותר */
+}
+
+/* CUSTOMIZE THE CAROUSEL -------------------------------------------------- */
+/* Carousel base class */
+.carousel {
+    margin-bottom: 2rem;
+}
+
+.carousel-caption {
+    bottom: 2rem; /* תזוזה כלפי מעלה */
+    z-index: 10;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8); /* הוספת צל לכיתוב */
+    font-weight: 600; /* עובי כיתוב מודגש */
+}
+
+/* Declare heights because of positioning of img element */
+.carousel-item {
+    height: 600px; /* גובה מותאם */
+    background-color: rgba(0, 0, 0, 0.5); /* צבע רקע לתמונות חסרות */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.carousel-item img {
+    max-height: 100%; /* התאמת גובה התמונה */
+    max-width: 100%; /* התאמת רוחב התמונה */
+    object-fit: cover; /* התמונה תכסה את השטח */
+}
+
+/* MARKETING CONTENT -------------------------------------------------- */
+.marketing .col-lg-4 {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.marketing .col-lg-4 p {
+    margin-right: 1rem;
+    margin-left: 1rem;
+    font-size: 1.2rem; /* גודל מותאם לטקסט */
+    line-height: 1.6; /* שיפור ריווח בין השורות */
+}
+
+/* Featurettes ------------------------- */
+.featurette-divider {
+    margin: 4rem 0; /* ריווח בין אלמנטים */
+}
+
+.featurette-heading {
+    font-size: 1.8rem; /* גודל מותאם לכותרת */
+    text-align: center;
+    color: #ffffff; /* לבן */
+    font-weight: 580; /* כותרת מודגשת */
+}
+
+.navbar-brand .logo {
+    height: 70px; /* הגדלת הגובה */
+    width: auto; /* שמירה על יחס רוחב-גובה */
+    margin-right: 15px; /* רווח קל יותר מימין */
+    object-fit: contain; /* התאמת התמונה למיכל */
+}
+
+.logo-image {
+    max-width: 200px; /* רוחב מקסימלי */
+    height: auto; /* התאמת גובה באופן יחסי */
+    margin-top: 1rem; /* מרווח מעל התמונה */
+    display: block; /* מבטיח שהתמונה תהיה במרכז */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* עיצוב לטופס החיפוש */
+form[role="search"] {
+    max-width: 300px; /* הגבלת הרוחב של הטופס */
+    margin-left: auto; /* מיקום הטופס בצד ימין */
+}
+
+/* עיצוב לשדה הטקסט */
+form[role="search"] .form-control {
+    height: 35px; /* התאמת גובה */
+    font-size: 14px; /* גודל טקסט קטן יותר */
+    font-family: 'Poppins', sans-serif; /* שינוי גופן */
+}
+
+/* עיצוב לכפתור */
+form[role="search"] .btn {
+    height: 35px; /* התאמת גובה לכפתור */
+    font-size: 14px; /* גודל טקסט קטן יותר */
+    padding: 0 10px; /* צמצום הרווחים בתוך הכפתור */
+    white-space: nowrap; /* מניעת גלישת טקסט */
+    font-family: 'Poppins', sans-serif; /* שינוי גופן */
+}
+
+.custom-paragraph {
+    font-size: 1rem; /* גודל מותאם */
+    line-height: 1.8; /* שיפור ריווח בין השורות */
+    color: #ffffff !important; /* צבע לבן עם עדיפות */
+    font-weight: 480; /* עובי רגיל */
+}
+
+.feature-text h3 {
+    font-size: 2rem; /* גודל מותאם לכותרות */
+    color: #ffffff; /* צבע לבן */
+    font-weight: 480; /* כותרת מודגשת */
+}
+
+.feature-text p {
+    font-size: 1rem; /* גודל מותאם */
+    line-height: 1.8; /* שיפור ריווח בין השורות */
+    color: #ffffff; /* צבע לבן */
+    font-family: 'Poppins', sans-serif; /* שינוי גופן */
+}
+
+.btn-start-now {
+    font-size: 1rem; /* גודל טקסט קטן יותר */
+    padding: 0.5rem 1rem; /* ריווח פנימי מותאם */
+    margin: 2rem auto; /* מיקום במרכז */
+    display: inline-block; /* הופך את הכפתור לקצר יותר */
+    background-color: transparent; /* רקע שקוף */
+    border: 2px solid #0d6efd; /* מסגרת כחולה */
+    border-radius: 5px; /* עיגול פינות */
+    color: #ffffff; /* צבע טקסט לבן */
+    text-align: center; /* יישור טקסט */
+    cursor: pointer; /* מצביע עכבר */
+    transition: all 0.3s ease; /* אנימציה */
+}
+
+.btn-start-now:hover {
+    background-color: #0d6efd; /* רקע כחול ב-hover */
+    color: #ffffff; /* שמירה על טקסט לבן */
+    transform: scale(1.05); /* הגדלה קלה ב-hover */
+}
+
+/* RESPONSIVE CSS -------------------------------------------------- */
+@media (min-width: 40em) {
+    .carousel-caption p {
+        margin-bottom: 1.5rem;
+        font-size: 1.5rem;
+        line-height: 1.5;
+        color: #ffffff !important; /* צבע לבן עם עדיפות */
+    }
+
+    .featurette-heading {
+        font-size: 3rem;
+        color: #ffffff !important; /* צבע לבן עם עדיפות */
+        font-family: 'Poppins', sans-serif; /* שינוי גופן */
+    }
+}
+
+@media (min-width: 62em) {
+    .featurette-heading {
+        margin-top: 5rem;
+        color: #ffffff !important; /* צבע לבן עם עדיפות */
+        font-family: 'Poppins', sans-serif; /* שינוי גופן */
+    }
+}

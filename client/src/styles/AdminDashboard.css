@@ -1,19 +1,41 @@
-.admin-dashboard {
-    text-align: center;
-    margin-top: 50px;
-  }
-  
-  .admin-button {
-    background-color: #4caf50;
-    color: white;
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .admin-button:hover {
-    background-color: #45a049;
-  }
-  
+body {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  color: #ffffff; /* צבע טקסט לבן */
+  background-color: #121212; /* רקע כהה */
+}
+
+h1.featurette-heading {
+  font-size: 2.5rem;
+  text-align: center;
+  color: #ffffff; /* צבע לבן */
+  margin-bottom: 2rem;
+}
+
+.admin-buttons-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* מרווח בין הכפתורים */
+}
+
+.admin-button {
+  background-color: #0d6efd; /* כחול */
+  color: #ffffff; /* צבע טקסט לבן */
+  padding: 10px 20px;
+  font-size: 1.2rem; /* גודל טקסט מותאם */
+  border: none;
+  border-radius: 5px; /* עיגול פינות */
+  cursor: pointer;
+  transition: all 0.3s ease; /* אנימציית מעבר */
+}
+
+.admin-button:hover {
+  background-color: #0056b3; /* כחול כהה */
+  transform: scale(1.05); /* הגדלה קלה */
+}
+
+.logo {
+  height: 70px;
+  width: auto;
+  object-fit: contain;
+}

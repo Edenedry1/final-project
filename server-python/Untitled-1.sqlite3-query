@@ -1,0 +1,13 @@
+-- database: ./users.db
+
+SELECT * FROM users;
+ALTER TABLE users
+ADD COLUMN usability_rating INTEGER DEFAULT 0;
+
+ALTER TABLE users
+ADD COLUMN design_rating INTEGER DEFAULT 0;
+
+ALTER TABLE users
+ADD COLUMN performance_rating INTEGER DEFAULT 0;
+
+

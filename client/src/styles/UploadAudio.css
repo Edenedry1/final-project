@@ -1,50 +1,141 @@
 .upload-container {
-    text-align: center;
-    margin-top: 50px;
-  }
-  
-  .upload-container h1 {
-    font-size: 2em;
-    color: #00ffcc;
-  }
-  
-  .upload-container form {
-    margin-top: 20px;
-  }
-  
-  .upload-container input[type="file"] {
-    margin-bottom: 15px;
-  }
-  
-  .upload-container button {
-    padding: 10px 20px;
-    background-color: #00ffcc;
-    border: none;
-    border-radius: 5px;
-    color: #000;
-    cursor: pointer;
-  }
-  
-  .upload-container button:hover {
-    background-color: #00e6b3;
-  }
-  
-  /* כפתור התנתקות קטן בצד ימין למעלה */
-  .logout-button {
-    position: absolute; /* למיקום מדויק */
-    top: 10px; /* מרחק מהחלק העליון */
-    right: 20px; /* מרחק מהצד הימני */
-    background-color: #f44336;
-    color: white;
-    border: none;
-    padding: 5px 10px; /* כפתור קטן יותר */
-    border-radius: 5px;
-    font-size: 12px; /* טקסט קטן יותר */
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .logout-button:hover {
-    background-color: #d32f2f;
-  }
-  
+  text-align: center;
+  margin-top: 50px;
+}
+
+.upload-container h1 {
+  font-size: 2em;
+  color: #00ffcc;
+}
+
+.upload-container form {
+  margin-top: 20px;
+}
+
+.upload-container input[type="file"] {
+  margin-bottom: 15px;
+}
+
+.upload-container button {
+  padding: 10px 20px;
+  background-color: #00ffcc;
+  border: none;
+  border-radius: 5px;
+  color: #000;
+  cursor: pointer;
+}
+
+.upload-container button:hover {
+  background-color: #00e6b3;
+}
+
+/* כפתור התנתקות קטן בצד ימין למעלה */
+.logout-button {
+  position: absolute; /* למיקום מדויק */
+  top: 10px; /* מרחק מהחלק העליון */
+  right: 20px; /* מרחק מהצד הימני */
+  background-color: #3649f4;
+  color: white;
+  border: none;
+  padding: 5px 10px; /* כפתור קטן יותר */
+  border-radius: 5px;
+  font-size: 12px; /* טקסט קטן יותר */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #2f4dd3;
+}
+
+/* Feedback Button */
+.feedback-button {
+  position: fixed;
+  bottom: 20px; /* מיקום מהחלק התחתון של הדף */
+  right: 20px; /* מיקום מהצד הימני של הדף */
+  background-color: #ff6f61;
+  color: white;
+  border: none;
+  border-radius: 50%; /* עיגול מלא */
+  width: 60px;
+  height: 60px;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.feedback-button:hover {
+  transform: scale(1.1); /* אפקט גידול בכפתור */
+}
+
+/* Feedback Form */
+.feedback-form {
+  position: fixed;
+  bottom: 100px; /* מיקום קצת מעל הכפתור */
+  right: 20px; /* יישור עם הכפתור */
+  width: 350px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  z-index: 1000; /* לשמור על הפורם מעל כל האלמנטים */
+}
+
+.feedback-form h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.feedback-form .feedback-question {
+  margin-bottom: 15px;
+}
+
+.feedback-form .feedback-question label {
+  font-size: 16px;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.feedback-form .feedback-question .stars {
+  display: flex;
+  gap: 5px;
+}
+
+.feedback-form .feedback-question .stars span {
+  font-size: 24px;
+  color: #dddddd;
+  cursor: pointer;
+}
+
+.feedback-form .feedback-question .stars span:hover,
+.feedback-form .feedback-question .stars span.active {
+  color: #ffd700;
+}
+
+.feedback-form textarea {
+  width: 100%;
+  height: 80px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 14px;
+  resize: none; /* לא לאפשר שינוי גודל */
+}
+
+.feedback-form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.feedback-form button:hover {
+  background-color: #0056b3;
+}

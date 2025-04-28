@@ -1,0 +1,67 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #121212;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .feedback-container {
+    text-align: center;
+    padding: 2rem;
+  }
+  
+  .user-table {
+    width: 100%;
+    margin: 1rem auto;
+    border-collapse: collapse;
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 1px solid #ddd;
+  }
+  
+  .user-table th,
+  .user-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    color: #ffffff;
+    font-size: 1.1rem;
+  }
+  
+  .user-table th {
+    background-color: #4caf50;
+    color: white;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .user-table tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .user-table tr:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  .featurette-heading {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 1.5rem;
+  }
+  
+  .error {
+    color: rgb(0, 4, 255);
+    font-size: 1.2rem;
+    margin-top: 1rem;
+  }
+  
+  .logo {
+    height: 70px;
+    object-fit: contain;
+  }
+  
+  .navbar {
+    margin-bottom: 2rem;
+  }
