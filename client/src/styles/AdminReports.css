@@ -1,0 +1,66 @@
+.activity-reports-container {
+    height: 100vh;
+    width: 100%;
+    padding-top: 120px;
+    background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
+    font-family: 'Poppins', sans-serif;
+    color: #ffffff;
+    text-align: center;
+  }
+  
+  .activity-title {
+    font-size: 2.8rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #00e6e6;
+    text-shadow: 0 0 10px #00e6e6;
+  }
+  
+  .reports-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+    padding: 20px;
+  }
+  
+  .report-card {
+    background: #1a1a2e;
+    border: 1px solid #00e6e6;
+    border-radius: 15px;
+    padding: 30px;
+    width: 300px;
+    box-shadow: 0 0 15px rgba(0, 230, 230, 0.5);
+    transition: transform 0.3s ease;
+  }
+  
+  .report-card:hover {
+    transform: translateY(-8px);
+  }
+  
+  .report-card h3 {
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+    color: #00e6e6;
+  }
+  
+  .report-card p {
+    font-size: 1.1rem;
+    color: #cfd8dc;
+  }
+  .neon-navbar {
+    width: 100%;
+    height: 60px; /* או גובה אחר אם תרצי */
+    background: #0f2027; /* או כל צבע רקע שאת רוצה */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-shadow: 0 0 10px rgba(0, 230, 230, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+  }
+  
+  

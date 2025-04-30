@@ -1,0 +1,66 @@
+.manage-games-container {
+    padding: 100px 20px 20px;
+    text-align: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+  }
+  
+  .manage-title {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px #00f0ff;
+  }
+  
+  .add-game-button {
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    background-color: transparent;
+    border: 2px solid #00f0ff;
+    color: white;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .add-game-button:hover {
+    background-color: #00f0ff;
+    color: #0f0c29;
+  }
+  
+  .games-table {
+    width: 90%;
+    margin: 0 auto;
+    border-collapse: collapse;
+  }
+  
+  .games-table th,
+  .games-table td {
+    border: 1px solid #00f0ff;
+    padding: 10px;
+  }
+  
+  .games-table th {
+    background-color: #0f0c29;
+  }
+  
+  .edit-button, .delete-button {
+    margin: 5px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .edit-button {
+    background-color: #39ff14;
+    color: black;
+  }
+  
+  .delete-button {
+    background-color: #ff4b5c;
+    color: white;
+  }
+  
