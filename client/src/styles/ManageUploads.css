@@ -1,0 +1,78 @@
+/* ManageUploads.css */
+
+.manage-uploads-container {
+    padding: 50px;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #ffffff;
+  }
+  
+  .manage-uploads-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #00f0ff;
+    text-shadow: 0 0 10px #00f0ff;
+  }
+  
+  .uploads-table {
+    width: 90%;
+    border-collapse: collapse;
+    background: #0d0d0d;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.7);
+  }
+  
+  .uploads-table th, .uploads-table td {
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #333;
+  }
+  
+  .uploads-table th {
+    background-color: #0a0a23;
+    color: #00f0ff;
+    font-size: 1.1rem;
+  }
+  
+  .uploads-table tr:nth-child(even) {
+    background-color: #1a1a2e;
+  }
+  
+  .uploads-table tr:hover {
+    background-color: #333;
+  }
+  
+  .action-buttons button {
+    margin: 0 5px;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #00f0ff;
+    color: #000;
+    font-weight: bold;
+    transition: background 0.3s;
+  }
+  
+  .action-buttons button:hover {
+    background: #00bcd4;
+  }
+  .neon-navbar {
+    width: 100%;
+    height: 60px; /* או גובה אחר אם תרצי */
+    background: #0f2027; /* או כל צבע רקע שאת רוצה */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-shadow: 0 0 10px rgba(0, 230, 230, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+  }

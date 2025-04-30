@@ -1,41 +1,41 @@
-body {
-  padding-top: 4rem;
-  padding-bottom: 4rem;
-  color: #ffffff; /* צבע טקסט לבן */
-  background-color: #121212; /* רקע כהה */
-}
-
-h1.featurette-heading {
-  font-size: 2.5rem;
+.admin-dashboard {
+  padding: 80px 20px 20px;
   text-align: center;
-  color: #ffffff; /* צבע לבן */
-  margin-bottom: 2rem;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  color: white;
+  font-family: 'Orbitron', sans-serif;
 }
 
-.admin-buttons-container {
+.admin-title {
+  font-size: 3rem;
+  margin-bottom: 40px;
+  text-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff;
+}
+
+.admin-buttons {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 20px; /* מרווח בין הכפתורים */
+  gap: 20px;
 }
 
-.admin-button {
-  background-color: #0d6efd; /* כחול */
-  color: #ffffff; /* צבע טקסט לבן */
-  padding: 10px 20px;
-  font-size: 1.2rem; /* גודל טקסט מותאם */
-  border: none;
-  border-radius: 5px; /* עיגול פינות */
+.admin-buttons button {
+  background-color: transparent;
+  border: 2px solid #00f0ff;
+  color: white;
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  border-radius: 12px;
   cursor: pointer;
-  transition: all 0.3s ease; /* אנימציית מעבר */
+  box-shadow: 0 0 10px #00f0ff;
+  transition: all 0.3s ease;
+  min-width: 250px;
 }
 
-.admin-button:hover {
-  background-color: #0056b3; /* כחול כהה */
-  transform: scale(1.05); /* הגדלה קלה */
-}
-
-.logo {
-  height: 70px;
-  width: auto;
-  object-fit: contain;
+.admin-buttons button:hover {
+  background-color: #00f0ff;
+  color: #0f0c29;
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #00f0ff;
 }

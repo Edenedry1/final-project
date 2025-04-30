@@ -10,8 +10,13 @@ import UploadAudio from './pages/UploadAudio';
 import Game from './pages/Game'; 
 import Level1 from './pages/Level1';
 import Level2 from './pages/Level2';
-
+import ManageGames from './pages/ManageGames';
+import AdminReports from './pages/AdminReports';
+import ManageUploads from './pages/ManageUploads';
 import Profile from './pages/Profile';
+
+
+
 
 
 
@@ -24,8 +29,6 @@ const App = () => {
             <Routes>
                 <Route path="/" element={<DeepFakeHome />} />
                 <Route path="/admin" element={<AdminDashboard />} />
-                <Route path="/users" element={<UserList />} />
-                <Route path="/feedback" element={<Feedback />} />
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/upload" element={<UploadAudio />} />
@@ -33,6 +36,14 @@ const App = () => {
                 <Route path="/level/1" element={<Level1 />} />
                 <Route path="/level/2" element={<Level2 />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/admin/users" element={<UserList />} />
+                <Route path="/admin/feedback" element={<Feedback />} />
+                <Route path="/admin/games" element={<ManageGames />} />
+                <Route path="/admin/reports" element={<AdminReports />} />
+                <Route path="/admin/uploads" element={<ManageUploads />} />
+
+
+
 
 
 

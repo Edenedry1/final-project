@@ -10,7 +10,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 CORS(app)
 
-# התחברות למסד הנתונים
 db_path = './users.db'
 if not os.path.exists(db_path):
     conn = sqlite3.connect(db_path)
@@ -26,7 +25,6 @@ if not os.path.exists(db_path):
     conn.close()
     print("Database and tables created successfully.")
 else:
-    # בדיקה אם העמודה feedback קיימת
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     cursor.execute("PRAGMA table_info(users)")
@@ -37,12 +35,10 @@ else:
         print("Column 'feedback' added successfully.")
     conn.close()
 
-# בדיקת קיום קובץ המודל
 model_path = './models/model.h5'
 if not os.path.exists(model_path):
     raise FileNotFoundError(f"Model file not found at {model_path}")
 
-# טען מודל מאומן
 try:
     model = tf.keras.models.load_model(model_path)
     print("Model loaded successfully.")
@@ -55,12 +51,12 @@ def sign_up():
     username = data.get('username')
     email = data.get('email')
     password = data.get('password')
-    is_institution = data.get('is_institution', 0)  # ברירת מחדל היא 0 אם לא נשלח ערך
+    is_institution = data.get('is_institution', 0)
 
     if not username or not email or not password:
         return jsonify({'error': 'All fields are required'}), 400
 
-    hashed_password = generate_password_hash(password)  # הצפנת סיסמה
+    hashed_password = generate_password_hash(password)
 
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
@@ -73,9 +69,6 @@ def sign_up():
 
 @app.route('/api/users', methods=['GET'])
 def get_users():
-    """
-    נתיב להחזרת רשימת המשתמשים הרשומים במערכת.
-    """
     try:
         conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
@@ -88,11 +81,24 @@ def get_users():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route('/api/delete_user/<int:user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    try:
+        conn = sqlite3.connect(db_path)
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM users WHERE id = ?", (user_id,))
+        conn.commit()
+        conn.close()
+
+        if cursor.rowcount == 0:
+            return jsonify({'error': 'User not found'}), 404
+
+        return jsonify({'message': 'User deleted successfully'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 @app.route('/api/feedback', methods=['POST'])
 def add_feedback():
-    """
-    נתיב להוספת פידבק חדש עם דירוג מפורט.
-    """
     try:
         data = request.json
         username = data.get('username')
@@ -120,7 +126,6 @@ def add_feedback():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-
 @app.route('/api/login', methods=['POST'])
 def login():
     try:
@@ -145,12 +150,8 @@ def login():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-
 @app.route('/api/upload', methods=['POST'])
 def upload_audio():
-    """
-    נתיב להעלאת קובץ אודיו וניתוחו באמצעות המודל.
-    """
     if 'audio' not in request.files:
         return jsonify({'error': 'No audio file uploaded'}), 400
 
@@ -158,12 +159,9 @@ def upload_audio():
 
     try:
         y, sr = librosa.load(file, sr=16000)
-
         mfcc = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=13)
         mfcc_scaled = np.mean(mfcc.T, axis=0)
-
         input_data = np.expand_dims(mfcc_scaled, axis=0)
-
         prediction = model.predict(input_data)
         result = 'Fake' if prediction[0][0] > 0.5 else 'Real'
 
@@ -175,9 +173,6 @@ def upload_audio():
 
 @app.route('/api/profile/<int:user_id>', methods=['GET'])
 def get_profile(user_id):
-    """
-    מחזיר את פרטי המשתמש לפי user_id מהמסד
-    """
     try:
         conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
@@ -200,7 +195,6 @@ def get_profile(user_id):
             return jsonify({'error': 'User not found'}), 404
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
 
 if __name__ == '__main__':
     try:
