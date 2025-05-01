@@ -10,7 +10,6 @@ import bcrypt
 app = Flask(__name__)
 CORS(app)
 
-# התחברות למסד הנתונים
 db_path = './users.db'
 if not os.path.exists(db_path):
     conn = sqlite3.connect(db_path)
@@ -26,7 +25,6 @@ if not os.path.exists(db_path):
     conn.close()
     print("Database and tables created successfully.")
 else:
-    # בדיקה אם העמודה feedback קיימת
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     cursor.execute("PRAGMA table_info(users)")
@@ -37,12 +35,10 @@ else:
         print("Column 'feedback' added successfully.")
     conn.close()
 
-# בדיקת קיום קובץ המודל
 model_path = './models/model.h5'
 if not os.path.exists(model_path):
     raise FileNotFoundError(f"Model file not found at {model_path}")
 
-# טען מודל מאומן
 try:
     model = tf.keras.models.load_model(model_path)
     print("Model loaded successfully.")
@@ -56,12 +52,13 @@ def sign_up():
     username = data.get('username')
     email = data.get('email')
     password = data.get('password')
-    is_institution = data.get('is_institution', 0)  # ברירת מחדל היא 0 אם לא נשלח ערך
+    is_institution = data.get('is_institution', 0)
 
     if not username or not email or not password:
         return jsonify({'error': 'All fields are required'}), 400
 
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+
 
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
@@ -112,7 +109,22 @@ def get_users():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-# --------------------------- פידבק ---------------------------
+@app.route('/api/delete_user/<int:user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    try:
+        conn = sqlite3.connect(db_path)
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM users WHERE id = ?", (user_id,))
+        conn.commit()
+        conn.close()
+
+        if cursor.rowcount == 0:
+            return jsonify({'error': 'User not found'}), 404
+
+        return jsonify({'message': 'User deleted successfully'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 @app.route('/api/feedback', methods=['POST'])
 def add_feedback():
     try:
@@ -142,7 +154,30 @@ def add_feedback():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-# --------------------------- העלאת קובץ ---------------------------
+@app.route('/api/login', methods=['POST'])
+def login():
+    try:
+        data = request.json
+        email = data.get('email')
+        password = data.get('password')
+
+        if not email or not password:
+            return jsonify({'error': 'Email and password are required'}), 400
+
+        conn = sqlite3.connect(db_path)
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, username, password FROM users WHERE email = ?", (email,))
+        row = cursor.fetchone()
+        conn.close()
+
+        if row and check_password_hash(row[2], password):
+            user = {'id': row[0], 'username': row[1], 'email': email}
+            return jsonify({'message': 'Login successful', 'user': user}), 200
+        else:
+            return jsonify({'error': 'Invalid email or password'}), 401
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 @app.route('/api/upload', methods=['POST'])
 def upload_audio():
     if 'audio' not in request.files:
@@ -190,6 +225,7 @@ def get_profile(user_id):
         return jsonify({'error': str(e)}), 500
 
 # --------------------------- הרצת השרת ---------------------------
+
 if __name__ == '__main__':
     try:
         app.run(host='0.0.0.0', port=5001, debug=True)

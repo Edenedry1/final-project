@@ -6,31 +6,36 @@ const UserList = () => {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get('http://localhost:5001/api/users');
-        setUsers(response.data);
-      } catch (err) {
-        setError('Failed to fetch users.');
-      }
-    };
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get('http://localhost:5001/api/users');
+      setUsers(response.data);
+    } catch (err) {
+      setError('Failed to fetch users.');
+    }
+  };
 
+  useEffect(() => {
     fetchUsers();
   }, []);
 
   const deleteUser = async (userId) => {
-    try {
-      await axios.delete('http://localhost:5001/api/users');
-      setUsers(users.filter((user) => user.id !== userId));
-    } catch (err) {
-      setError('Failed to delete user.');
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      try {
+        const response = await axios.delete(`http://localhost:5001/api/delete_user/${userId}`);
+        if (response.status === 200) {
+          alert('User deleted successfully.');
+          fetchUsers();
+        } else {
+        }
+      } catch (err) {
+        alert(`Failed to delete user: ${err.response?.data?.error || err.message}`);
+      }
     }
   };
 
   return (
     <>
-      {/* Header */}
       <header data-bs-theme="dark">
         <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
           <div className="container-fluid">
@@ -118,4 +123,4 @@ const UserList = () => {
   );
 };
 
-export default UserList;
+export default UserList; 
