@@ -5,7 +5,7 @@ import numpy as np
 import tensorflow as tf
 import os
 import sqlite3
-from werkzeug.security import generate_password_hash, check_password_hash
+import bcrypt
 
 app = Flask(__name__)
 CORS(app)
@@ -49,6 +49,7 @@ try:
 except Exception as e:
     raise RuntimeError(f"Failed to load model: {str(e)}")
 
+# --------------------------- רישום ---------------------------
 @app.route('/api/SignUp', methods=['POST'])
 def sign_up():
     data = request.json
@@ -60,7 +61,7 @@ def sign_up():
     if not username or not email or not password:
         return jsonify({'error': 'All fields are required'}), 400
 
-    hashed_password = generate_password_hash(password)  # הצפנת סיסמה
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
@@ -71,11 +72,34 @@ def sign_up():
 
     return jsonify({'message': 'User registered successfully!'}), 201
 
+# --------------------------- התחברות ---------------------------
+@app.route('/api/login', methods=['POST'])
+def login():
+    try:
+        data = request.json
+        email = data.get('email')
+        password = data.get('password')
+
+        if not email or not password:
+            return jsonify({'error': 'Email and password are required'}), 400
+
+        conn = sqlite3.connect(db_path)
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, username, password FROM users WHERE email = ?", (email,))
+        row = cursor.fetchone()
+        conn.close()
+
+        if row and bcrypt.checkpw(password.encode('utf-8'), row[2].encode('utf-8')):
+            user = {'id': row[0], 'username': row[1], 'email': email}
+            return jsonify({'message': 'Login successful', 'user': user}), 200
+        else:
+            return jsonify({'error': 'Invalid email or password'}), 401
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# --------------------------- נתיב משתמשים ---------------------------
 @app.route('/api/users', methods=['GET'])
 def get_users():
-    """
-    נתיב להחזרת רשימת המשתמשים הרשומים במערכת.
-    """
     try:
         conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
@@ -88,11 +112,9 @@ def get_users():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+# --------------------------- פידבק ---------------------------
 @app.route('/api/feedback', methods=['POST'])
 def add_feedback():
-    """
-    נתיב להוספת פידבק חדש עם דירוג מפורט.
-    """
     try:
         data = request.json
         username = data.get('username')
@@ -120,37 +142,9 @@ def add_feedback():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-
-@app.route('/api/login', methods=['POST'])
-def login():
-    try:
-        data = request.json
-        email = data.get('email')
-        password = data.get('password')
-
-        if not email or not password:
-            return jsonify({'error': 'Email and password are required'}), 400
-
-        conn = sqlite3.connect(db_path)
-        cursor = conn.cursor()
-        cursor.execute("SELECT id, username, password FROM users WHERE email = ?", (email,))
-        row = cursor.fetchone()
-        conn.close()
-
-        if row and check_password_hash(row[2], password):
-            user = {'id': row[0], 'username': row[1], 'email': email}
-            return jsonify({'message': 'Login successful', 'user': user}), 200
-        else:
-            return jsonify({'error': 'Invalid email or password'}), 401
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
-
+# --------------------------- העלאת קובץ ---------------------------
 @app.route('/api/upload', methods=['POST'])
 def upload_audio():
-    """
-    נתיב להעלאת קובץ אודיו וניתוחו באמצעות המודל.
-    """
     if 'audio' not in request.files:
         return jsonify({'error': 'No audio file uploaded'}), 400
 
@@ -158,26 +152,20 @@ def upload_audio():
 
     try:
         y, sr = librosa.load(file, sr=16000)
-
         mfcc = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=13)
         mfcc_scaled = np.mean(mfcc.T, axis=0)
-
         input_data = np.expand_dims(mfcc_scaled, axis=0)
-
         prediction = model.predict(input_data)
         result = 'Fake' if prediction[0][0] > 0.5 else 'Real'
-
         return jsonify({'result': result}), 200
     except librosa.util.exceptions.ParameterError as librosa_error:
         return jsonify({'error': f"Librosa processing error: {str(librosa_error)}"}), 500
     except Exception as e:
         return jsonify({'error': f"Failed to process audio file: {str(e)}"}), 500
 
+# --------------------------- פרופיל משתמש ---------------------------
 @app.route('/api/profile/<int:user_id>', methods=['GET'])
 def get_profile(user_id):
-    """
-    מחזיר את פרטי המשתמש לפי user_id מהמסד
-    """
     try:
         conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
@@ -201,7 +189,7 @@ def get_profile(user_id):
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-
+# --------------------------- הרצת השרת ---------------------------
 if __name__ == '__main__':
     try:
         app.run(host='0.0.0.0', port=5001, debug=True)
