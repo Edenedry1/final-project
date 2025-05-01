@@ -154,29 +154,7 @@ def add_feedback():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-@app.route('/api/login', methods=['POST'])
-def login():
-    try:
-        data = request.json
-        email = data.get('email')
-        password = data.get('password')
 
-        if not email or not password:
-            return jsonify({'error': 'Email and password are required'}), 400
-
-        conn = sqlite3.connect(db_path)
-        cursor = conn.cursor()
-        cursor.execute("SELECT id, username, password FROM users WHERE email = ?", (email,))
-        row = cursor.fetchone()
-        conn.close()
-
-        if row and check_password_hash(row[2], password):
-            user = {'id': row[0], 'username': row[1], 'email': email}
-            return jsonify({'message': 'Login successful', 'user': user}), 200
-        else:
-            return jsonify({'error': 'Invalid email or password'}), 401
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
 
 @app.route('/api/upload', methods=['POST'])
 def upload_audio():
