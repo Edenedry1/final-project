@@ -1,2 +1,22 @@
-client/node_modules/.cache/
+# =====================
+# 🔧 Node.js & React
+# =====================
+node_modules/
 client/node_modules/
+client/node_modules/.cache/
+*.eslintcache
+
+# =====================
+# 🧠 Audio & Model Files
+# =====================
+*.wav
+*.h5
+*.pkl
+*.save
+
+# =====================
+# 🧳 Zipped Files & Chunks
+# =====================
+*.zip
+*.z*
+*.tar.gz

@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import DeepFakeHome from './pages/DeepFakeHome';
-import AdminDashboard from './pages/AdminDashboard';
 import UserList from './pages/UserList';
 import Feedback from './pages/Feedback';
 import SignUp from './pages/SignUp';
@@ -28,7 +27,6 @@ const App = () => {
         <Router>
             <Routes>
                 <Route path="/" element={<DeepFakeHome />} />
-                <Route path="/admin" element={<AdminDashboard />} />
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/upload" element={<UploadAudio />} />

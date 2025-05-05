@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/UploadAudio.css';
 
 const UploadAudio = () => {
+  const [analysisResult, setAnalysisResult] = useState('');
+  const [confidence, setConfidence] = useState(null);
   const navigate = useNavigate();
   const [file, setFile] = useState(null);
   const [showFeedbackForm, setShowFeedbackForm] = useState(false);
@@ -31,7 +33,8 @@ const UploadAudio = () => {
 
       const data = await response.json();
       if (response.ok) {
-        alert(`Result: ${data.result}`);
+        setAnalysisResult(data.result);
+        setConfidence((data.confidence * 100).toFixed(2));
       } else {
         alert('Error analyzing audio.');
       }
@@ -104,6 +107,13 @@ const UploadAudio = () => {
             🎮 Start Game
           </button>
         </form>
+
+        {analysisResult && (
+          <div className="result-box">
+            <h3>Result: {analysisResult}</h3>
+            <p>Confidence: {confidence}%</p>
+          </div>
+        )}
 
         <button className="feedback-button" onClick={() => setShowFeedbackForm(!showFeedbackForm)}>
           <i>📝</i>
