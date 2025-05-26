@@ -1,0 +1,231 @@
+/* Global Navbar Styling for Deepfake Detection App */
+
+/* Header styling */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    backdrop-filter: blur(15px);
+}
+
+.navbar {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(26, 26, 46, 0.95) 100%) !important;
+    box-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        0 0 30px rgba(0, 240, 255, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border-bottom: 2px solid rgba(0, 240, 255, 0.3);
+    padding: 0.5rem 1.5rem;
+    height: 70px;
+}
+
+.navbar-brand {
+    color: #00f0ff !important;
+    font-weight: bold;
+    text-shadow: 0 0 15px rgba(0, 240, 255, 0.8);
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+.navbar-brand:hover {
+    color: #39ff14 !important;
+    text-shadow: 0 0 20px rgba(57, 255, 20, 0.8);
+    transform: scale(1.02);
+}
+
+.navbar-brand .logo {
+    height: 50px;
+    width: auto;
+    filter: drop-shadow(0 0 12px #00f0ff);
+    margin-right: 0.3rem;
+    transition: all 0.3s ease;
+    border-radius: 6px;
+}
+
+.navbar-brand .logo:hover {
+    filter: drop-shadow(0 0 20px #00f0ff) drop-shadow(0 0 30px #39ff14);
+    transform: scale(1.05);
+}
+
+header .toolbar-icons {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+header .toolbar-icons a {
+    color: #00f0ff;
+    font-size: 1.6rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+    padding: 0.6rem;
+    border-radius: 10px;
+    background: rgba(0, 240, 255, 0.1);
+    border: 2px solid rgba(0, 240, 255, 0.2);
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+}
+
+header .toolbar-icons a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+header .toolbar-icons a:hover::before {
+    left: 100%;
+}
+
+header .toolbar-icons a:hover {
+    color: #39ff14;
+    transform: scale(1.1) translateY(-2px);
+    text-shadow: 0 0 20px rgba(57, 255, 20, 0.8);
+    background: rgba(57, 255, 20, 0.15);
+    border-color: rgba(57, 255, 20, 0.4);
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.3),
+        0 0 20px rgba(57, 255, 20, 0.4);
+}
+
+header .toolbar-icons a:active {
+    transform: scale(1.05) translateY(0);
+}
+
+/* Navbar animations and effects */
+.navbar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        #00f0ff 25%, 
+        #39ff14 50%, 
+        #00f0ff 75%, 
+        transparent 100%);
+    animation: navbarGlow 3s ease-in-out infinite;
+}
+
+@keyframes navbarGlow {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+/* Deepfake detection theme elements */
+.navbar-brand::after {
+    content: '🔍';
+    font-size: 1rem;
+    margin-left: 0.4rem;
+    animation: scanPulse 2s infinite ease-in-out;
+}
+
+@keyframes scanPulse {
+    0%, 100% { 
+        opacity: 0.6;
+        transform: scale(1);
+    }
+    50% { 
+        opacity: 1;
+        transform: scale(1.1);
+    }
+}
+
+/* Responsive navbar */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0.4rem 1rem;
+        height: 60px;
+    }
+    
+    .navbar-brand {
+        font-size: 1rem;
+    }
+    
+    .navbar-brand .logo {
+        height: 40px;
+    }
+    
+    header .toolbar-icons {
+        gap: 1rem;
+    }
+    
+    header .toolbar-icons a {
+        font-size: 1.4rem;
+        padding: 0.5rem;
+    }
+}
+
+/* Additional deepfake theme elements */
+.navbar-brand .brand-text {
+    background: linear-gradient(45deg, #00f0ff, #39ff14);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+/* Notification badge for toolbar icons */
+header .toolbar-icons a .notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: linear-gradient(45deg, #ff4757, #ff6b7a);
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: badgePulse 2s infinite ease-in-out;
+}
+
+@keyframes badgePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+/* Hover effects for better UX */
+.navbar-brand:focus,
+header .toolbar-icons a:focus {
+    outline: 2px solid rgba(0, 240, 255, 0.5);
+    outline-offset: 2px;
+}
+
+/* Loading state for navbar */
+.navbar.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.navbar.loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00f0ff, transparent);
+    animation: loadingBar 1.5s infinite ease-in-out;
+}
+
+@keyframes loadingBar {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+} 

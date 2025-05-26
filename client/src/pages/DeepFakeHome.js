@@ -61,6 +61,17 @@ const DeepFakeHome = () => {
         </nav>
       </header>
 
+      {/* Floating decorations */}
+      <div className="home-decorations">
+        <div className="floating-audio-home" style={{left: '5%', top: '15%', animationDelay: '0s'}}>🎧</div>
+        <div className="floating-audio-home" style={{left: '90%', top: '20%', animationDelay: '2s'}}>🎵</div>
+        <div className="floating-audio-home" style={{left: '10%', top: '60%', animationDelay: '4s'}}>🔊</div>
+        <div className="floating-audio-home" style={{left: '85%', top: '70%', animationDelay: '1s'}}>🎤</div>
+        <div className="floating-audio-home" style={{left: '50%', top: '8%', animationDelay: '3s'}}>📻</div>
+        <div className="floating-audio-home" style={{left: '20%', top: '35%', animationDelay: '1.5s'}}>🎶</div>
+        <div className="floating-audio-home" style={{left: '75%', top: '45%', animationDelay: '2.5s'}}>🎵</div>
+      </div>
+
       {/* Content */}
       <main>
         {!isLoggedIn ? (

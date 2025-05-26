@@ -2,39 +2,49 @@ import React, { useState } from 'react';
 import '../styles/Level1.css';
 import logo from '../images/logo.png';
 
+const storedUser = JSON.parse(localStorage.getItem('loggedInUser'));
+
 const questions = [
-  {
-    id: 1,
-    real: '/audio/level2/q1_real.mp3',
-    fake: '/audio/level2/q1_fake.mp3',
-  },
-  {
-    id: 2,
-    real: '/audio/level2/q2_real.mp3',
-    fake: '/audio/level2/q2_fake.mp3',
-  },
-  {
-    id: 3,
-    real: '/audio/level2/q3_real.mp3',
-    fake: '/audio/level2/q3_fake.mp3',
-  },
-  {
-    id: 4,
-    real: '/audio/level2/q4_real.mp3',
-    fake: '/audio/level2/q4_fake.mp3',
-  },
-  {
-    id: 5,
-    real: '/audio/level2/q5_real.mp3',
-    fake: '/audio/level2/q5_fake.mp3',
-  },
-];
+    {
+      id: 1,
+      real: "/audio/SSB19560475 (1).wav",
+      fake: "/audio/F01_p225_002 (2).wav"
+    },
+    {
+      id: 2,
+      real: "/audio/SSB19560476 (1).wav",
+      fake: "/audio/F01_p225_003.wav"
+    },
+    {
+      id: 3,
+      real: "/audio/SSB19560477 (1).wav",
+      fake: "/audio/F01_p225_005.wav"
+    },
+    {
+      id: 4,
+      real: "/audio/SSB19560479.wav",
+      fake: "/audio/F01_p225_006.wav"
+    },
+    {
+      id: 5,
+      real: "/audio/SSB19560480.wav",
+      fake: "/audio/F01_p225_007 (1).wav"
+    }
+  ];
 
 const Level2 = () => {
   const [current, setCurrent] = useState(0);
   const [coins, setCoins] = useState(0);
   const [feedback, setFeedback] = useState('');
   const [completed, setCompleted] = useState(false);
+
+  const hints = [
+    "💡 Hint: Listen for breathing - fake audio often lacks natural breathing patterns.",
+    "💡 Hint: Pay attention to word connections - do they sound smooth and natural?",
+    "💡 Hint: Check emphasis patterns - fake files may lack emotion or have unnatural stress.",
+    "💡 Hint: Listen to background noise - is it consistent throughout the recording?",
+    "💡 Hint: Pay attention to voice tone at sentence endings - does it sound natural?"
+  ];
 
   const handleChoice = (choice) => {
     const correct = 'fake';
@@ -75,6 +85,15 @@ const Level2 = () => {
         </nav>
       </header>
 
+      {/* Floating decorations */}
+      <div className="level-decorations">
+        <div className="floating-audio-level" style={{left: '8%', top: '18%', animationDelay: '0.5s'}}>🎶</div>
+        <div className="floating-audio-level" style={{left: '88%', top: '22%', animationDelay: '2.5s'}}>🎧</div>
+        <div className="floating-audio-level" style={{left: '12%', top: '65%', animationDelay: '4.5s'}}>🔊</div>
+        <div className="floating-audio-level" style={{left: '82%', top: '75%', animationDelay: '1.5s'}}>🎵</div>
+        <div className="floating-audio-level" style={{left: '45%', top: '12%', animationDelay: '3.5s'}}>🎤</div>
+      </div>
+
       <div className="level-container">
         <h2>Level 2 – Question {current + 1} of {questions.length} 🔊</h2>
 
@@ -96,6 +115,18 @@ const Level2 = () => {
               <div className={`feedback-message ${feedback.includes('✔️') ? 'success' : 'error'}`}>
                 {feedback}
               </div>
+            )}
+            {storedUser?.is_institution ? (
+              <button 
+                className="hint-button"
+                onClick={() => alert(hints[current])}
+              >
+                💡 Get Hint
+              </button>
+            ) : (
+              <p style={{color: '#90caf9', fontSize: '0.9rem', marginTop: '1rem', fontStyle: 'italic'}}>
+                💡 Hint feature is available for educational institutions only
+              </p>
             )}
           </div>
         ) : (

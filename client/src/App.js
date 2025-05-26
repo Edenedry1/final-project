@@ -10,6 +10,7 @@ import UploadAudio from './pages/UploadAudio';
 import Game from './pages/Game'; 
 import Level1 from './pages/Level1';
 import Level2 from './pages/Level2';
+import Level3 from './pages/Level3';
 import ManageGames from './pages/ManageGames';
 import AdminReports from './pages/AdminReports';
 import ManageUploads from './pages/ManageUploads';
@@ -35,6 +36,7 @@ const App = () => {
                 <Route path="/Game" element={<Game />} />
                 <Route path="/level/1" element={<Level1 />} />
                 <Route path="/level/2" element={<Level2 />} />
+                <Route path="/level/3" element={<Level3 />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/admin/users" element={<UserList />} />
                 <Route path="/admin/feedback" element={<Feedback />} />

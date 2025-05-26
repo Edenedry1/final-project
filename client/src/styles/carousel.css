@@ -1,165 +1,334 @@
 /* GLOBAL STYLES -------------------------------------------------- */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
-body {
-    font-family: 'Poppins', sans-serif; /* שינוי גופן לכל העמוד */
-    padding-top: 4rem; /* מרווח מעל */
-    padding-bottom: 4rem; /* מרווח מתחת */
-    color: rgb(var(--bs-tertiary-color-rgb));
-    background-color: #121212; /* רקע כהה יותר */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Orbitron', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-image: 
+        radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+    color: white;
+    overflow-x: hidden;
 }
 
-/* CUSTOMIZE THE CAROUSEL -------------------------------------------------- */
-/* Carousel base class */
-.carousel {
-    margin-bottom: 2rem;
+/* Animated starfield background */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+        radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px, 80px 80px;
+    animation: starfield 20s linear infinite;
+    pointer-events: none;
+    z-index: -10;
 }
 
-.carousel-caption {
-    bottom: 2rem; /* תזוזה כלפי מעלה */
-    z-index: 10;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8); /* הוספת צל לכיתוב */
-    font-weight: 600; /* עובי כיתוב מודגש */
+@keyframes starfield {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-100px); }
 }
 
-/* Declare heights because of positioning of img element */
-.carousel-item {
-    height: 600px; /* גובה מותאם */
-    background-color: rgba(0, 0, 0, 0.5); /* צבע רקע לתמונות חסרות */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/* Header styling */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
 }
 
-.carousel-item img {
-    max-height: 100%; /* התאמת גובה התמונה */
-    max-width: 100%; /* התאמת רוחב התמונה */
-    object-fit: cover; /* התמונה תכסה את השטח */
+.navbar {
+    background: rgba(10, 10, 35, 0.95) !important;
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+    backdrop-filter: blur(10px);
 }
 
-/* MARKETING CONTENT -------------------------------------------------- */
-.marketing .col-lg-4 {
-    margin-bottom: 2rem;
-    text-align: center;
-}
-
-.marketing .col-lg-4 p {
-    margin-right: 1rem;
-    margin-left: 1rem;
-    font-size: 1.2rem; /* גודל מותאם לטקסט */
-    line-height: 1.6; /* שיפור ריווח בין השורות */
-}
-
-/* Featurettes ------------------------- */
-.featurette-divider {
-    margin: 4rem 0; /* ריווח בין אלמנטים */
-}
-
-.featurette-heading {
-    font-size: 1.8rem; /* גודל מותאם לכותרת */
-    text-align: center;
-    color: #ffffff; /* לבן */
-    font-weight: 580; /* כותרת מודגשת */
+.navbar-brand {
+    color: #00f0ff !important;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
 }
 
 .navbar-brand .logo {
-    height: 70px; /* הגדלת הגובה */
-    width: auto; /* שמירה על יחס רוחב-גובה */
-    margin-right: 15px; /* רווח קל יותר מימין */
-    object-fit: contain; /* התאמת התמונה למיכל */
+    height: 50px;
+    filter: drop-shadow(0 0 8px #00f0ff);
+    margin-right: 10px;
 }
 
-.logo-image {
-    max-width: 200px; /* רוחב מקסימלי */
-    height: auto; /* התאמת גובה באופן יחסי */
-    margin-top: 1rem; /* מרווח מעל התמונה */
-    display: block; /* מבטיח שהתמונה תהיה במרכז */
-    margin-left: auto;
-    margin-right: auto;
+.navbar-nav .nav-link {
+    color: #00f0ff !important;
+    transition: all 0.3s ease;
+    text-shadow: 0 0 5px rgba(0, 240, 255, 0.3);
 }
 
-/* עיצוב לטופס החיפוש */
-form[role="search"] {
-    max-width: 300px; /* הגבלת הרוחב של הטופס */
-    margin-left: auto; /* מיקום הטופס בצד ימין */
+.navbar-nav .nav-link:hover {
+    color: #39ff14 !important;
+    text-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
 }
 
-/* עיצוב לשדה הטקסט */
-form[role="search"] .form-control {
-    height: 35px; /* התאמת גובה */
-    font-size: 14px; /* גודל טקסט קטן יותר */
-    font-family: 'Poppins', sans-serif; /* שינוי גופן */
+/* Main content */
+main {
+    min-height: 100vh;
+    padding-top: 120px;
+    position: relative;
+    z-index: 10;
 }
 
-/* עיצוב לכפתור */
-form[role="search"] .btn {
-    height: 35px; /* התאמת גובה לכפתור */
-    font-size: 14px; /* גודל טקסט קטן יותר */
-    padding: 0 10px; /* צמצום הרווחים בתוך הכפתור */
-    white-space: nowrap; /* מניעת גלישת טקסט */
-    font-family: 'Poppins', sans-serif; /* שינוי גופן */
+.container {
+    position: relative;
+    z-index: 10;
+}
+
+/* Welcome section */
+.featurette-heading {
+    color: #00f0ff;
+    font-size: 3.5rem;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 30px rgba(0, 240, 255, 0.8);
+    font-weight: bold;
+    text-align: center;
 }
 
 .custom-paragraph {
-    font-size: 1rem; /* גודל מותאם */
-    line-height: 1.8; /* שיפור ריווח בין השורות */
-    color: #ffffff !important; /* צבע לבן עם עדיפות */
-    font-weight: 480; /* עובי רגיל */
+    color: #b0e0ff;
+    font-size: 1.4rem;
+    margin-bottom: 3rem;
+    text-align: center;
+    text-shadow: 0 0 10px rgba(176, 224, 255, 0.5);
+}
+
+/* Logo image */
+.logo-image {
+    width: 200px;
+    height: 200px;
+    margin: 2rem auto;
+    filter: drop-shadow(0 0 20px #00f0ff);
+    animation: logoFloat 4s ease-in-out infinite;
+}
+
+@keyframes logoFloat {
+    0%, 100% { 
+        transform: translateY(0px) scale(1);
+        filter: drop-shadow(0 0 20px #00f0ff);
+    }
+    50% { 
+        transform: translateY(-15px) scale(1.05);
+        filter: drop-shadow(0 0 30px #00f0ff) drop-shadow(0 0 40px #39ff14);
+    }
+}
+
+/* Feature cards */
+.feature-text {
+    margin: 3rem 0;
+}
+
+.feature-text .col-md-6 {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.5),
+        0 0 30px rgba(0, 240, 255, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(0, 240, 255, 0.3);
+    backdrop-filter: blur(15px);
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+}
+
+.feature-text .col-md-6:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+        0 20px 45px rgba(0, 0, 0, 0.6),
+        0 0 40px rgba(0, 240, 255, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border-color: #00f0ff;
 }
 
 .feature-text h3 {
-    font-size: 2rem; /* גודל מותאם לכותרות */
-    color: #ffffff; /* צבע לבן */
-    font-weight: 480; /* כותרת מודגשת */
+    color: #00f0ff;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+    font-weight: bold;
 }
 
 .feature-text p {
-    font-size: 1rem; /* גודל מותאם */
-    line-height: 1.8; /* שיפור ריווח בין השורות */
-    color: #ffffff; /* צבע לבן */
-    font-family: 'Poppins', sans-serif; /* שינוי גופן */
+    color: #b0e0ff;
+    font-size: 1.1rem;
+    line-height: 1.6;
 }
 
-.btn-start-now {
-    font-size: 1rem; /* גודל טקסט קטן יותר */
-    padding: 0.5rem 1rem; /* ריווח פנימי מותאם */
-    margin: 2rem auto; /* מיקום במרכז */
-    display: inline-block; /* הופך את הכפתור לקצר יותר */
-    background-color: transparent; /* רקע שקוף */
-    border: 2px solid #0d6efd; /* מסגרת כחולה */
-    border-radius: 5px; /* עיגול פינות */
-    color: #ffffff; /* צבע טקסט לבן */
-    text-align: center; /* יישור טקסט */
-    cursor: pointer; /* מצביע עכבר */
-    transition: all 0.3s ease; /* אנימציה */
+/* Start button */
+.btn-primary {
+    background: linear-gradient(135deg, #00f0ff 0%, #39ff14 100%) !important;
+    border: none !important;
+    padding: 0.8rem 2rem !important;
+    font-size: 1.1rem !important;
+    font-weight: bold !important;
+    font-family: 'Orbitron', sans-serif !important;
+    border-radius: 15px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 2px !important;
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.3),
+        0 0 25px rgba(0, 240, 255, 0.4) !important;
+    transition: all 0.3s ease !important;
 }
 
-.btn-start-now:hover {
-    background-color: #0d6efd; /* רקע כחול ב-hover */
-    color: #ffffff; /* שמירה על טקסט לבן */
-    transform: scale(1.05); /* הגדלה קלה ב-hover */
+.btn-primary:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 
+        0 15px 40px rgba(0, 0, 0, 0.4),
+        0 0 35px rgba(0, 240, 255, 0.6) !important;
+    background: linear-gradient(135deg, #39ff14 0%, #00f0ff 100%) !important;
 }
 
-/* RESPONSIVE CSS -------------------------------------------------- */
-@media (min-width: 40em) {
-    .carousel-caption p {
+.btn-primary:active {
+    transform: translateY(0) !important;
+}
+
+/* Search form styling */
+.form-control {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 2px solid rgba(0, 240, 255, 0.3) !important;
+    color: white !important;
+    border-radius: 8px !important;
+}
+
+.form-control:focus {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border-color: #00f0ff !important;
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.4) !important;
+    color: white !important;
+}
+
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.btn-outline-success {
+    border-color: #39ff14 !important;
+    color: #39ff14 !important;
+    background: rgba(57, 255, 20, 0.1) !important;
+}
+
+.btn-outline-success:hover {
+    background: #39ff14 !important;
+    border-color: #39ff14 !important;
+    color: white !important;
+    box-shadow: 0 0 15px rgba(57, 255, 20, 0.5) !important;
+}
+
+/* Carousel styling */
+.carousel {
+    margin-top: 2rem;
+}
+
+.carousel-item {
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 20px;
+    margin: 1rem;
+    backdrop-filter: blur(10px);
+}
+
+.carousel-caption {
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 15px;
+    padding: 2rem;
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(0, 240, 255, 0.3);
+}
+
+.carousel-caption h1 {
+    color: #00f0ff;
+    text-shadow: 0 0 20px rgba(0, 240, 255, 0.8);
+    font-weight: bold;
+}
+
+.carousel-caption p {
+    color: #b0e0ff;
+    font-size: 1.1rem;
+}
+
+.carousel-indicators button {
+    background-color: #00f0ff !important;
+    border: 2px solid #39ff14 !important;
+    width: 15px !important;
+    height: 15px !important;
+    border-radius: 50% !important;
+}
+
+.carousel-indicators button.active {
+    background-color: #39ff14 !important;
+    box-shadow: 0 0 15px rgba(57, 255, 20, 0.6) !important;
+}
+
+/* Floating decorations for home page */
+.home-decorations {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.floating-audio-home {
+    position: absolute;
+    font-size: 2.5rem;
+    animation: audioFloat 7s ease-in-out infinite;
+    opacity: 0.4;
+    color: #00f0ff;
+    text-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
+}
+
+@keyframes audioFloat {
+    0%, 100% { 
+        transform: translateY(0px) scale(1) rotate(0deg);
+        opacity: 0.4;
+    }
+    50% { 
+        transform: translateY(-35px) scale(1.15) rotate(180deg);
+        opacity: 0.8;
+    }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .featurette-heading {
+        font-size: 2.5rem;
+    }
+    
+    .custom-paragraph {
+        font-size: 1.2rem;
+    }
+    
+    .logo-image {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .feature-text .col-md-6 {
+        padding: 2rem;
         margin-bottom: 1.5rem;
-        font-size: 1.5rem;
-        line-height: 1.5;
-        color: #ffffff !important; /* צבע לבן עם עדיפות */
     }
-
-    .featurette-heading {
-        font-size: 3rem;
-        color: #ffffff !important; /* צבע לבן עם עדיפות */
-        font-family: 'Poppins', sans-serif; /* שינוי גופן */
+    
+    .btn-primary {
+        padding: 0.8rem 2rem !important;
+        font-size: 1.1rem !important;
     }
-}
-
-@media (min-width: 62em) {
-    .featurette-heading {
-        margin-top: 5rem;
-        color: #ffffff !important; /* צבע לבן עם עדיפות */
-        font-family: 'Poppins', sans-serif; /* שינוי גופן */
+    
+    .floating-audio-home {
+        font-size: 2rem;
     }
 }

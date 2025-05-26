@@ -36,51 +36,33 @@ const Login = () => {
     <>
     {/* Header */}
     <header data-bs-theme="dark">
-    <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <nav className="navbar">
       <div className="container-fluid">
-        <div className="navbar-brand" href="#">
+        <div className="navbar-brand">
           <img src={require('../images/logo.png')} alt="DeepFakeAudio Logo" className="logo" />
           DeepFakeAudio
         </div>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarCollapse"
-          aria-controls="navbarCollapse"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarCollapse">
-          <ul className="navbar-nav me-auto mb-2 mb-md-0">
-            <li className="nav-item">
-
-              <a className="nav-link active" aria-current="page" href="/">
-                Home
-              </a>
-            </li>
-          </ul>
-          <form className="d-flex" role="search">
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button className="btn btn-outline-success" type="submit">
-              Search
-            </button>
-          </form>
+        <div className="toolbar-icons">
+          <a href="/">🏠</a>
+          <a href="/signup">📝</a>
         </div>
       </div>
     </nav>
   </header>
-    <div className="login-container">
-      <div className="logo">
-      <img src={require('../images/userlogo.png')} alt="DeepFakeAudio Logo" className="logo" />
 
+  <div className="login-container">
+    {/* Floating decorations */}
+    <div className="login-decorations">
+      <div className="floating-audio-login" style={{left: '10%', top: '15%', animationDelay: '0s'}}>🎧</div>
+      <div className="floating-audio-login" style={{left: '85%', top: '25%', animationDelay: '1.5s'}}>🎵</div>
+      <div className="floating-audio-login" style={{left: '15%', top: '70%', animationDelay: '2.8s'}}>🔊</div>
+      <div className="floating-audio-login" style={{left: '80%', top: '80%', animationDelay: '0.8s'}}>🎤</div>
+      <div className="floating-audio-login" style={{left: '50%', top: '10%', animationDelay: '2.2s'}}>📻</div>
+    </div>
+
+    <div className="login-form-container">
+      <div className="logo">
+        <img src={require('../images/userlogo.png')} alt="DeepFakeAudio Logo" className="logo" />
       </div>
       <h1>Welcome Back</h1>
       <form onSubmit={handleLogin}>
@@ -105,6 +87,7 @@ const Login = () => {
       </form>
       {message && <p>{message}</p>}
     </div>
+  </div>
     </>
   );
 };

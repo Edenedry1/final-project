@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import '../styles/SignUp.css';
 import axios from 'axios';
@@ -41,50 +40,34 @@ const SignUp = () => {
     <>
     {/* Header */}
     <header data-bs-theme="dark">
-    <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <nav className="navbar">
       <div className="container-fluid">
-        <div className="navbar-brand" href="#">
+        <div className="navbar-brand">
           <img src={require('../images/logo.png')} alt="DeepFakeAudio Logo" className="logo" />
           DeepFakeAudio
         </div>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarCollapse"
-          aria-controls="navbarCollapse"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarCollapse">
-          <ul className="navbar-nav me-auto mb-2 mb-md-0">
-            <li className="nav-item">
-
-              <a className="nav-link active" aria-current="page" href="/">
-                Home
-              </a>
-            </li>
-          </ul>
-          <form className="d-flex" role="search">
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button className="btn btn-outline-success" type="submit">
-              Search
-            </button>
-          </form>
+        <div className="toolbar-icons">
+          <a href="/">🏠</a>
+          <a href="/login">🔑</a>
         </div>
       </div>
     </nav>
   </header>
-    <div className="login-container">
+
+  <div className="login-container">
+    {/* Floating decorations */}
+    <div className="signup-decorations">
+      <div className="floating-audio-signup" style={{left: '8%', top: '12%', animationDelay: '0s'}}>🎧</div>
+      <div className="floating-audio-signup" style={{left: '88%', top: '20%', animationDelay: '1.8s'}}>🎵</div>
+      <div className="floating-audio-signup" style={{left: '12%', top: '75%', animationDelay: '3.2s'}}>🔊</div>
+      <div className="floating-audio-signup" style={{left: '85%', top: '85%', animationDelay: '1.2s'}}>🎤</div>
+      <div className="floating-audio-signup" style={{left: '45%', top: '8%', animationDelay: '2.5s'}}>📻</div>
+      <div className="floating-audio-signup" style={{left: '25%', top: '45%', animationDelay: '0.7s'}}>🎶</div>
+    </div>
+
+    <div className="signup-form-container">
       <div className="logo">
-      <img src={require('../images/userlogo.png')} alt="DeepFakeAudio Logo" className="logo" />
+        <img src={require('../images/userlogo.png')} alt="DeepFakeAudio Logo" className="logo" />
       </div>
       <h1>Sign Up</h1>
       <form onSubmit={handleSignUp}>
@@ -116,14 +99,16 @@ const SignUp = () => {
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
         />
-        <label>
-          <input
-            type="checkbox"
-            checked={isInstitution}
-            onChange={(e) => setIsInstitution(e.target.checked)}
-          />
-          Educational Institution
-        </label>
+        <div className="institution-highlight">
+          <label>
+            <input
+              type="checkbox"
+              checked={isInstitution}
+              onChange={(e) => setIsInstitution(e.target.checked)}
+            />
+            🎓 Educational Institution (Get access to hint features)
+          </label>
+        </div>
         <button type="submit">Sign Up</button>
         <div className="switch-form">
           <p>
@@ -133,8 +118,8 @@ const SignUp = () => {
       </form>
       {message && <p>{message}</p>}
     </div>
+  </div>
     </>
-
   );
 };
 

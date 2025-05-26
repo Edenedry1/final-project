@@ -2,32 +2,29 @@ import React, { useState } from 'react';
 import '../styles/Level1.css';
 import logo from '../images/logo.png';
 
+const storedUser = JSON.parse(localStorage.getItem('loggedInUser'));
+
 const questions = [
-  {
-    id: 1,
-    real: '/audio/level1/q1_real.mp3',
-    fake: '/audio/level1/q1_fake.mp3',
-  },
-  {
-    id: 2,
-    real: '/audio/level1/q2_real.mp3',
-    fake: '/audio/level1/q2_fake.mp3',
-  },
-  {
-    id: 3,
-    real: '/audio/level1/q3_real.mp3',
-    fake: '/audio/level1/q3_fake.mp3',
-  },
-  {
-    id: 4,
-    real: '/audio/level1/q4_real.mp3',
-    fake: '/audio/level1/q4_fake.mp3',
-  },
-  {
-    id: 5,
-    real: '/audio/level1/q5_real.mp3',
-    fake: '/audio/level1/q5_fake.mp3',
-  },
+    {
+      id: 1,
+      real: "/audio/SSB19560473.wav",
+      fake: "/audio/F01_p225_007.wav"
+    },
+    {
+      id: 2,
+      real: "/audio/SSB19560474.wav",
+      fake: "/audio/F01_SSB13850361.wav"
+    },
+    {
+      id: 3,
+      real: "/audio/SSB19560475.wav",
+      fake: "/audio/F01_SSB11250419.wav"
+    },
+    {
+      id: 4,
+      real: "/audio/SSB19560476.wav",
+      fake: "/audio/F02_SSB10240329.wav"
+    }
 ];
 
 const Level1 = () => {
@@ -35,6 +32,13 @@ const Level1 = () => {
   const [coins, setCoins] = useState(0);
   const [feedback, setFeedback] = useState('');
   const [completed, setCompleted] = useState(false);
+
+  const hints = [
+    "💡 Hint: Listen for naturalness - fake audio often sounds metallic or robotic.",
+    "💡 Hint: Pay attention to speech rhythm - is it consistent throughout the recording?",
+    "💡 Hint: Check audio quality - fake files may be less sharp or have background noise.",
+    "💡 Hint: Listen to voice tone - does it sound natural and human?"
+  ];
 
   const handleChoice = (choice) => {
     const correct = 'fake';
@@ -75,6 +79,15 @@ const Level1 = () => {
         </nav>
       </header>
 
+      {/* Floating decorations */}
+      <div className="level-decorations">
+        <div className="floating-audio-level" style={{left: '5%', top: '15%', animationDelay: '0s'}}>🎧</div>
+        <div className="floating-audio-level" style={{left: '90%', top: '25%', animationDelay: '2s'}}>🎵</div>
+        <div className="floating-audio-level" style={{left: '10%', top: '60%', animationDelay: '4s'}}>🔊</div>
+        <div className="floating-audio-level" style={{left: '85%', top: '70%', animationDelay: '1s'}}>🎤</div>
+        <div className="floating-audio-level" style={{left: '50%', top: '10%', animationDelay: '3s'}}>📻</div>
+      </div>
+
       <div className="level-container">
         <h2>Level 1 – Question {current + 1} of {questions.length} 🔊</h2>
 
@@ -96,6 +109,18 @@ const Level1 = () => {
               <div className={`feedback-message ${feedback.includes('✔️') ? 'success' : 'error'}`}>
                 {feedback}
               </div>
+            )}
+            {storedUser?.is_institution ? (
+              <button 
+                className="hint-button"
+                onClick={() => alert(hints[current])}
+              >
+                💡 Get Hint
+              </button>
+            ) : (
+              <p style={{color: '#90caf9', fontSize: '0.9rem', marginTop: '1rem', fontStyle: 'italic'}}>
+                💡 Hint feature is available for educational institutions only
+              </p>
             )}
           </div>
         ) : (
