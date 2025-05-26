@@ -34,7 +34,7 @@ const UploadAudio = () => {
       const data = await response.json();
       if (response.ok) {
         setAnalysisResult(data.result);
-        setConfidence((data.confidence * 100).toFixed(2));
+        setConfidence(data.confidence.toFixed(2));
       } else {
         alert('Error analyzing audio.');
       }

@@ -138,35 +138,78 @@ def upload_audio():
     save_path = os.path.join("uploads", filename)
 
     try:
+        # Save the uploaded file
         file.save(save_path)
         print(f"✅ Saved file to: {save_path}")
+        print(f"📁 File size: {os.path.getsize(save_path)} bytes")
 
         print(f"🔍 Attempting to load audio...")
-        y, sr = librosa.load(save_path, sr=16000)
-        print(f"📈 Audio loaded: duration={len(y)/sr:.2f}s, sr={sr}")
+        try:
+            y, sr = librosa.load(save_path, sr=16000)
+            print(f"📈 Audio loaded: duration={len(y)/sr:.2f}s, sr={sr}, shape={y.shape}")
+        except Exception as e:
+            print(f"❌ Error loading audio with librosa: {str(e)}")
+            return jsonify({'error': f'Error loading audio: {str(e)}'}), 500
 
-        mfcc = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=13)
-        mfcc_mean = np.mean(mfcc, axis=1)
-        mfcc_std = np.std(mfcc, axis=1)
-        features = np.concatenate((mfcc_mean, mfcc_std)).reshape(1, -1)
+        try:
+            # Extract features
+            mfcc = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=20)
+            print(f"✅ MFCC extracted: shape={mfcc.shape}")
+            mfcc_mean = np.mean(mfcc, axis=1)
+            mfcc_std = np.std(mfcc, axis=1)
+            
+            # Spectral features
+            spectral_centroid = librosa.feature.spectral_centroid(y=y, sr=sr)[0]
+            spectral_rolloff = librosa.feature.spectral_rolloff(y=y, sr=sr)[0]
+            spectral_contrast = librosa.feature.spectral_contrast(y=y, sr=sr)
+            print(f"✅ Spectral features extracted")
+            
+            # Combine all features
+            features = np.concatenate([
+                mfcc_mean,                              # 20 features
+                mfcc_std,                               # 20 features
+                [np.mean(spectral_centroid)],           # 1 feature
+                [np.std(spectral_centroid)],            # 1 feature
+                [np.mean(spectral_rolloff)],            # 1 feature
+                [np.std(spectral_rolloff)],             # 1 feature
+                np.mean(spectral_contrast, axis=1),     # 7 features
+                np.std(spectral_contrast, axis=1)       # 7 features
+            ]).reshape(1, -1)
+            print(f"✅ Features combined: shape={features.shape}")
 
-        print(f"📊 Extracted features shape: {features.shape}")
-        print(f"📊 Features: {features.tolist()}")
+            # Scale features
+            features_scaled = scaler.transform(features)
+            print(f"✅ Features scaled")
 
-        features_scaled = scaler.transform(features)
-        prediction = model.predict(features_scaled)
-        confidence = float(prediction[0][0])
-        result = 'Fake' if confidence > 0.5 else 'Real'
+            # Make prediction
+            prediction = model.predict(features_scaled)
+            confidence = float(prediction[0][0])
+            print(f"✅ Raw prediction value: {confidence}")
+            
+            # Adjust threshold based on validation results
+            threshold = 0.5
+            result = 'Fake' if confidence > threshold else 'Real'
+            
+            # Calculate confidence percentage
+            confidence_percent = confidence * 100 if confidence > threshold else (1 - confidence) * 100
+            # Make sure confidence is between 0 and 100
+            confidence_percent = min(100, max(0, confidence_percent))
 
-        print(f"🧠 Prediction: {confidence:.4f} → Classified as: {result}")
+            print(f"🧠 Raw prediction: {confidence:.4f}")
+            print(f"🎯 Threshold: {threshold}")
+            print(f"📊 Classified as: {result} with {confidence_percent:.2f}% confidence")
 
-        return jsonify({
-            'result': result,
-            'confidence': round(confidence * 100, 2)
-        }), 200
+            return jsonify({
+                'result': result,
+                'confidence': round(confidence_percent, 2)  # רק 2 ספרות אחרי הנקודה
+            }), 200
+
+        except Exception as e:
+            print(f"❌ Error during feature extraction or prediction: {str(e)}")
+            return jsonify({'error': f'Error processing audio: {str(e)}'}), 500
 
     except Exception as e:
-        print(f"❌ Error analyzing audio: {e}")
+        print(f"❌ Error analyzing audio: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
 # ------------------ הצגת משתמשים ------------------
