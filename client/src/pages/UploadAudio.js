@@ -1,126 +1,141 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import '../styles/UploadAudio.css';
+import { useNavigate } from 'react-router-dom';
+import { FaGamepad, FaComments } from 'react-icons/fa';
+import Toolbar from '../components/Toolbar';
 
 const UploadAudio = () => {
-  const navigate = useNavigate();
-  const [file, setFile] = useState(null);
-  const [showFeedbackForm, setShowFeedbackForm] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(false);
   const [feedback, setFeedback] = useState('');
-  const [rating, setRating] = useState(0);
-  const [questionRatings, setQuestionRatings] = useState({
+  const [ratings, setRatings] = useState({
     usability: 0,
     design: 0,
-    performance: 0,
+    performance: 0
   });
+  const navigate = useNavigate();
 
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+  const handleFileSelect = (event) => {
+    setSelectedFile(event.target.files[0]);
+    setResult(null);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleUpload = async (event) => {
+    event.preventDefault();
+    if (!selectedFile) {
+      alert('Please select a file first!');
+      return;
+    }
+
+    setLoading(true);
     const formData = new FormData();
-    formData.append('audio', file);
+    formData.append('audio', selectedFile);
 
     try {
-      const response = await fetch('http://127.0.0.1:5001/api/upload', {
+      const response = await fetch('http://localhost:5001/api/upload', {
         method: 'POST',
         body: formData,
       });
 
       const data = await response.json();
       if (response.ok) {
-        alert(`Result: ${data.result}`);
+        setResult(data);
       } else {
-        alert('Error analyzing audio.');
+        alert('Error: ' + data.error);
       }
     } catch (error) {
-      console.error(error);
-      alert('Error uploading file.');
+      alert('Error uploading file: ' + error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleFeedbackSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
-      if (!loggedInUser || !loggedInUser.username) {
-        alert('User is not logged in.');
-        return;
-      }
+  const handleStartGame = () => {
+    navigate('/game');
+  };
 
+  const handleRatingChange = (question, rating) => {
+    setRatings(prev => ({
+      ...prev,
+      [question]: rating
+    }));
+  };
+
+  const handleFeedbackSubmit = async () => {
+    try {
       const response = await fetch('http://localhost:5001/api/feedback', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          username: loggedInUser.username,
           message: feedback,
-          questionRatings,
+          questionRatings: ratings
         }),
       });
 
       if (response.ok) {
-        alert('Feedback submitted successfully!');
+        alert('Thank you for your feedback!');
+        setShowFeedback(false);
         setFeedback('');
-        setRating(0);
-        setQuestionRatings({ usability: 0, design: 0, performance: 0 });
-        setShowFeedbackForm(false);
+        setRatings({ usability: 0, design: 0, performance: 0 });
       } else {
-        const errorData = await response.json();
-        alert(`Failed to submit feedback: ${errorData.error || 'Unknown error'}`);
+        alert('Error submitting feedback');
       }
     } catch (error) {
-      console.error(error);
-      alert('Error submitting feedback.');
+      alert('Error: ' + error.message);
     }
   };
 
   return (
     <>
-      <header data-bs-theme="dark">
-        <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-          <div className="container-fluid">
-            <div className="navbar-brand" href="#">
-              <img src={require('../images/logo.png')} alt="DeepFakeAudio Logo" className="logo" />
-              DeepFakeAudio
-            </div>
-          </div>
-        </nav>
-      </header>
-
+      <Toolbar />
       <div className="upload-container">
-        <h1>Upload Audio for Analysis</h1>
-        <form onSubmit={handleSubmit}>
-          <input type="file" accept="audio/*" onChange={handleFileChange} required />
-          <button type="submit">Upload and Analyze</button>
-          <button
-            type="button"
-            className="btn btn-outline-light btn-lg mt-3"
-            onClick={() => navigate('/game')}
-          >
-            🎮 Start Game
-          </button>
+        <h1>Audio Deepfake Detector</h1>
+        
+        <form onSubmit={handleUpload}>
+          <input
+            type="file"
+            onChange={handleFileSelect}
+            accept="audio/*"
+          />
+          <div>
+            <button type="submit" disabled={loading}>
+              {loading ? 'Analyzing...' : 'Analyze Audio'}
+            </button>
+            <button type="button" onClick={handleStartGame}>
+              <FaGamepad /> Start Game
+            </button>
+          </div>
         </form>
 
-        <button className="feedback-button" onClick={() => setShowFeedbackForm(!showFeedbackForm)}>
-          <i>📝</i>
+        {result && (
+          <div className="result-box">
+            <h3 className={result.result.toLowerCase()}>
+              {result.result}
+            </h3>
+            <p>Confidence: {result.confidence}%</p>
+          </div>
+        )}
+
+        <button className="feedback-button" onClick={() => setShowFeedback(!showFeedback)}>
+          <FaComments />
         </button>
 
-        {showFeedbackForm && (
+        {showFeedback && (
           <div className="feedback-form">
-            <h3>Submit Your Feedback</h3>
-
+            <h3>Your Feedback</h3>
+            
             <div className="feedback-question">
-              <label>Usability:</label>
+              <label>Usability</label>
               <div className="stars">
-                {[...Array(5)].map((_, i) => (
+                {[1, 2, 3, 4, 5].map((star) => (
                   <span
-                    key={i}
-                    className={i < questionRatings.usability ? 'active' : ''}
-                    onClick={() => setQuestionRatings({ ...questionRatings, usability: i + 1 })}
+                    key={star}
+                    className={star <= ratings.usability ? 'active' : ''}
+                    onClick={() => handleRatingChange('usability', star)}
                   >
                     ★
                   </span>
@@ -129,13 +144,13 @@ const UploadAudio = () => {
             </div>
 
             <div className="feedback-question">
-              <label>Design:</label>
+              <label>Design</label>
               <div className="stars">
-                {[...Array(5)].map((_, i) => (
+                {[1, 2, 3, 4, 5].map((star) => (
                   <span
-                    key={i}
-                    className={i < questionRatings.design ? 'active' : ''}
-                    onClick={() => setQuestionRatings({ ...questionRatings, design: i + 1 })}
+                    key={star}
+                    className={star <= ratings.design ? 'active' : ''}
+                    onClick={() => handleRatingChange('design', star)}
                   >
                     ★
                   </span>
@@ -144,13 +159,13 @@ const UploadAudio = () => {
             </div>
 
             <div className="feedback-question">
-              <label>Performance:</label>
+              <label>Performance</label>
               <div className="stars">
-                {[...Array(5)].map((_, i) => (
+                {[1, 2, 3, 4, 5].map((star) => (
                   <span
-                    key={i}
-                    className={i < questionRatings.performance ? 'active' : ''}
-                    onClick={() => setQuestionRatings({ ...questionRatings, performance: i + 1 })}
+                    key={star}
+                    className={star <= ratings.performance ? 'active' : ''}
+                    onClick={() => handleRatingChange('performance', star)}
                   >
                     ★
                   </span>
@@ -161,9 +176,9 @@ const UploadAudio = () => {
             <textarea
               value={feedback}
               onChange={(e) => setFeedback(e.target.value)}
-              placeholder="Additional comments..."
-            ></textarea>
-            <button onClick={handleFeedbackSubmit}>Submit</button>
+              placeholder="Share your thoughts..."
+            />
+            <button onClick={handleFeedbackSubmit}>Submit Feedback</button>
           </div>
         )}
       </div>

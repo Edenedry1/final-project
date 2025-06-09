@@ -32,6 +32,7 @@ const Level1 = () => {
   const [coins, setCoins] = useState(0);
   const [feedback, setFeedback] = useState('');
   const [completed, setCompleted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const hints = [
     "💡 Hint: Listen for naturalness - fake audio often sounds metallic or robotic.",
@@ -40,24 +41,68 @@ const Level1 = () => {
     "💡 Hint: Listen to voice tone - does it sound natural and human?"
   ];
 
-  const handleChoice = (choice) => {
-    const correct = 'fake';
-    if (choice === correct) {
-      setCoins(coins + 10);
-      setFeedback('✔️ Correct! You earned 10 coins');
-    } else {
-      setFeedback('❌ Incorrect. The fake file was the second one.');
-    }
+  const handleChoice = async (choice, audioPath) => {
+    setLoading(true);
+    try {
+      // Check both files
+      const [realResponse, fakeResponse] = await Promise.all([
+        fetch('http://localhost:5001/api/check_audio', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            file_path: question.real
+          })
+        }),
+        fetch('http://localhost:5001/api/check_audio', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            file_path: question.fake
+          })
+        })
+      ]);
 
-    setTimeout(() => {
-      setFeedback('');
-      if (current + 1 < questions.length) {
-        setCurrent(current + 1);
-      } else {
-        setCompleted(true);
-        localStorage.setItem('unlockedLevel', '2');
+      const [realData, fakeData] = await Promise.all([
+        realResponse.json(),
+        fakeResponse.json()
+      ]);
+      
+      if (realData.error || fakeData.error) {
+        setFeedback('❌ Error checking audio. Please try again.');
+        return;
       }
-    }, 2000);
+
+      // Check if the chosen file is the fake one
+      const chosenFile = choice === 'real' ? question.real : question.fake;
+      const isCorrect = chosenFile === question.fake;
+
+      if (isCorrect) {
+        setCoins(coins + 10);
+        setFeedback(`✔️ Correct! The model detected: Real (${realData.confidence.toFixed(1)}% confidence) vs Fake (${fakeData.confidence.toFixed(1)}% confidence)`);
+      } else {
+        setFeedback(`❌ Incorrect. The model detected: Real (${realData.confidence.toFixed(1)}% confidence) vs Fake (${fakeData.confidence.toFixed(1)}% confidence)`);
+      }
+
+      setTimeout(() => {
+        setFeedback('');
+        if (current + 1 < questions.length) {
+          setCurrent(current + 1);
+        } else {
+          setCompleted(true);
+          localStorage.setItem('unlockedLevel', '2');
+        }
+      }, 3000);
+
+    } catch (error) {
+      setFeedback('❌ Error checking audio. Please try again.');
+      console.error('Error:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const question = questions[current];
@@ -97,12 +142,22 @@ const Level1 = () => {
               <div className="audio-box">
                 <p>Audio File 1</p>
                 <audio controls src={question.real} />
-                <button onClick={() => handleChoice('real')}>This one is fake</button>
+                <button 
+                  onClick={() => handleChoice('real', question.real)} 
+                  disabled={loading}
+                >
+                  {loading ? 'Checking...' : 'This one is fake'}
+                </button>
               </div>
               <div className="audio-box">
                 <p>Audio File 2</p>
                 <audio controls src={question.fake} />
-                <button onClick={() => handleChoice('fake')}>This one is fake</button>
+                <button 
+                  onClick={() => handleChoice('fake', question.fake)}
+                  disabled={loading}
+                >
+                  {loading ? 'Checking...' : 'This one is fake'}
+                </button>
               </div>
             </div>
             {feedback && (

@@ -1,2 +1,28 @@
-client/node_modules/.cache/
+# 🔁 תלותים של Node.js
+node_modules/
 client/node_modules/
+server/node_modules/
+
+# 📦 קבצים זמניים של NPM
+package-lock.json
+
+# 🧠 קבצי מודל גדולים
+*.save
+
+# 🎧 קבצי אודיו
+*.wav
+
+# 🧪 קבצי נתונים / טקסט של הדאטאסט CodecFake
+CodecFake/
+uploads/
+
+# 🐍 קבצים זמניים של פייתון
+__pycache__/
+*.pyc
+
+# ⚠️ לוגים ושאר קבצים זמניים
+*.log
+.DS_Store
+Thumbs.db
+
+# 🧪 CRLF קבצים בעייתיים (אם כל התיקיה CodecFake כבר ב־ignore, אין צורך לפרט כל קובץ)

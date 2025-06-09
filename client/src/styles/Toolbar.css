@@ -1,0 +1,63 @@
+.navbar {
+  background: rgba(0, 0, 0, 0.8) !important;
+  backdrop-filter: blur(10px);
+  border-bottom: 2px solid rgba(0, 240, 255, 0.3);
+  box-shadow: 0 2px 10px rgba(0, 240, 255, 0.2);
+  padding: 0.5rem 1rem;
+  height: 60px;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #00f0ff !important;
+  font-size: 1.5rem;
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+  transition: all 0.3s ease;
+}
+
+.navbar-brand:hover {
+  transform: scale(1.05);
+  text-shadow: 0 0 15px rgba(0, 240, 255, 0.7);
+}
+
+.logo {
+  height: 40px;
+  width: auto;
+  filter: drop-shadow(0 0 5px rgba(0, 240, 255, 0.5));
+}
+
+.nav-link {
+  color: #00f0ff !important;
+  margin: 0 10px;
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+}
+
+.btn-outline-light {
+  border-color: #00f0ff !important;
+  color: #00f0ff !important;
+  background: transparent;
+  transition: all 0.3s ease;
+  margin: 0 5px;
+}
+
+.btn-outline-light:hover {
+  background: rgba(0, 240, 255, 0.1) !important;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.btn-light {
+  background: linear-gradient(45deg, #00f0ff, #00ff88) !important;
+  border: none !important;
+  color: black !important;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.btn-light:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 240, 255, 0.4);
+  background: linear-gradient(45deg, #00ff88, #00f0ff) !important;
+} 
