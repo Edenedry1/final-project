@@ -4,10 +4,17 @@ import axios from 'axios';
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState({
-    totalUsers: 0,
-    totalUploads: 0,
-    totalFeedback: 0,
-    activeGames: 0
+    total_users: 0,
+    regular_users: 0,
+    institution_users: 0,
+    total_games: 0,
+    total_coins: 0,
+    avg_success_rate: 0,
+    avg_usability_rating: 0,
+    avg_design_rating: 0,
+    avg_performance_rating: 0,
+    top_performers: [],
+    recent_activity: []
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -32,7 +39,7 @@ const AdminDashboard = () => {
     return (
       <div className="admin-container">
         <div className="admin-header">
-          <h1 className="admin-title">⏳ Loading...</h1>
+          <h1 className="admin-title">⏳ Loading Admin Dashboard...</h1>
         </div>
       </div>
     );
@@ -68,7 +75,7 @@ const AdminDashboard = () => {
       <div className="admin-container">
         <div className="admin-header">
           <h1 className="admin-title">🔧 Admin Dashboard</h1>
-          <p className="admin-subtitle">Manage your deepfake detection system</p>
+          <p className="admin-subtitle">DeepFake Audio Detection System Management</p>
         </div>
 
         {error && (
@@ -77,35 +84,106 @@ const AdminDashboard = () => {
           </div>
         )}
 
-        {/* Statistics Grid */}
+        {/* Main Statistics Grid */}
         <div className="stats-grid">
           <div className="stat-card">
             <div className="stat-icon">👥</div>
             <div className="stat-content">
-              <div className="stat-number">{stats.totalUsers}</div>
+              <div className="stat-number">{stats.total_users}</div>
               <div className="stat-label">Total Users</div>
-            </div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-icon">📤</div>
-            <div className="stat-content">
-              <div className="stat-number">{stats.totalUploads}</div>
-              <div className="stat-label">Audio Uploads</div>
-            </div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-icon">💬</div>
-            <div className="stat-content">
-              <div className="stat-number">{stats.totalFeedback}</div>
-              <div className="stat-label">User Feedback</div>
+              <div className="stat-sublabel">{stats.regular_users} Regular + {stats.institution_users} Institutions</div>
             </div>
           </div>
           <div className="stat-card">
             <div className="stat-icon">🎮</div>
             <div className="stat-content">
-              <div className="stat-number">{stats.activeGames}</div>
-              <div className="stat-label">Active Games</div>
+              <div className="stat-number">{stats.total_games}</div>
+              <div className="stat-label">Games Played</div>
+              <div className="stat-sublabel">Total game sessions</div>
             </div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-icon">💰</div>
+            <div className="stat-content">
+              <div className="stat-number">{stats.total_coins}</div>
+              <div className="stat-label">Coins Earned</div>
+              <div className="stat-sublabel">Total by all players</div>
+            </div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-icon">🎯</div>
+            <div className="stat-content">
+              <div className="stat-number">{stats.avg_success_rate}%</div>
+              <div className="stat-label">Success Rate</div>
+              <div className="stat-sublabel">Average across all users</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Rating Statistics */}
+        <div className="rating-stats">
+          <h2 className="section-title">⭐ User Satisfaction Ratings</h2>
+          <div className="rating-grid">
+            <div className="rating-card">
+              <div className="rating-icon">🎨</div>
+              <div className="rating-content">
+                <div className="rating-number">{stats.avg_usability_rating}/5</div>
+                <div className="rating-label">Usability</div>
+              </div>
+            </div>
+            <div className="rating-card">
+              <div className="rating-icon">🎭</div>
+              <div className="rating-content">
+                <div className="rating-number">{stats.avg_design_rating}/5</div>
+                <div className="rating-label">Design</div>
+              </div>
+            </div>
+            <div className="rating-card">
+              <div className="rating-icon">⚡</div>
+              <div className="rating-content">
+                <div className="rating-number">{stats.avg_performance_rating}/5</div>
+                <div className="rating-label">Performance</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Top Performers */}
+        <div className="top-performers">
+          <h2 className="section-title">🏆 Top Performers</h2>
+          <div className="performers-list">
+            {stats.top_performers.map((performer, index) => (
+              <div key={index} className="performer-card">
+                <div className="performer-rank">#{index + 1}</div>
+                <div className="performer-info">
+                  <div className="performer-name">{performer.username}</div>
+                  <div className="performer-stats">
+                    Level {performer.level_completed} • {performer.total_coins} coins • {performer.success_rate}% accuracy
+                  </div>
+                </div>
+                <div className="performer-badge">
+                  {index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '🏅'}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Recent Activity */}
+        <div className="recent-activity">
+          <h2 className="section-title">📅 Recent Activity</h2>
+          <div className="activity-list">
+            {stats.recent_activity.map((activity, index) => (
+              <div key={index} className="activity-item">
+                <div className="activity-icon">🎮</div>
+                <div className="activity-info">
+                  <div className="activity-user">{activity.username}</div>
+                  <div className="activity-details">
+                    Last played: {activity.last_played} • Level {activity.level_completed} • {activity.total_coins} coins
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -117,34 +195,7 @@ const AdminDashboard = () => {
               <div className="action-icon">👥</div>
               <div className="action-content">
                 <h3>User Management</h3>
-                <p>View, edit, and manage user accounts and permissions</p>
-              </div>
-              <div className="action-arrow">→</div>
-            </a>
-
-            <a href="/admin/feedback" className="action-card">
-              <div className="action-icon">💬</div>
-              <div className="action-content">
-                <h3>Feedback Management</h3>
-                <p>Review and respond to user feedback and suggestions</p>
-              </div>
-              <div className="action-arrow">→</div>
-            </a>
-
-            <a href="/admin/games" className="action-card">
-              <div className="action-icon">🎮</div>
-              <div className="action-content">
-                <h3>Game Management</h3>
-                <p>Configure game levels, difficulty, and content</p>
-              </div>
-              <div className="action-arrow">→</div>
-            </a>
-
-            <a href="/admin/uploads" className="action-card">
-              <div className="action-icon">📤</div>
-              <div className="action-content">
-                <h3>Upload Management</h3>
-                <p>Monitor and manage audio file uploads and processing</p>
+                <p>View detailed user profiles, game progress, and account management</p>
               </div>
               <div className="action-arrow">→</div>
             </a>
@@ -153,37 +204,28 @@ const AdminDashboard = () => {
               <div className="action-icon">📊</div>
               <div className="action-content">
                 <h3>Analytics & Reports</h3>
-                <p>View detailed analytics and generate system reports</p>
+                <p>Detailed game analytics, user feedback analysis, and performance reports</p>
               </div>
               <div className="action-arrow">→</div>
             </a>
 
-            <div className="action-card">
-              <div className="action-icon">⚙️</div>
+            <a href="/admin/games" className="action-card">
+              <div className="action-icon">🎮</div>
               <div className="action-content">
-                <h3>System Settings</h3>
-                <p>Configure system parameters and security settings</p>
+                <h3>Game Management</h3>
+                <p>Configure game levels, difficulty settings, and coin rewards</p>
               </div>
               <div className="action-arrow">→</div>
-            </div>
+            </a>
 
-            <div className="action-card">
-              <div className="action-icon">🔒</div>
+            <a href="/admin/uploads" className="action-card">
+              <div className="action-icon">📤</div>
               <div className="action-content">
-                <h3>Security Center</h3>
-                <p>Monitor security events and manage access controls</p>
+                <h3>Upload Management</h3>
+                <p>Monitor audio uploads, AI model performance, and detection accuracy</p>
               </div>
               <div className="action-arrow">→</div>
-            </div>
-
-            <div className="action-card">
-              <div className="action-icon">📈</div>
-              <div className="action-content">
-                <h3>Performance Monitor</h3>
-                <p>Track system performance and resource usage</p>
-              </div>
-              <div className="action-arrow">→</div>
-            </div>
+            </a>
           </div>
         </div>
       </div>

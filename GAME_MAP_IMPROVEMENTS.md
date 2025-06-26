@@ -1,92 +1,103 @@
-# Game Map Improvements - Candy Crush Style
+# Game Map Improvements - Updated Structure
 
 ## Overview
-The game map has been completely redesigned to look like a modern mobile game map, similar to Candy Crush Saga, with a connected path and visual progression indicators.
+The DeepFake Audio Detection Game now features a completely uniform and balanced progression system with 5 questions per level across all 10 levels.
 
-## New Features
+## New Level Structure
 
-### 🗺️ **Connected Path Design**
-- **Winding Path**: Levels are now connected in a snake-like path from bottom-left to top-center
-- **Visual Connections**: Animated connectors between levels show the progression route
-- **Direction Indicators**: Arrows on the path show the direction of progression
+### Uniform Question Count
+**All levels now have exactly 5 questions** for a consistent and balanced gaming experience.
 
-### 🎨 **Enhanced Visual Design**
-- **Gradient Background**: Beautiful purple-blue gradient with animated starfield effect
-- **3D Level Circles**: Levels now have depth with shadows and gradients
-- **Floating Decorations**: Animated stars and sparkles scattered across the map
-- **Glowing Effects**: Unlocked levels pulse with neon glow effects
+### Progressive Difficulty System
+Each level features increasingly sophisticated fake audio with higher quality:
 
-### 📊 **Progress Tracking**
-- **Progress Indicator**: Fixed panel showing completion percentage
-- **Visual Progress Bar**: Animated bar that fills as levels are completed
-- **Completion Celebration**: Special message when all levels are finished
+| Level | Difficulty | Questions | Coins/Question | Max Coins | Description |
+|-------|-----------|-----------|----------------|-----------|-------------|
+| 1 | Beginner | 5 | 10 | 50 | Easy fake audio with obvious AI artifacts |
+| 2 | Intermediate | 5 | 15 | 75 | Slightly better fake audio with subtle AI traces |
+| 3 | Advanced | 5 | 20 | 100 | Better fake audio with minimal artifacts |
+| 4 | Expert | 5 | 25 | 125 | High-quality fake audio that's hard to detect |
+| 5 | Master | 5 | 30 | 150 | Very sophisticated fake audio with professional quality |
+| 6 | Grandmaster | 5 | 35 | 175 | Near-perfect fake audio that fools most people |
+| 7 | Legendary | 5 | 40 | 200 | Extremely convincing fake audio that's almost perfect |
+| 8 | Mythical | 5 | 50 | 250 | Impossibly perfect fake audio with no detectable flaws |
+| 9 | Cosmic | 5 | 75 | 375 | Reality-bending fake audio that defies human detection |
+| 10 | Omniscient | 5 | 100 | 500 | Perfect fake audio indistinguishable from reality |
 
-### 🎯 **Level States**
-- **Locked Levels**: Gray appearance with lock icon (🔒)
-- **Unlocked Levels**: Bright cyan-green gradient with music note icon (🎵)
-- **Completed Levels**: Green gradient with trophy icon (🏆) and checkmark
-- **Current Level**: Special glow effect to highlight the next available level
+### Total Coins Available
+- **Maximum possible coins: 2,000** (if all questions answered correctly)
+- **Average expected coins: 1,000-1,200** (50-60% success rate)
 
-### 🛤️ **Path Animation**
-- **Unlocked Paths**: Bright animated connectors with flowing light effects
-- **Locked Paths**: Dimmed gray connectors
-- **Direction Arrows**: Animated arrows showing progression direction
-- **Glow Effects**: Pulsing light effects on active paths
+## Key Improvements
+
+### 1. Balanced Progression
+- Consistent 5-question format eliminates confusion
+- Clear difficulty progression from easy to impossible
+- Rewards scale appropriately with difficulty
+
+### 2. Fair Randomization
+- Fake audio randomly placed on left or right side
+- No predictable patterns for players to exploit
+- True skill-based gameplay
+
+### 3. Persistent Coin System
+- Coins accumulate across all levels
+- Saved in localStorage for session persistence
+- Reset option available in main game menu
+
+### 4. Enhanced User Experience
+- Clear difficulty indicators with color-coded levels
+- Progressive reward system motivates completion
+- Uniform question count reduces confusion
 
 ## Technical Implementation
 
-### Level Positioning
+### Audio Randomization
 ```javascript
-const positions = [
-  { left: 15, top: 85 },  // Level 1 - Bottom left start
-  { left: 25, top: 75 },  // Level 2 - Going up-right
-  { left: 35, top: 65 },  // Level 3 - Continue up-right
-  { left: 50, top: 60 },  // Level 4 - Move to center
-  { left: 65, top: 55 },  // Level 5 - Continue right
-  { left: 75, top: 45 },  // Level 6 - Up-right
-  { left: 70, top: 35 },  // Level 7 - Slight left
-  { left: 55, top: 30 },  // Level 8 - Move left
-  { left: 40, top: 25 },  // Level 9 - Continue left
-  { left: 50, top: 15 }   // Level 10 - Final level at top center
-];
+const fakeOnLeft = Math.random() < 0.5;
+// Randomly assigns fake audio to left or right side
 ```
 
-### CSS Animations
-- **levelPulse**: Pulsing glow effect for unlocked levels
-- **pathGlow**: Flowing light effect on connectors
-- **arrowPulse**: Animated direction arrows
-- **float**: Floating animation for decorative elements
-- **starfield**: Moving starfield background
-- **celebrationPulse**: Celebration animation for completion
+### Coin Persistence
+```javascript
+const [coins, setCoins] = useState(() => {
+  const savedCoins = localStorage.getItem('totalCoins');
+  return savedCoins ? parseInt(savedCoins) : 0;
+});
+```
 
-### Responsive Design
-- **Mobile Optimization**: Smaller circles and text on mobile devices
-- **Touch-Friendly**: Larger touch targets for mobile interaction
-- **Adaptive Layout**: Elements scale appropriately on different screen sizes
+### Progressive Difficulty Labels
+- 🟢 Level 1: Beginner
+- 🔵 Level 2: Intermediate  
+- 🟠 Level 3: Advanced
+- 🔴 Level 4: Expert
+- 🟣 Level 5: Master
+- 🟤 Level 6: Grandmaster
+- ⚫ Level 7: Legendary
+- ⭐ Level 8: Mythical
+- 🌟 Level 9: Cosmic
+- 💎 Level 10: Omniscient
 
-## User Experience Improvements
+## Benefits of New Structure
 
-### 🎮 **Game-Like Feel**
-- **Visual Feedback**: Immediate visual response to user interactions
-- **Progressive Disclosure**: Clear indication of what's available vs locked
-- **Achievement Recognition**: Visual celebration of completed levels
+### For Players
+- Clear progression path
+- Fair and balanced difficulty
+- Consistent experience across levels
+- Meaningful reward system
 
-### 🎯 **Clear Navigation**
-- **Obvious Path**: Easy to see the progression route
-- **Status Indicators**: Clear visual distinction between level states
-- **Progress Tracking**: Always visible progress indicator
+### For Educators  
+- Predictable time requirements (5 questions = ~10-15 minutes per level)
+- Clear skill progression assessment
+- Balanced challenge for different skill levels
 
-### ✨ **Engaging Visuals**
-- **Animated Elements**: Constant subtle motion keeps the interface alive
-- **Color Coding**: Intuitive color scheme (green=completed, cyan=available, gray=locked)
-- **Depth and Dimension**: 3D effects make the interface feel modern and polished
+### For Developers
+- Easier to maintain and balance
+- Consistent code structure across levels
+- Simpler testing and debugging
 
-## Browser Compatibility
-- **Modern Browsers**: Full support for Chrome, Firefox, Safari, Edge
-- **CSS3 Features**: Uses gradients, transforms, and animations
-- **Fallback Support**: Graceful degradation for older browsers
-
-## Performance Considerations
-- **Optimized Animations**: Smooth 60fps animations using CSS transforms
-- **Efficient Rendering**: Minimal DOM manipulation for better performance
-- **Memory Management**: Lightweight decorative elements that don't impact gameplay 
+## Future Enhancements
+- Adaptive difficulty based on success rate
+- Achievement system for perfect levels
+- Leaderboard integration
+- Detailed analytics per difficulty level 

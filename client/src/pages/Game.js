@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Game.css';
 import logo from '../images/logo.png';
@@ -10,6 +10,19 @@ const Game = () => {
   const levels = Array.from({ length: 10 }, (_, i) => i + 1);
   const unlockedLevel = parseInt(localStorage.getItem('unlockedLevel') || '1');
   const completedLevels = unlockedLevel - 1;
+  const [totalCoins, setTotalCoins] = useState(() => {
+    const savedCoins = localStorage.getItem('totalCoins');
+    return savedCoins ? parseInt(savedCoins) : 0;
+  });
+
+  const resetGame = () => {
+    if (window.confirm('Are you sure you want to reset all progress? This will delete all coins and unlock status.')) {
+      localStorage.removeItem('totalCoins');
+      localStorage.removeItem('unlockedLevel');
+      setTotalCoins(0);
+      window.location.reload(); // Refresh to show updated state
+    }
+  };
 
   const handleLevelClick = (level) => {
     if (level <= unlockedLevel) {
@@ -54,9 +67,22 @@ const Game = () => {
             style={{width: `${(completedLevels / levels.length) * 100}%`}}
           ></div>
         </div>
+        
+        {/* Coins display */}
+        <div className="coins-display">
+          <span className="coins-text">💰 Total Coins: {totalCoins}</span>
+          <button 
+            className="reset-game-btn" 
+            onClick={resetGame}
+            title="Reset all progress and coins"
+          >
+            🔄 Reset Game
+          </button>
+        </div>
+        
         {completedLevels === levels.length && (
           <div className="completion-message">
-            🎉 All levels completed! 🎉
+            🎉 All levels completed! Total Coins Earned: {totalCoins} 🎉
           </div>
         )}
       </div>

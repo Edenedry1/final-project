@@ -21,20 +21,245 @@ if not os.path.exists(db_path):
                         email TEXT NOT NULL UNIQUE,
                         password TEXT NOT NULL,
                         is_institution INTEGER DEFAULT 0,
-                        feedback TEXT DEFAULT ''
+                        feedback TEXT DEFAULT '',
+                        level_completed INTEGER DEFAULT 1,
+                        total_coins INTEGER DEFAULT 0,
+                        games_played INTEGER DEFAULT 0,
+                        correct_answers INTEGER DEFAULT 0,
+                        total_answers INTEGER DEFAULT 0,
+                        last_played TEXT DEFAULT '',
+                        usability_rating INTEGER DEFAULT 0,
+                        design_rating INTEGER DEFAULT 0,
+                        performance_rating INTEGER DEFAULT 0
                     )''')
     conn.commit()
     conn.close()
     print("✅ Database created.")
 else:
+    # Check and add missing columns
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     cursor.execute("PRAGMA table_info(users)")
-    if "feedback" not in [c[1] for c in cursor.fetchall()]:
-        cursor.execute("ALTER TABLE users ADD COLUMN feedback TEXT DEFAULT ''")
-        conn.commit()
-        print("✅ Column feedback added.")
+    existing_columns = [c[1] for c in cursor.fetchall()]
+    
+    # Add missing columns
+    new_columns = [
+        ('feedback', 'TEXT DEFAULT ""'),
+        ('level_completed', 'INTEGER DEFAULT 1'),
+        ('total_coins', 'INTEGER DEFAULT 0'),
+        ('games_played', 'INTEGER DEFAULT 0'),
+        ('correct_answers', 'INTEGER DEFAULT 0'),
+        ('total_answers', 'INTEGER DEFAULT 0'),
+        ('last_played', 'TEXT DEFAULT ""'),
+        ('usability_rating', 'INTEGER DEFAULT 0'),
+        ('design_rating', 'INTEGER DEFAULT 0'),
+        ('performance_rating', 'INTEGER DEFAULT 0')
+    ]
+    
+    for column_name, column_def in new_columns:
+        if column_name not in existing_columns:
+            cursor.execute(f"ALTER TABLE users ADD COLUMN {column_name} {column_def}")
+            print(f"✅ Column {column_name} added.")
+    
+    conn.commit()
     conn.close()
+
+# Add sample users with realistic game data if database is new/empty
+conn = sqlite3.connect(db_path)
+cursor = conn.cursor()
+cursor.execute("SELECT COUNT(*) FROM users")
+user_count = cursor.fetchone()[0]
+
+if user_count < 5:  # Add sample users if less than 5 exist
+    print("🎮 Adding sample users with game data...")
+    
+    # Sample users with realistic data
+    sample_users = [
+        # Regular users
+        {
+            'username': 'alex_gamer',
+            'email': 'alex@gmail.com',
+            'password': bcrypt.hashpw('password123'.encode('utf-8'), bcrypt.gensalt()).decode('utf-8'),
+            'is_institution': 0,
+            'level_completed': 7,
+            'total_coins': 890,
+            'games_played': 45,
+            'correct_answers': 28,
+            'total_answers': 45,
+            'last_played': '2024-01-15',
+            'feedback': 'Amazing game! Really helps me understand deepfake detection.',
+            'usability_rating': 5,
+            'design_rating': 4,
+            'performance_rating': 5
+        },
+        {
+            'username': 'sarah_detective',
+            'email': 'sarah.jones@hotmail.com',
+            'password': bcrypt.hashpw('mypassword'.encode('utf-8'), bcrypt.gensalt()).decode('utf-8'),
+            'is_institution': 0,
+            'level_completed': 4,
+            'total_coins': 425,
+            'games_played': 28,
+            'correct_answers': 18,
+            'total_answers': 28,
+            'last_played': '2024-01-18',
+            'feedback': 'Great learning tool, but some levels are really challenging!',
+            'usability_rating': 4,
+            'design_rating': 5,
+            'performance_rating': 4
+        },
+        {
+            'username': 'mike_audio_pro',
+            'email': 'mike.anderson@audiotech.com',
+            'password': bcrypt.hashpw('professional2024'.encode('utf-8'), bcrypt.gensalt()).decode('utf-8'),
+            'is_institution': 0,
+            'level_completed': 10,
+            'total_coins': 1650,
+            'games_played': 75,
+            'correct_answers': 68,
+            'total_answers': 75,
+            'last_played': '2024-01-20',
+            'feedback': 'Excellent tool for audio professionals. The AI detection is very accurate.',
+            'usability_rating': 5,
+            'design_rating': 5,
+            'performance_rating': 5
+        },
+        {
+            'username': 'student_jenny',
+            'email': 'jenny.kim@student.university.edu',
+            'password': bcrypt.hashpw('student123'.encode('utf-8'), bcrypt.gensalt()).decode('utf-8'),
+            'is_institution': 0,
+            'level_completed': 3,
+            'total_coins': 180,
+            'games_played': 15,
+            'correct_answers': 9,
+            'total_answers': 15,
+            'last_played': '2024-01-17',
+            'feedback': 'This is helping me with my cybersecurity course project!',
+            'usability_rating': 4,
+            'design_rating': 4,
+            'performance_rating': 3
+        },
+        {
+            'username': 'curious_learner',
+            'email': 'learner2024@yahoo.com',
+            'password': bcrypt.hashpw('learning123'.encode('utf-8'), bcrypt.gensalt()).decode('utf-8'),
+            'is_institution': 0,
+            'level_completed': 6,
+            'total_coins': 720,
+            'games_played': 38,
+            'correct_answers': 24,
+            'total_answers': 38,
+            'last_played': '2024-01-19',
+            'feedback': 'Love the progressive difficulty! Each level teaches something new.',
+            'usability_rating': 5,
+            'design_rating': 4,
+            'performance_rating': 4
+        },
+        # Educational institutions
+        {
+            'username': 'MIT_AI_Lab',
+            'email': 'ai.research@mit.edu',
+            'password': bcrypt.hashpw('mitresearch2024'.encode('utf-8'), bcrypt.gensalt()).decode('utf-8'),
+            'is_institution': 1,
+            'level_completed': 10,
+            'total_coins': 1980,
+            'games_played': 120,
+            'correct_answers': 105,
+            'total_answers': 120,
+            'last_played': '2024-01-20',
+            'feedback': 'Excellent educational tool for our AI detection research. Using it in our curriculum.',
+            'usability_rating': 5,
+            'design_rating': 5,
+            'performance_rating': 5
+        },
+        {
+            'username': 'Stanford_CS_Dept',
+            'email': 'cs.education@stanford.edu',
+            'password': bcrypt.hashpw('stanford2024'.encode('utf-8'), bcrypt.gensalt()).decode('utf-8'),
+            'is_institution': 1,
+            'level_completed': 8,
+            'total_coins': 1340,
+            'games_played': 85,
+            'correct_answers': 72,
+            'total_answers': 85,
+            'last_played': '2024-01-18',
+            'feedback': 'Perfect for teaching students about deepfake detection. The hint system is very helpful.',
+            'usability_rating': 5,
+            'design_rating': 4,
+            'performance_rating': 5
+        },
+        {
+            'username': 'TechHigh_School',
+            'email': 'tech.education@techhigh.edu',
+            'password': bcrypt.hashpw('education123'.encode('utf-8'), bcrypt.gensalt()).decode('utf-8'),
+            'is_institution': 1,
+            'level_completed': 5,
+            'total_coins': 625,
+            'games_played': 40,
+            'correct_answers': 28,
+            'total_answers': 40,
+            'last_played': '2024-01-16',
+            'feedback': 'Our students love this! Great way to teach media literacy and AI awareness.',
+            'usability_rating': 4,
+            'design_rating': 5,
+            'performance_rating': 4
+        },
+        {
+            'username': 'UCLA_Media_Studies',
+            'email': 'media.lab@ucla.edu',
+            'password': bcrypt.hashpw('ucla2024media'.encode('utf-8'), bcrypt.gensalt()).decode('utf-8'),
+            'is_institution': 1,
+            'level_completed': 9,
+            'total_coins': 1545,
+            'games_played': 95,
+            'correct_answers': 81,
+            'total_answers': 95,
+            'last_played': '2024-01-19',
+            'feedback': 'Integrating this into our digital media literacy curriculum. Students find it engaging and educational.',
+            'usability_rating': 5,
+            'design_rating': 5,
+            'performance_rating': 4
+        },
+        {
+            'username': 'CyberSec_Academy',
+            'email': 'training@cybersecacademy.org',
+            'password': bcrypt.hashpw('cybersec2024'.encode('utf-8'), bcrypt.gensalt()).decode('utf-8'),
+            'is_institution': 1,
+            'level_completed': 10,
+            'total_coins': 1890,
+            'games_played': 110,
+            'correct_answers': 98,
+            'total_answers': 110,
+            'last_played': '2024-01-20',
+            'feedback': 'Essential training tool for cybersecurity professionals. The progressive difficulty is perfect for skill building.',
+            'usability_rating': 5,
+            'design_rating': 4,
+            'performance_rating': 5
+        }
+    ]
+    
+    for user in sample_users:
+        try:
+            cursor.execute("""
+                INSERT INTO users (username, email, password, is_institution, level_completed, 
+                                 total_coins, games_played, correct_answers, total_answers, 
+                                 last_played, feedback, usability_rating, design_rating, performance_rating)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (
+                user['username'], user['email'], user['password'], user['is_institution'],
+                user['level_completed'], user['total_coins'], user['games_played'],
+                user['correct_answers'], user['total_answers'], user['last_played'],
+                user['feedback'], user['usability_rating'], user['design_rating'], user['performance_rating']
+            ))
+            print(f"✅ Added user: {user['username']}")
+        except sqlite3.IntegrityError:
+            print(f"⚠️ User {user['username']} already exists, skipping...")
+            
+    conn.commit()
+    print("🎉 Sample users with game data added successfully!")
+
+conn.close()
 
 # ------------------ טעינת מודל וסקלר ------------------
 model_path = './models/model.h5'
@@ -239,12 +464,37 @@ def get_users():
     try:
         conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
-        cursor.execute("SELECT id, username, email, is_institution, feedback FROM users")
+        cursor.execute("""
+            SELECT id, username, email, is_institution, feedback, level_completed, 
+                   total_coins, games_played, correct_answers, total_answers, 
+                   last_played, usability_rating, design_rating, performance_rating
+            FROM users
+        """)
         users = cursor.fetchall()
         conn.close()
 
-        users_list = [{'id': row[0], 'username': row[1], 'email': row[2],
-                       'is_institution': row[3], 'feedback': row[4]} for row in users]
+        users_list = []
+        for row in users:
+            # Calculate success rate
+            success_rate = (row[8] / row[9] * 100) if row[9] > 0 else 0  # correct_answers / total_answers * 100
+            
+            users_list.append({
+                'id': row[0],
+                'username': row[1],
+                'email': row[2],
+                'is_institution': row[3],
+                'feedback': row[4],
+                'level_completed': row[5],
+                'total_coins': row[6],
+                'games_played': row[7],
+                'correct_answers': row[8],
+                'total_answers': row[9],
+                'success_rate': round(success_rate, 1),
+                'last_played': row[10],
+                'usability_rating': row[11],
+                'design_rating': row[12],
+                'performance_rating': row[13]
+            })
         return jsonify(users_list), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -266,22 +516,120 @@ def delete_user(user_id):
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+# ------------------ סטטיסטיקות כלליות ------------------
+@app.route('/api/admin/stats', methods=['GET'])
+def get_admin_stats():
+    try:
+        conn = sqlite3.connect(db_path)
+        cursor = conn.cursor()
+        
+        # Total users
+        cursor.execute("SELECT COUNT(*) FROM users")
+        total_users = cursor.fetchone()[0]
+        
+        # Regular vs Institution users
+        cursor.execute("SELECT COUNT(*) FROM users WHERE is_institution = 0")
+        regular_users = cursor.fetchone()[0]
+        cursor.execute("SELECT COUNT(*) FROM users WHERE is_institution = 1")
+        institution_users = cursor.fetchone()[0]
+        
+        # Total games played
+        cursor.execute("SELECT SUM(games_played) FROM users")
+        total_games = cursor.fetchone()[0] or 0
+        
+        # Total coins earned
+        cursor.execute("SELECT SUM(total_coins) FROM users")
+        total_coins = cursor.fetchone()[0] or 0
+        
+        # Average success rate
+        cursor.execute("SELECT AVG(CASE WHEN total_answers > 0 THEN correct_answers * 100.0 / total_answers ELSE 0 END) FROM users")
+        avg_success_rate = cursor.fetchone()[0] or 0
+        
+        # Top performers
+        cursor.execute("""
+            SELECT username, level_completed, total_coins, 
+                   CASE WHEN total_answers > 0 THEN correct_answers * 100.0 / total_answers ELSE 0 END as success_rate
+            FROM users 
+            WHERE total_answers > 0
+            ORDER BY level_completed DESC, total_coins DESC 
+            LIMIT 5
+        """)
+        top_performers = cursor.fetchall()
+        
+        # Recent activity
+        cursor.execute("""
+            SELECT username, last_played, level_completed, total_coins
+            FROM users 
+            WHERE last_played != ''
+            ORDER BY last_played DESC 
+            LIMIT 10
+        """)
+        recent_activity = cursor.fetchall()
+        
+        # Feedback stats
+        cursor.execute("SELECT AVG(usability_rating), AVG(design_rating), AVG(performance_rating) FROM users WHERE usability_rating > 0")
+        avg_ratings = cursor.fetchone()
+        
+        conn.close()
+        
+        return jsonify({
+            'total_users': total_users,
+            'regular_users': regular_users,
+            'institution_users': institution_users,
+            'total_games': total_games,
+            'total_coins': total_coins,
+            'avg_success_rate': round(avg_success_rate, 1),
+            'avg_usability_rating': round(avg_ratings[0] or 0, 1),
+            'avg_design_rating': round(avg_ratings[1] or 0, 1),
+            'avg_performance_rating': round(avg_ratings[2] or 0, 1),
+            'top_performers': [
+                {
+                    'username': row[0],
+                    'level_completed': row[1],
+                    'total_coins': row[2],
+                    'success_rate': round(row[3], 1)
+                } for row in top_performers
+            ],
+            'recent_activity': [
+                {
+                    'username': row[0],
+                    'last_played': row[1],
+                    'level_completed': row[2],
+                    'total_coins': row[3]
+                } for row in recent_activity
+            ]
+        }), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 # ------------------ פרופיל ------------------
 @app.route('/api/profile/<int:user_id>', methods=['GET'])
 def get_profile(user_id):
     try:
         conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
-        cursor.execute("SELECT username, email, is_institution, feedback FROM users WHERE id = ?", (user_id,))
+        cursor.execute("""
+            SELECT username, email, is_institution, feedback, level_completed, 
+                   total_coins, games_played, correct_answers, total_answers, last_played
+            FROM users WHERE id = ?
+        """, (user_id,))
         row = cursor.fetchone()
         conn.close()
 
         if row:
+            success_rate = (row[7] / row[8] * 100) if row[8] > 0 else 0
             return jsonify({
                 'username': row[0],
                 'email': row[1],
                 'is_institution': row[2],
-                'feedback': row[3]
+                'feedback': row[3],
+                'level_completed': row[4],
+                'total_coins': row[5],
+                'games_played': row[6],
+                'correct_answers': row[7],
+                'total_answers': row[8],
+                'success_rate': round(success_rate, 1),
+                'last_played': row[9]
             }), 200
         else:
             return jsonify({'error': 'User not found'}), 404
@@ -365,6 +713,84 @@ def check_audio():
 
     except Exception as e:
         print(f"Error in check_audio: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+# ------------------ בחירת קבצי אודיו למשחק ------------------
+@app.route('/api/get_game_audio', methods=['GET'])
+def get_game_audio():
+    try:
+        import random
+        import glob
+        
+        # Define the paths to Codecfake directories
+        codecfake_dir = os.path.join(os.path.dirname(__file__), '..', 'Codecfake')
+        train_dir = os.path.join(codecfake_dir, 'train')
+        train1_dir = os.path.join(codecfake_dir, 'train-1')
+        
+        # Get fake files (files starting with F01-F06)
+        fake_files = []
+        for directory in [train_dir, train1_dir]:
+            if os.path.exists(directory):
+                fake_files.extend(glob.glob(os.path.join(directory, 'F0*.wav')))
+        
+        # Get real files (files starting with SSB, p225, etc but not F0*)
+        real_files = []
+        for directory in [train_dir, train1_dir]:
+            if os.path.exists(directory):
+                all_files = glob.glob(os.path.join(directory, '*.wav'))
+                real_files.extend([f for f in all_files if not os.path.basename(f).startswith('F0')])
+        
+        print(f"Found {len(fake_files)} fake files and {len(real_files)} real files")
+        
+        if len(fake_files) < 1 or len(real_files) < 1:
+            return jsonify({'error': 'Not enough audio files found in Codecfake directory'}), 400
+        
+        # Select random files
+        selected_real = random.choice(real_files)
+        selected_fake = random.choice(fake_files)
+        
+        # Copy files to uploads directory so they can be served
+        import shutil
+        uploads_dir = os.path.join(os.path.dirname(__file__), 'uploads')
+        os.makedirs(uploads_dir, exist_ok=True)
+        
+        real_filename = f"game_real_{random.randint(1000, 9999)}.wav"
+        fake_filename = f"game_fake_{random.randint(1000, 9999)}.wav"
+        
+        real_dest = os.path.join(uploads_dir, real_filename)
+        fake_dest = os.path.join(uploads_dir, fake_filename)
+        
+        shutil.copy2(selected_real, real_dest)
+        shutil.copy2(selected_fake, fake_dest)
+        
+        print(f"Copied files: {real_filename}, {fake_filename}")
+        
+        return jsonify({
+            'real_file': real_filename,
+            'fake_file': fake_filename,
+            'real_path': f'/uploads/{real_filename}',
+            'fake_path': f'/uploads/{fake_filename}'
+        }), 200
+        
+    except Exception as e:
+        print(f"Error in get_game_audio: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+# ------------------ הגשת קבצי אודיו סטטיים ------------------
+@app.route('/uploads/<filename>')
+def serve_uploaded_file(filename):
+    try:
+        uploads_dir = os.path.join(os.path.dirname(__file__), 'uploads')
+        file_path = os.path.join(uploads_dir, filename)
+        
+        if not os.path.exists(file_path):
+            return jsonify({'error': 'File not found'}), 404
+            
+        from flask import send_file
+        return send_file(file_path)
+        
+    except Exception as e:
+        print(f"Error serving file: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
 # ------------------ הרצת שרת ------------------

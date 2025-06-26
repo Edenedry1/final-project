@@ -4,7 +4,7 @@ import logo from '../images/logo.png';
 
 const storedUser = JSON.parse(localStorage.getItem('loggedInUser'));
 
-const Level1 = () => {
+const Level7 = () => {
   const [current, setCurrent] = useState(0);
   const [coins, setCoins] = useState(() => {
     const savedCoins = localStorage.getItem('totalCoins');
@@ -18,31 +18,33 @@ const Level1 = () => {
   const [showHint, setShowHint] = useState(false);
 
   const hints = [
-    "💡 Hint: Listen for naturalness - fake audio often sounds metallic or robotic.",
-    "💡 Hint: Pay attention to speech rhythm - is it consistent throughout the recording?",
-    "💡 Hint: Check audio quality - fake files may be less sharp or have background noise.",
-    "💡 Hint: Listen to voice tone - does it sound natural and human?",
-    "💡 Hint: Notice any sudden changes in voice quality or unnatural pauses."
+    "💡 Legendary Hint: Detect imperceptible latency patterns in neural speech synthesis.",
+    "💡 Legendary Hint: Analyze subharmonic structure - AI may miss subtle overtones.",
+    "💡 Legendary Hint: Check for unnatural vocal tract modeling artifacts.",
+    "💡 Legendary Hint: Listen for impossible acoustic reflections.",
+    "💡 Legendary Hint: Notice if breath-to-speech transitions are physically plausible.",
+    "💡 Legendary Hint: Analyze for temporal aliasing in the synthesis process.",
+    "💡 Legendary Hint: Check for missing room acoustics that betray studio synthesis.",
+    "💡 Legendary Hint: Listen for neural network quantization noise.",
+    "💡 Legendary Hint: Detect unnatural formant bandwidth variations.",
+    "💡 Legendary Hint: Notice if emotional prosody matches physiological constraints."
   ];
 
-  // Load questions from server when component mounts
   useEffect(() => {
     const loadQuestions = async () => {
       try {
         setQuestionsLoading(true);
         const questionsList = [];
         
-        // Load 5 questions
         for (let i = 0; i < 5; i++) {
           const response = await fetch('http://localhost:5001/api/get_game_audio');
           if (response.ok) {
             const data = await response.json();
             
-            // Force randomization with better approach
             const randomValue = Math.random();
             const fakeOnLeft = randomValue < 0.5;
             
-            console.log(`Question ${i + 1}: Random value = ${randomValue}, Fake on left = ${fakeOnLeft}`);
+            console.log(`Level 7 - Question ${i + 1}: Random value = ${randomValue}, Fake on left = ${fakeOnLeft}`);
             
             questionsList.push({
               id: i + 1,
@@ -54,14 +56,12 @@ const Level1 = () => {
               leftIsReal: !fakeOnLeft,
               rightIsReal: fakeOnLeft
             });
-          } else {
-            console.error('Failed to load audio for question', i + 1);
           }
         }
         
-        console.log('Final questions list:', questionsList);
         setQuestions(questionsList);
         setQuestionsLoading(false);
+        console.log('Level 7 - Final questions list:', questionsList);
       } catch (error) {
         console.error('Error loading questions:', error);
         setQuestionsLoading(false);
@@ -74,24 +74,16 @@ const Level1 = () => {
 
   const handleChoice = async (side) => {
     setLoading(true);
-    setShowHint(false); // Hide hint when making choice
     try {
       const question = questions[current];
       
-      console.log(`User chose: ${side}, Fake is on: ${question.fakeOnLeft ? 'left' : 'right'}`);
-      
-      // Upload and check both files using the upload endpoint
       const checkFile = async (filePath, fileName) => {
         try {
-          // Fetch the file as blob
           const fileResponse = await fetch(filePath);
           const blob = await fileResponse.blob();
-          
-          // Create form data
           const formData = new FormData();
           formData.append('audio', blob, fileName);
           
-          // Upload and analyze
           const response = await fetch('http://localhost:5001/api/upload', {
             method: 'POST',
             body: formData
@@ -99,12 +91,10 @@ const Level1 = () => {
           
           return await response.json();
         } catch (error) {
-          console.error(`Error checking ${fileName}:`, error);
           return { error: error.message };
         }
       };
 
-      // Check both files
       const [leftData, rightData] = await Promise.all([
         checkFile(question.leftFile, question.leftFileName),
         checkFile(question.rightFile, question.rightFileName)
@@ -115,34 +105,32 @@ const Level1 = () => {
         return;
       }
 
-      // Determine which file is fake based on the question setup
       const realData = question.fakeOnLeft ? rightData : leftData;
       const fakeData = question.fakeOnLeft ? leftData : rightData;
-
-      // Check if the chosen side has the fake file
       const chosenFake = (side === 'left' && question.fakeOnLeft) || (side === 'right' && !question.fakeOnLeft);
 
-      console.log(`Chosen fake: ${chosenFake}`);
-
       if (chosenFake) {
-        const newCoins = coins + 10;
+        const newCoins = coins + 40;
         setCoins(newCoins);
         localStorage.setItem('totalCoins', newCoins.toString());
-        setFeedback(`✔️ Correct! You identified the fake audio! Model detected: Real (${realData.confidence.toFixed(1)}% confidence) vs Fake (${fakeData.confidence.toFixed(1)}% confidence)`);
+        setFeedback(`✔️ Legendary! You possess almost supernatural detection abilities! Model detected: Real (${realData.confidence.toFixed(1)}% confidence) vs Fake (${fakeData.confidence.toFixed(1)}% confidence)`);
       } else {
-        setFeedback(`❌ Incorrect. You chose the real audio. Model detected: Real (${realData.confidence.toFixed(1)}% confidence) vs Fake (${fakeData.confidence.toFixed(1)}% confidence)`);
+        setFeedback(`❌ Impossibly difficult! These fakes are nearly indistinguishable. Model detected: Real (${realData.confidence.toFixed(1)}% confidence) vs Fake (${fakeData.confidence.toFixed(1)}% confidence)`);
       }
 
       setTimeout(() => {
         setFeedback('');
         if (current + 1 < questions.length) {
           setCurrent(current + 1);
-          setShowHint(false); // Reset hint for next question
         } else {
           setCompleted(true);
-          localStorage.setItem('unlockedLevel', '2');
+          localStorage.setItem('unlockedLevel', '8');
         }
       }, 3000);
+
+      setShowHint(false); // Hide hint when making choice
+      console.log(`Level 7 - User chose: ${side}, Fake is on: ${question.fakeOnLeft ? 'left' : 'right'}`);
+      console.log(`Level 7 - Chosen fake: ${chosenFake}`);
 
     } catch (error) {
       setFeedback('❌ Error checking audio. Please try again.');
@@ -169,20 +157,20 @@ const Level1 = () => {
         </nav>
       </header>
 
-      {/* Floating decorations */}
       <div className="level-decorations">
-        <div className="floating-audio-level" style={{left: '5%', top: '15%', animationDelay: '0s'}}>🎧</div>
-        <div className="floating-audio-level" style={{left: '90%', top: '25%', animationDelay: '2s'}}>🎵</div>
-        <div className="floating-audio-level" style={{left: '10%', top: '60%', animationDelay: '4s'}}>🔊</div>
-        <div className="floating-audio-level" style={{left: '85%', top: '70%', animationDelay: '1s'}}>🎤</div>
-        <div className="floating-audio-level" style={{left: '50%', top: '10%', animationDelay: '3s'}}>📻</div>
+        <div className="floating-audio-level" style={{left: '0%', top: '10%', animationDelay: '3s'}}>🏆</div>
+        <div className="floating-audio-level" style={{left: '99%', top: '40%', animationDelay: '5s'}}>🚀</div>
+        <div className="floating-audio-level" style={{left: '28%', top: '80%', animationDelay: '7s'}}>💥</div>
+        <div className="floating-audio-level" style={{left: '66%', top: '90%', animationDelay: '4s'}}>⭐</div>
+        <div className="floating-audio-level" style={{left: '20%', top: '0%', animationDelay: '6s'}}>🌠</div>
+        <div className="floating-audio-level" style={{left: '50%', top: '30%', animationDelay: '2s'}}>🎆</div>
       </div>
 
       <div className="level-container">
         {questionsLoading ? (
           <div className="loading-container">
-            <h2>Loading Level 1...</h2>
-            <p>🎵 Preparing audio challenges from Codecfake dataset...</p>
+            <h2>Loading Level 7...</h2>
+            <p>🏆 Preparing legendary-level audio challenges from Codecfake dataset...</p>
             <div className="loading-spinner">⏳</div>
           </div>
         ) : questions.length === 0 ? (
@@ -193,12 +181,9 @@ const Level1 = () => {
           </div>
         ) : (
           <>
-            <h2>Level 1 – Question {current + 1} of {questions.length} 🔊</h2>
-            <p style={{color: '#4caf50', fontSize: '1.1rem', marginBottom: '1.5rem', fontWeight: 'bold'}}>
-              🟢 Level 1: Beginner - Easy fake audio with obvious AI artifacts!
-            </p>
-            <p style={{color: '#90caf9', fontSize: '0.9rem', marginBottom: '1rem', fontStyle: 'italic'}}>
-              🎯 Audio files randomly selected from Codecfake dataset
+            <h2>Level 7 – Question {current + 1} of {questions.length} 🏆</h2>
+            <p style={{color: '#ff5722', fontSize: '1.5rem', marginBottom: '1.5rem', fontWeight: 'bold'}}>
+              ⚫ Level 7: Legendary - Extremely convincing fake audio that's almost perfect!
             </p>
 
             {!completed ? (
@@ -211,7 +196,7 @@ const Level1 = () => {
                       onClick={() => handleChoice('left')} 
                       disabled={loading}
                     >
-                      {loading ? 'Checking...' : 'This one is fake'}
+                      {loading ? 'Legendary Analysis...' : 'This one is fake'}
                     </button>
                   </div>
                   <div className="audio-box">
@@ -221,7 +206,7 @@ const Level1 = () => {
                       onClick={() => handleChoice('right')}
                       disabled={loading}
                     >
-                      {loading ? 'Checking...' : 'This one is fake'}
+                      {loading ? 'Legendary Analysis...' : 'This one is fake'}
                     </button>
                   </div>
                 </div>
@@ -230,8 +215,6 @@ const Level1 = () => {
                     {feedback}
                   </div>
                 )}
-                
-                {/* Hint section for educational institutions */}
                 {storedUser?.is_institution && (
                   <div style={{marginTop: '1.5rem'}}>
                     {!showHint ? (
@@ -270,8 +253,6 @@ const Level1 = () => {
                     )}
                   </div>
                 )}
-                
-                {/* Message for regular users */}
                 {!storedUser?.is_institution && (
                   <p style={{color: '#90caf9', fontSize: '0.9rem', marginTop: '1rem', fontStyle: 'italic'}}>
                     💡 Hint feature is available for educational institutions only
@@ -280,8 +261,11 @@ const Level1 = () => {
               </div>
             ) : (
               <div className="completion-block">
-                <h3>You've completed the level! 🎉</h3>
+                <h3>🏆 Legendary Status Achieved! 🚀</h3>
                 <p>Total coins earned: {coins} 💰</p>
+                <p style={{color: '#ff5722', fontSize: '1.1rem', marginTop: '1rem'}}>
+                  You're a legendary deepfake detection master!
+                </p>
                 <a href="/game" className="btn btn-success">Back to level map</a>
               </div>
             )}
@@ -292,4 +276,4 @@ const Level1 = () => {
   );
 };
 
-export default Level1;
+export default Level7; 

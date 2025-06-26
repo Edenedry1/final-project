@@ -4,7 +4,7 @@ import logo from '../images/logo.png';
 
 const storedUser = JSON.parse(localStorage.getItem('loggedInUser'));
 
-const Level1 = () => {
+const Level6 = () => {
   const [current, setCurrent] = useState(0);
   const [coins, setCoins] = useState(() => {
     const savedCoins = localStorage.getItem('totalCoins');
@@ -18,31 +18,28 @@ const Level1 = () => {
   const [showHint, setShowHint] = useState(false);
 
   const hints = [
-    "💡 Hint: Listen for naturalness - fake audio often sounds metallic or robotic.",
-    "💡 Hint: Pay attention to speech rhythm - is it consistent throughout the recording?",
-    "💡 Hint: Check audio quality - fake files may be less sharp or have background noise.",
-    "💡 Hint: Listen to voice tone - does it sound natural and human?",
-    "💡 Hint: Notice any sudden changes in voice quality or unnatural pauses."
+    "💡 Hint: Analyze temporal envelope consistency across phonemes.",
+    "💡 Hint: Check for unnatural prosodic stress patterns.",
+    "💡 Hint: Listen for micro-timing variations in syllable boundaries.",
+    "💡 Hint: Notice spectral energy distribution anomalies.",
+    "💡 Hint: Pay attention to fundamental frequency tracking irregularities."
   ];
 
-  // Load questions from server when component mounts
   useEffect(() => {
     const loadQuestions = async () => {
       try {
         setQuestionsLoading(true);
         const questionsList = [];
         
-        // Load 5 questions
         for (let i = 0; i < 5; i++) {
           const response = await fetch('http://localhost:5001/api/get_game_audio');
           if (response.ok) {
             const data = await response.json();
             
-            // Force randomization with better approach
             const randomValue = Math.random();
             const fakeOnLeft = randomValue < 0.5;
             
-            console.log(`Question ${i + 1}: Random value = ${randomValue}, Fake on left = ${fakeOnLeft}`);
+            console.log(`Level 6 - Question ${i + 1}: Random value = ${randomValue}, Fake on left = ${fakeOnLeft}`);
             
             questionsList.push({
               id: i + 1,
@@ -59,7 +56,7 @@ const Level1 = () => {
           }
         }
         
-        console.log('Final questions list:', questionsList);
+        console.log('Level 6 - Final questions list:', questionsList);
         setQuestions(questionsList);
         setQuestionsLoading(false);
       } catch (error) {
@@ -74,24 +71,19 @@ const Level1 = () => {
 
   const handleChoice = async (side) => {
     setLoading(true);
-    setShowHint(false); // Hide hint when making choice
+    setShowHint(false);
     try {
       const question = questions[current];
       
-      console.log(`User chose: ${side}, Fake is on: ${question.fakeOnLeft ? 'left' : 'right'}`);
+      console.log(`Level 6 - User chose: ${side}, Fake is on: ${question.fakeOnLeft ? 'left' : 'right'}`);
       
-      // Upload and check both files using the upload endpoint
       const checkFile = async (filePath, fileName) => {
         try {
-          // Fetch the file as blob
           const fileResponse = await fetch(filePath);
           const blob = await fileResponse.blob();
-          
-          // Create form data
           const formData = new FormData();
           formData.append('audio', blob, fileName);
           
-          // Upload and analyze
           const response = await fetch('http://localhost:5001/api/upload', {
             method: 'POST',
             body: formData
@@ -104,7 +96,6 @@ const Level1 = () => {
         }
       };
 
-      // Check both files
       const [leftData, rightData] = await Promise.all([
         checkFile(question.leftFile, question.leftFileName),
         checkFile(question.rightFile, question.rightFileName)
@@ -115,17 +106,14 @@ const Level1 = () => {
         return;
       }
 
-      // Determine which file is fake based on the question setup
       const realData = question.fakeOnLeft ? rightData : leftData;
       const fakeData = question.fakeOnLeft ? leftData : rightData;
-
-      // Check if the chosen side has the fake file
       const chosenFake = (side === 'left' && question.fakeOnLeft) || (side === 'right' && !question.fakeOnLeft);
 
-      console.log(`Chosen fake: ${chosenFake}`);
+      console.log(`Level 6 - Chosen fake: ${chosenFake}`);
 
       if (chosenFake) {
-        const newCoins = coins + 10;
+        const newCoins = coins + 35;
         setCoins(newCoins);
         localStorage.setItem('totalCoins', newCoins.toString());
         setFeedback(`✔️ Correct! You identified the fake audio! Model detected: Real (${realData.confidence.toFixed(1)}% confidence) vs Fake (${fakeData.confidence.toFixed(1)}% confidence)`);
@@ -137,10 +125,10 @@ const Level1 = () => {
         setFeedback('');
         if (current + 1 < questions.length) {
           setCurrent(current + 1);
-          setShowHint(false); // Reset hint for next question
+          setShowHint(false);
         } else {
           setCompleted(true);
-          localStorage.setItem('unlockedLevel', '2');
+          localStorage.setItem('unlockedLevel', '7');
         }
       }, 3000);
 
@@ -169,20 +157,19 @@ const Level1 = () => {
         </nav>
       </header>
 
-      {/* Floating decorations */}
       <div className="level-decorations">
-        <div className="floating-audio-level" style={{left: '5%', top: '15%', animationDelay: '0s'}}>🎧</div>
-        <div className="floating-audio-level" style={{left: '90%', top: '25%', animationDelay: '2s'}}>🎵</div>
-        <div className="floating-audio-level" style={{left: '10%', top: '60%', animationDelay: '4s'}}>🔊</div>
-        <div className="floating-audio-level" style={{left: '85%', top: '70%', animationDelay: '1s'}}>🎤</div>
-        <div className="floating-audio-level" style={{left: '50%', top: '10%', animationDelay: '3s'}}>📻</div>
+        <div className="floating-audio-level" style={{left: '11%', top: '26%', animationDelay: '2.5s'}}>🎛️</div>
+        <div className="floating-audio-level" style={{left: '83%', top: '10%', animationDelay: '4.5s'}}>🎧</div>
+        <div className="floating-audio-level" style={{left: '22%', top: '85%', animationDelay: '6.5s'}}>🔊</div>
+        <div className="floating-audio-level" style={{left: '74%', top: '95%', animationDelay: '3.5s'}}>🎵</div>
+        <div className="floating-audio-level" style={{left: '25%', top: '0%', animationDelay: '5.5s'}}>🎤</div>
       </div>
 
       <div className="level-container">
         {questionsLoading ? (
           <div className="loading-container">
-            <h2>Loading Level 1...</h2>
-            <p>🎵 Preparing audio challenges from Codecfake dataset...</p>
+            <h2>Loading Level 6...</h2>
+            <p>🎛️ Preparing specialist audio challenges from Codecfake dataset...</p>
             <div className="loading-spinner">⏳</div>
           </div>
         ) : questions.length === 0 ? (
@@ -193,9 +180,9 @@ const Level1 = () => {
           </div>
         ) : (
           <>
-            <h2>Level 1 – Question {current + 1} of {questions.length} 🔊</h2>
-            <p style={{color: '#4caf50', fontSize: '1.1rem', marginBottom: '1.5rem', fontWeight: 'bold'}}>
-              🟢 Level 1: Beginner - Easy fake audio with obvious AI artifacts!
+            <h2>Level 6 – Question {current + 1} of {questions.length} 🔊</h2>
+            <p style={{color: '#3f51b5', fontSize: '1.1rem', marginBottom: '1.5rem', fontWeight: 'bold'}}>
+              🔵 Level 6: Specialist - Near-perfect fake audio, specialist knowledge required!
             </p>
             <p style={{color: '#90caf9', fontSize: '0.9rem', marginBottom: '1rem', fontStyle: 'italic'}}>
               🎯 Audio files randomly selected from Codecfake dataset
@@ -231,7 +218,6 @@ const Level1 = () => {
                   </div>
                 )}
                 
-                {/* Hint section for educational institutions */}
                 {storedUser?.is_institution && (
                   <div style={{marginTop: '1.5rem'}}>
                     {!showHint ? (
@@ -271,7 +257,6 @@ const Level1 = () => {
                   </div>
                 )}
                 
-                {/* Message for regular users */}
                 {!storedUser?.is_institution && (
                   <p style={{color: '#90caf9', fontSize: '0.9rem', marginTop: '1rem', fontStyle: 'italic'}}>
                     💡 Hint feature is available for educational institutions only
@@ -280,7 +265,7 @@ const Level1 = () => {
               </div>
             ) : (
               <div className="completion-block">
-                <h3>You've completed the level! 🎉</h3>
+                <h3>You've completed Level 6! 🎉</h3>
                 <p>Total coins earned: {coins} 💰</p>
                 <a href="/game" className="btn btn-success">Back to level map</a>
               </div>
@@ -292,4 +277,4 @@ const Level1 = () => {
   );
 };
 
-export default Level1;
+export default Level6; 

@@ -1,43 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/Level1.css';
 import logo from '../images/logo.png';
 
 const storedUser = JSON.parse(localStorage.getItem('loggedInUser'));
 
-const questions = [
-    {
-      id: 1,
-      real: "/audio/SSB19560475 (1).wav",
-      fake: "/audio/F01_p225_002 (2).wav"
-    },
-    {
-      id: 2,
-      real: "/audio/SSB19560476 (1).wav",
-      fake: "/audio/F01_p225_003.wav"
-    },
-    {
-      id: 3,
-      real: "/audio/SSB19560477 (1).wav",
-      fake: "/audio/F01_p225_005.wav"
-    },
-    {
-      id: 4,
-      real: "/audio/SSB19560479.wav",
-      fake: "/audio/F01_p225_006.wav"
-    },
-    {
-      id: 5,
-      real: "/audio/SSB19560480.wav",
-      fake: "/audio/F01_p225_007 (1).wav"
-    }
-  ];
-
 const Level2 = () => {
   const [current, setCurrent] = useState(0);
-  const [coins, setCoins] = useState(0);
+  const [coins, setCoins] = useState(() => {
+    const savedCoins = localStorage.getItem('totalCoins');
+    return savedCoins ? parseInt(savedCoins) : 0;
+  });
   const [feedback, setFeedback] = useState('');
   const [completed, setCompleted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [questions, setQuestions] = useState([]);
+  const [questionsLoading, setQuestionsLoading] = useState(true);
+  const [showHint, setShowHint] = useState(false);
 
   const hints = [
     "💡 Hint: Listen for breathing - fake audio often lacks natural breathing patterns.",
@@ -47,56 +25,119 @@ const Level2 = () => {
     "💡 Hint: Pay attention to voice tone at sentence endings - does it sound natural?"
   ];
 
-  const handleChoice = async (choice, audioPath) => {
-    setLoading(true);
-    try {
-      // Check both files
-      const [realResponse, fakeResponse] = await Promise.all([
-        fetch('http://localhost:5001/api/check_audio', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            file_path: question.real
-          })
-        }),
-        fetch('http://localhost:5001/api/check_audio', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            file_path: question.fake
-          })
-        })
-      ]);
+  // Load questions from server when component mounts
+  useEffect(() => {
+    const loadQuestions = async () => {
+      try {
+        setQuestionsLoading(true);
+        const questionsList = [];
+        
+        // Load 5 questions for Level 2
+        for (let i = 0; i < 5; i++) {
+          const response = await fetch('http://localhost:5001/api/get_game_audio');
+          if (response.ok) {
+            const data = await response.json();
+            
+            // Force randomization with better approach
+            const randomValue = Math.random();
+            const fakeOnLeft = randomValue < 0.5;
+            
+            console.log(`Level 2 - Question ${i + 1}: Random value = ${randomValue}, Fake on left = ${fakeOnLeft}`);
+            
+            questionsList.push({
+              id: i + 1,
+              leftFile: fakeOnLeft ? `http://localhost:5001${data.fake_path}` : `http://localhost:5001${data.real_path}`,
+              rightFile: fakeOnLeft ? `http://localhost:5001${data.real_path}` : `http://localhost:5001${data.fake_path}`,
+              leftFileName: fakeOnLeft ? data.fake_file : data.real_file,
+              rightFileName: fakeOnLeft ? data.real_file : data.fake_file,
+              fakeOnLeft: fakeOnLeft,
+              leftIsReal: !fakeOnLeft,
+              rightIsReal: fakeOnLeft
+            });
+          } else {
+            console.error('Failed to load audio for question', i + 1);
+          }
+        }
+        
+        console.log('Level 2 - Final questions list:', questionsList);
+        setQuestions(questionsList);
+        setQuestionsLoading(false);
+      } catch (error) {
+        console.error('Error loading questions:', error);
+        setQuestionsLoading(false);
+        setFeedback('❌ Error loading game questions. Please refresh the page.');
+      }
+    };
+    
+    loadQuestions();
+  }, []);
 
-      const [realData, fakeData] = await Promise.all([
-        realResponse.json(),
-        fakeResponse.json()
+  const handleChoice = async (side) => {
+    setLoading(true);
+    setShowHint(false); // Hide hint when making choice
+    try {
+      const question = questions[current];
+      
+      console.log(`Level 2 - User chose: ${side}, Fake is on: ${question.fakeOnLeft ? 'left' : 'right'}`);
+      
+      // Upload and check both files using the upload endpoint
+      const checkFile = async (filePath, fileName) => {
+        try {
+          // Fetch the file as blob
+          const fileResponse = await fetch(filePath);
+          const blob = await fileResponse.blob();
+          
+          // Create form data
+          const formData = new FormData();
+          formData.append('audio', blob, fileName);
+          
+          // Upload and analyze
+          const response = await fetch('http://localhost:5001/api/upload', {
+            method: 'POST',
+            body: formData
+          });
+          
+          return await response.json();
+        } catch (error) {
+          console.error(`Error checking ${fileName}:`, error);
+          return { error: error.message };
+        }
+      };
+
+      // Check both files
+      const [leftData, rightData] = await Promise.all([
+        checkFile(question.leftFile, question.leftFileName),
+        checkFile(question.rightFile, question.rightFileName)
       ]);
       
-      if (realData.error || fakeData.error) {
+      if (leftData.error || rightData.error) {
         setFeedback('❌ Error checking audio. Please try again.');
         return;
       }
 
-      // Check if the chosen file is the fake one
-      const chosenFile = choice === 'real' ? question.real : question.fake;
-      const isCorrect = chosenFile === question.fake;
+      // Determine which file is fake based on the question setup
+      const realData = question.fakeOnLeft ? rightData : leftData;
+      const fakeData = question.fakeOnLeft ? leftData : rightData;
 
-      if (isCorrect) {
-        setCoins(coins + 10);
-        setFeedback(`✔️ Correct! The model detected: Real (${realData.confidence.toFixed(1)}% confidence) vs Fake (${fakeData.confidence.toFixed(1)}% confidence)`);
+      // Check if the chosen side has the fake file
+      const chosenFake = (side === 'left' && question.fakeOnLeft) || (side === 'right' && !question.fakeOnLeft);
+
+      console.log(`Level 2 - Chosen fake: ${chosenFake}`);
+
+      if (chosenFake) {
+        const newCoins = coins + 15;
+        setCoins(newCoins);
+        localStorage.setItem('totalCoins', newCoins.toString());
+        setFeedback(`✔️ Correct! You identified the fake audio! Model detected: Real (${realData.confidence.toFixed(1)}% confidence) vs Fake (${fakeData.confidence.toFixed(1)}% confidence)`);
       } else {
-        setFeedback(`❌ Incorrect. The model detected: Real (${realData.confidence.toFixed(1)}% confidence) vs Fake (${fakeData.confidence.toFixed(1)}% confidence)`);
+        setFeedback(`❌ Incorrect. You chose the real audio. Model detected: Real (${realData.confidence.toFixed(1)}% confidence) vs Fake (${fakeData.confidence.toFixed(1)}% confidence)`);
       }
 
       setTimeout(() => {
         setFeedback('');
         if (current + 1 < questions.length) {
           setCurrent(current + 1);
+          setShowHint(false); // Reset hint for next question
         } else {
           setCompleted(true);
           localStorage.setItem('unlockedLevel', '3');
@@ -110,8 +151,6 @@ const Level2 = () => {
       setLoading(false);
     }
   };
-
-  const question = questions[current];
 
   return (
     <>
@@ -140,56 +179,113 @@ const Level2 = () => {
       </div>
 
       <div className="level-container">
-        <h2>Level 2 – Question {current + 1} of {questions.length} 🔊</h2>
-
-        {!completed ? (
-          <div className="question-block">
-            <div className="audio-group">
-              <div className="audio-box">
-                <p>Audio File 1</p>
-                <audio controls src={question.real} />
-                <button 
-                  onClick={() => handleChoice('real', question.real)} 
-                  disabled={loading}
-                >
-                  {loading ? 'Checking...' : 'This one is fake'}
-                </button>
-              </div>
-              <div className="audio-box">
-                <p>Audio File 2</p>
-                <audio controls src={question.fake} />
-                <button 
-                  onClick={() => handleChoice('fake', question.fake)}
-                  disabled={loading}
-                >
-                  {loading ? 'Checking...' : 'This one is fake'}
-                </button>
-              </div>
-            </div>
-            {feedback && (
-              <div className={`feedback-message ${feedback.includes('✔️') ? 'success' : 'error'}`}>
-                {feedback}
-              </div>
-            )}
-            {storedUser?.is_institution ? (
-              <button 
-                className="hint-button"
-                onClick={() => alert(hints[current])}
-              >
-                💡 Get Hint
-              </button>
-            ) : (
-              <p style={{color: '#90caf9', fontSize: '0.9rem', marginTop: '1rem', fontStyle: 'italic'}}>
-                💡 Hint feature is available for educational institutions only
-              </p>
-            )}
+        {questionsLoading ? (
+          <div className="loading-container">
+            <h2>Loading Level 2...</h2>
+            <p>🎶 Preparing intermediate audio challenges from Codecfake dataset...</p>
+            <div className="loading-spinner">⏳</div>
+          </div>
+        ) : questions.length === 0 ? (
+          <div className="error-container">
+            <h2>Error Loading Level</h2>
+            <p>❌ Could not load audio files from Codecfake dataset.</p>
+            <button onClick={() => window.location.reload()}>🔄 Retry</button>
           </div>
         ) : (
-          <div className="completion-block">
-            <h3>You've completed the level! 🎉</h3>
-            <p>Total coins earned: {coins} 💰</p>
-            <a href="/game" className="btn btn-success">Back to level map</a>
-          </div>
+          <>
+            <h2>Level 2 – Question {current + 1} of {questions.length} 🔊</h2>
+            <p style={{color: '#2196f3', fontSize: '1.1rem', marginBottom: '1.5rem', fontWeight: 'bold'}}>
+              🔵 Level 2: Intermediate - Slightly better fake audio with subtle AI traces!
+            </p>
+            <p style={{color: '#90caf9', fontSize: '0.9rem', marginBottom: '1rem', fontStyle: 'italic'}}>
+              🎯 Audio files randomly selected from Codecfake dataset
+            </p>
+
+            {!completed ? (
+              <div className="question-block">
+                <div className="audio-group">
+                  <div className="audio-box">
+                    <p>Audio File 1</p>
+                    <audio controls src={questions[current]?.leftFile} />
+                    <button 
+                      onClick={() => handleChoice('left')} 
+                      disabled={loading}
+                    >
+                      {loading ? 'Checking...' : 'This one is fake'}
+                    </button>
+                  </div>
+                  <div className="audio-box">
+                    <p>Audio File 2</p>
+                    <audio controls src={questions[current]?.rightFile} />
+                    <button 
+                      onClick={() => handleChoice('right')}
+                      disabled={loading}
+                    >
+                      {loading ? 'Checking...' : 'This one is fake'}
+                    </button>
+                  </div>
+                </div>
+                {feedback && (
+                  <div className={`feedback-message ${feedback.includes('✔️') ? 'success' : 'error'}`}>
+                    {feedback}
+                  </div>
+                )}
+                
+                {/* Hint section for educational institutions */}
+                {storedUser?.is_institution && (
+                  <div style={{marginTop: '1.5rem'}}>
+                    {!showHint ? (
+                      <button 
+                        className="hint-button"
+                        onClick={() => setShowHint(true)}
+                      >
+                        💡 Get Hint
+                      </button>
+                    ) : (
+                      <div style={{
+                        marginTop: '1rem',
+                        padding: '1rem',
+                        backgroundColor: 'rgba(255, 152, 0, 0.1)',
+                        border: '2px solid rgba(255, 152, 0, 0.3)',
+                        borderRadius: '10px',
+                        color: '#ff9800',
+                        fontSize: '1.1rem'
+                      }}>
+                        {hints[current]}
+                        <button 
+                          style={{
+                            marginLeft: '1rem',
+                            padding: '0.5rem 1rem',
+                            background: 'rgba(255, 152, 0, 0.2)',
+                            border: '1px solid #ff9800',
+                            borderRadius: '5px',
+                            color: '#ff9800',
+                            cursor: 'pointer'
+                          }}
+                          onClick={() => setShowHint(false)}
+                        >
+                          Hide Hint
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
+                
+                {/* Message for regular users */}
+                {!storedUser?.is_institution && (
+                  <p style={{color: '#90caf9', fontSize: '0.9rem', marginTop: '1rem', fontStyle: 'italic'}}>
+                    💡 Hint feature is available for educational institutions only
+                  </p>
+                )}
+              </div>
+            ) : (
+              <div className="completion-block">
+                <h3>You've completed Level 2! 🎉</h3>
+                <p>Total coins earned: {coins} 💰</p>
+                <a href="/game" className="btn btn-success">Back to level map</a>
+              </div>
+            )}
+          </>
         )}
       </div>
     </>
