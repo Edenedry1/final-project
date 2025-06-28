@@ -36,29 +36,34 @@ const Login = () => {
     <>
     {/* Header */}
     <header data-bs-theme="dark">
-    <nav className="navbar">
-      <div className="container-fluid">
-        <div className="navbar-brand">
-          <img src={require('../images/logo.png')} alt="DeepFakeAudio Logo" className="logo" />
+      <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <div className="container-fluid">
+                  <div className="navbar-brand">
+          <img src={require('../images/audio-detector-logo.png')} alt="DeepFakeAudio Logo" className="logo" />
           DeepFakeAudio
         </div>
-        <div className="toolbar-icons">
-          <a href="/">🏠</a>
-          <a href="/signup">📝</a>
+          <div className="toolbar-icons">
+            <a href="/">🏠</a>
+            <a href="/signup">📝</a>
+          </div>
         </div>
-      </div>
-    </nav>
-  </header>
+      </nav>
+    </header>
 
-  <div className="login-container">
-    {/* Floating decorations */}
-    <div className="login-decorations">
-      <div className="floating-audio-login" style={{left: '10%', top: '15%', animationDelay: '0s'}}>🎧</div>
-      <div className="floating-audio-login" style={{left: '85%', top: '25%', animationDelay: '1.5s'}}>🎵</div>
-      <div className="floating-audio-login" style={{left: '15%', top: '70%', animationDelay: '2.8s'}}>🔊</div>
-      <div className="floating-audio-login" style={{left: '80%', top: '80%', animationDelay: '0.8s'}}>🎤</div>
-      <div className="floating-audio-login" style={{left: '50%', top: '10%', animationDelay: '2.2s'}}>📻</div>
+    {/* Video Background */}
+    <div className="video-background">
+      <video 
+        autoPlay 
+        muted 
+        loop 
+        playsInline
+        className="bg-video"
+      >
+        <source src="/sound-waves-bg.mp4" type="video/mp4" />
+      </video>
     </div>
+
+    <div className="login-container">
 
     <div className="login-form-container">
       <div className="logo">

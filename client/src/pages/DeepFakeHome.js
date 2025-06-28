@@ -45,32 +45,30 @@ const DeepFakeHome = () => {
                   </a>
                 </li>
               </ul>
-              <form className="d-flex" role="search">
-                <input
-                  className="form-control me-2"
-                  type="search"
-                  placeholder="Search"
-                  aria-label="Search"
-                />
-                <button className="btn btn-outline-success" type="submit">
-                  Search
-                </button>
-              </form>
+
             </div>
           </div>
         </nav>
       </header>
 
-      {/* Floating decorations */}
-      <div className="home-decorations">
-        <div className="floating-audio-home" style={{left: '5%', top: '15%', animationDelay: '0s'}}>🎧</div>
-        <div className="floating-audio-home" style={{left: '90%', top: '20%', animationDelay: '2s'}}>🎵</div>
-        <div className="floating-audio-home" style={{left: '10%', top: '60%', animationDelay: '4s'}}>🔊</div>
-        <div className="floating-audio-home" style={{left: '85%', top: '70%', animationDelay: '1s'}}>🎤</div>
-        <div className="floating-audio-home" style={{left: '50%', top: '8%', animationDelay: '3s'}}>📻</div>
-        <div className="floating-audio-home" style={{left: '20%', top: '35%', animationDelay: '1.5s'}}>🎶</div>
-        <div className="floating-audio-home" style={{left: '75%', top: '45%', animationDelay: '2.5s'}}>🎵</div>
+      {/* Video Background */}
+      <div className="video-background">
+        <video 
+          autoPlay 
+          muted 
+          loop 
+          playsInline
+          className="bg-video"
+          onError={(e) => console.log('Video error:', e)}
+          onLoadStart={() => console.log('Video loading started')}
+          onLoadedData={() => console.log('Video loaded successfully')}
+        >
+          <source src="/sound-waves-bg.mp4" type="video/mp4" />
+          {/* Fallback for browsers that don't support video */}
+        </video>
       </div>
+
+
 
       {/* Content */}
       <main>
@@ -83,8 +81,8 @@ const DeepFakeHome = () => {
             </p>
                 <div className="text-center">
                 <img
-                    src={require('../images/logo.png')}
-                    alt="DeepFakeAudio Logo"
+                    src={require('../images/audio-detector-logo.png')}
+                    alt="DeepFakeAudio Detector"
                     className="logo-image"
                 />
                 </div>
@@ -171,6 +169,69 @@ const DeepFakeHome = () => {
           </div>
         )}
       </main>
+
+      {/* Footer */}
+      <footer className="footer-section">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-4">
+              <div className="footer-about">
+                <h5>About DeepFakeAudio</h5>
+                <p>
+                  In recent years, Deepfake Audio has become a growing threat, blurring the line between real and fake speech. While detection in video and image domains has evolved, identifying fake audio remains difficult. Our goal is to raise awareness and improve detection capabilities using an AI-powered interactive platform that combines education with game-based learning.
+                </p>
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div className="footer-creators">
+                <h5>Created By</h5>
+                <div className="creator-info">
+                                     <div className="creator-card">
+                     <div className="creator-image-placeholder">
+                       <img src={require('../images/noa-rofe.jpeg')} alt="Noa Rofe" className="creator-img" />
+                     </div>
+                     <div className="creator-details">
+                       <h6>Noa Rofe</h6>
+                       <p>Software Engineering Student</p>
+                     </div>
+                   </div>
+                   <div className="creator-card">
+                     <div className="creator-image-placeholder">
+                       <img src={require('../images/eden-edry.jpeg')} alt="Eden Edry" className="creator-img" />
+                     </div>
+                     <div className="creator-details">
+                       <h6>Eden Edry</h6>
+                       <p>Software Engineering Student</p>
+                     </div>
+                   </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div className="footer-college">
+                <h5>Academic Institution</h5>
+                <p>
+                  <strong>Sami Shamoon College of Engineering</strong><br/>
+                  Be'er Sheva, Israel<br/>
+                  Fourth Year – Software Engineering
+                </p>
+                <div className="project-year">
+                  <p><strong>Final Project 2025</strong></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr className="footer-divider" />
+          <div className="row">
+            <div className="col-12 text-center">
+              <p className="footer-copyright">
+                © 2025 DeepFakeAudio Detection System. 
+                Developed as a final project by Software Engineering students.
+              </p>
+            </div>
+          </div>
+        </div>
+      </footer>
     </>
   );
 };

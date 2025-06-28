@@ -133,6 +133,43 @@ const Level2 = () => {
         setFeedback(`❌ Incorrect. You chose the real audio. Model detected: Real (${realData.confidence.toFixed(1)}% confidence) vs Fake (${fakeData.confidence.toFixed(1)}% confidence)`);
       }
 
+      // Update progress in server
+      if (chosenFake && storedUser?.id) {
+        try {
+          await fetch('http://localhost:5001/api/update_progress', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              user_id: storedUser.id,
+              level_completed: current + 1 >= questions.length ? 2 : null,
+              coins_earned: 15,
+              correct_answer: true
+            })
+          });
+        } catch (error) {
+          console.error('Error updating progress:', error);
+        }
+      } else if (!chosenFake && storedUser?.id) {
+        try {
+          await fetch('http://localhost:5001/api/update_progress', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              user_id: storedUser.id,
+              level_completed: null,
+              coins_earned: 0,
+              correct_answer: false
+            })
+          });
+        } catch (error) {
+          console.error('Error updating progress:', error);
+        }
+      }
+
       setTimeout(() => {
         setFeedback('');
         if (current + 1 < questions.length) {
@@ -141,6 +178,22 @@ const Level2 = () => {
         } else {
           setCompleted(true);
           localStorage.setItem('unlockedLevel', '3');
+          
+          // Update level completion in server
+          if (storedUser?.id) {
+            fetch('http://localhost:5001/api/update_progress', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                user_id: storedUser.id,
+                level_completed: 2,
+                coins_earned: 0,
+                correct_answer: false
+              })
+            }).catch(error => console.error('Error updating level completion:', error));
+          }
         }
       }, 3000);
 

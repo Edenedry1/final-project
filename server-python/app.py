@@ -602,6 +602,74 @@ def get_admin_stats():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+# ------------------ עדכון התקדמות משתמש ------------------
+@app.route('/api/update_progress', methods=['POST'])
+def update_progress():
+    try:
+        data = request.json
+        user_id = data.get('user_id')
+        level_completed = data.get('level_completed')
+        coins_earned = data.get('coins_earned', 0)
+        correct_answer = data.get('correct_answer', False)
+        
+        if not user_id:
+            return jsonify({'error': 'User ID is required'}), 400
+        
+        conn = sqlite3.connect(db_path)
+        cursor = conn.cursor()
+        
+        # Get current user data
+        cursor.execute("""
+            SELECT level_completed, total_coins, games_played, correct_answers, total_answers
+            FROM users WHERE id = ?
+        """, (user_id,))
+        row = cursor.fetchone()
+        
+        if not row:
+            conn.close()
+            return jsonify({'error': 'User not found'}), 404
+        
+        current_level = row[0] or 1
+        current_coins = row[1] or 0
+        current_games = row[2] or 0
+        current_correct = row[3] or 0
+        current_total = row[4] or 0
+        
+        # Update progress
+        new_level = max(current_level, level_completed or current_level)
+        new_coins = current_coins + coins_earned
+        new_games = current_games + 1
+        new_correct = current_correct + (1 if correct_answer else 0)
+        new_total = current_total + 1
+        
+        # Update database
+        cursor.execute("""
+            UPDATE users 
+            SET level_completed = ?, 
+                total_coins = ?, 
+                games_played = ?,
+                correct_answers = ?,
+                total_answers = ?,
+                last_played = date('now')
+            WHERE id = ?
+        """, (new_level, new_coins, new_games, new_correct, new_total, user_id))
+        
+        conn.commit()
+        conn.close()
+        
+        return jsonify({
+            'message': 'Progress updated successfully',
+            'level_completed': new_level,
+            'total_coins': new_coins,
+            'games_played': new_games,
+            'correct_answers': new_correct,
+            'total_answers': new_total
+        }), 200
+        
+    except Exception as e:
+        print(f"Error updating progress: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
 # ------------------ פרופיל ------------------
 @app.route('/api/profile/<int:user_id>', methods=['GET'])
 def get_profile(user_id):
@@ -791,6 +859,157 @@ def serve_uploaded_file(filename):
         
     except Exception as e:
         print(f"Error serving file: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+# ------------------ ניהול משחקים ------------------
+@app.route('/api/admin/games', methods=['GET'])
+def get_admin_games():
+    try:
+        # זהו נתונים דמי למשחקים - אפשר להחליף בנתונים אמיתיים מה-DB
+        games_data = [
+            {
+                'id': 1,
+                'name': 'Audio Detection Challenge',
+                'levels': 10,
+                'players': 150,
+                'status': 'active',
+                'difficulty': 'Progressive',
+                'category': 'Detection Game'
+            },
+            {
+                'id': 2,
+                'name': 'Quick Detection Mode',
+                'levels': 5,
+                'players': 89,
+                'status': 'active',
+                'difficulty': 'Easy',
+                'category': 'Speed Game'
+            },
+            {
+                'id': 3,
+                'name': 'Expert Challenge',
+                'levels': 15,
+                'players': 45,
+                'status': 'inactive',
+                'difficulty': 'Hard',
+                'category': 'Expert Mode'
+            }
+        ]
+        
+        return jsonify(games_data), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# ------------------ ניהול העלאות ------------------
+@app.route('/api/admin/uploads', methods=['GET'])
+def get_admin_uploads():
+    try:
+        import os
+        import random
+        from datetime import datetime, timedelta
+        
+        uploads_data = []
+        uploads_dir = './uploads'
+        
+        # יצירת נתונים דמי אם אין קבצים
+        if not os.path.exists(uploads_dir) or len(os.listdir(uploads_dir)) == 0:
+            sample_uploads = [
+                {
+                    'id': 1,
+                    'filename': 'sample_voice_1.wav',
+                    'user': 'alex_gamer',
+                    'uploadDate': '2024-01-20T10:30:00Z',
+                    'fileSize': '2.3 MB',
+                    'duration': '00:35',
+                    'result': 'Real',
+                    'confidence': 94.5,
+                    'status': 'processed'
+                },
+                {
+                    'id': 2,
+                    'filename': 'test_audio_2.mp3',
+                    'user': 'sarah_detective',
+                    'uploadDate': '2024-01-20T14:15:00Z',
+                    'fileSize': '1.8 MB',
+                    'duration': '00:28',
+                    'result': 'Fake',
+                    'confidence': 87.2,
+                    'status': 'processed'
+                },
+                {
+                    'id': 3,
+                    'filename': 'voice_sample_3.wav',
+                    'user': 'mike_audio_pro',
+                    'uploadDate': '2024-01-20T16:45:00Z',
+                    'fileSize': '3.1 MB',
+                    'duration': '00:52',
+                    'result': 'Real',
+                    'confidence': 96.8,
+                    'status': 'processed'
+                },
+                {
+                    'id': 4,
+                    'filename': 'analyzing_file.wav',
+                    'user': 'student_jenny',
+                    'uploadDate': '2024-01-20T18:20:00Z',
+                    'fileSize': '2.7 MB',
+                    'duration': '00:41',
+                    'result': None,
+                    'confidence': None,
+                    'status': 'processing'
+                }
+            ]
+            return jsonify(sample_uploads), 200
+        
+        # קריאת קבצים אמיתיים מתיקיית uploads
+        file_id = 1
+        for filename in os.listdir(uploads_dir):
+            if filename.endswith(('.wav', '.mp3', '.ogg')):
+                file_path = os.path.join(uploads_dir, filename)
+                file_size = os.path.getsize(file_path)
+                
+                # המרת גודל קובץ לפורמט קריא
+                if file_size > 1024 * 1024:
+                    size_str = f"{file_size / (1024 * 1024):.1f} MB"
+                elif file_size > 1024:
+                    size_str = f"{file_size / 1024:.1f} KB"
+                else:
+                    size_str = f"{file_size} B"
+                
+                # נתונים רנדומליים לדוגמה
+                results = ['Real', 'Fake']
+                statuses = ['processed', 'processing']
+                users = ['user1', 'user2', 'user3', 'system', 'admin']
+                
+                upload_info = {
+                    'id': file_id,
+                    'filename': filename,
+                    'user': random.choice(users),
+                    'uploadDate': (datetime.now() - timedelta(days=random.randint(0, 30))).isoformat() + 'Z',
+                    'fileSize': size_str,
+                    'duration': f"00:{random.randint(15, 90):02d}",
+                    'result': random.choice(results),
+                    'confidence': round(random.uniform(75, 99), 1),
+                    'status': random.choice(statuses)
+                }
+                
+                uploads_data.append(upload_info)
+                file_id += 1
+        
+        return jsonify(uploads_data), 200
+        
+    except Exception as e:
+        print(f"Error getting admin uploads: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+# ------------------ מחיקת העלאה ------------------
+@app.route('/api/admin/delete_upload/<int:upload_id>', methods=['DELETE'])
+def delete_upload(upload_id):
+    try:
+        # זהו endpoint דמי - במציאות היה צריך למחוק את הקובץ מהדיסק
+        print(f"Deleting upload with ID: {upload_id}")
+        return jsonify({'message': 'Upload deleted successfully'}), 200
+    except Exception as e:
         return jsonify({'error': str(e)}), 500
 
 # ------------------ הרצת שרת ------------------

@@ -1,20 +1,11 @@
 import React, { useState } from 'react';
 import '../styles/UploadAudio.css';
 import { useNavigate } from 'react-router-dom';
-import { FaGamepad, FaComments } from 'react-icons/fa';
-import Toolbar from '../components/Toolbar';
 
 const UploadAudio = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [showFeedback, setShowFeedback] = useState(false);
-  const [feedback, setFeedback] = useState('');
-  const [ratings, setRatings] = useState({
-    usability: 0,
-    design: 0,
-    performance: 0
-  });
   const navigate = useNavigate();
 
   const handleFileSelect = (event) => {
@@ -53,134 +44,97 @@ const UploadAudio = () => {
   };
 
   const handleStartGame = () => {
-    navigate('/game');
-  };
-
-  const handleRatingChange = (question, rating) => {
-    setRatings(prev => ({
-      ...prev,
-      [question]: rating
-    }));
-  };
-
-  const handleFeedbackSubmit = async () => {
-    try {
-      const response = await fetch('http://localhost:5001/api/feedback', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          message: feedback,
-          questionRatings: ratings
-        }),
-      });
-
-      if (response.ok) {
-        alert('Thank you for your feedback!');
-        setShowFeedback(false);
-        setFeedback('');
-        setRatings({ usability: 0, design: 0, performance: 0 });
-      } else {
-        alert('Error submitting feedback');
-      }
-    } catch (error) {
-      alert('Error: ' + error.message);
-    }
+    navigate('/Game');
   };
 
   return (
     <>
-      <Toolbar />
+      {/* Header */}
+      <header data-bs-theme="dark">
+        <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+          <div className="container-fluid">
+            <div className="navbar-brand">
+              <img src={require('../images/audio-detector-logo.png')} alt="DeepFakeAudio Logo" className="logo" />
+              DeepFakeAudio
+            </div>
+            <div className="toolbar-icons">
+              <a href="/Game">🎮</a>
+              <a href="/profile">👤</a>
+            </div>
+          </div>
+        </nav>
+      </header>
+
       <div className="upload-container">
-        <h1>Audio Deepfake Detector</h1>
-        
-        <form onSubmit={handleUpload}>
-          <input
-            type="file"
-            onChange={handleFileSelect}
-            accept="audio/*"
-          />
-          <div>
-            <button type="submit" disabled={loading}>
+        <div className="upload-form-container">
+          <h1>🎧 Audio Deepfake Detection</h1>
+          
+          <form onSubmit={handleUpload}>
+            <div className="file-input-container">
+              <input
+                type="file"
+                id="audioFile"
+                accept="audio/*"
+                onChange={handleFileSelect}
+                required
+              />
+              <label 
+                htmlFor="audioFile" 
+                className={`file-input-label ${selectedFile ? 'has-file' : ''}`}
+              >
+                {selectedFile ? (
+                  <>
+                    <div className="upload-icon wave-icon">🎵</div>
+                    <div className="upload-text">File Selected: {selectedFile.name}</div>
+                    <div className="upload-subtext">Click to change file</div>
+                  </>
+                ) : (
+                  <>
+                    <div className="upload-icon wave-icon">🎵</div>
+                    <div className="upload-text">Drag & Drop or Click to Upload</div>
+                    <div className="upload-subtext">Supported formats: MP3, WAV, M4A</div>
+                  </>
+                )}
+              </label>
+            </div>
+            
+            <button type="submit" disabled={!selectedFile || loading}>
               {loading ? 'Analyzing...' : 'Analyze Audio'}
             </button>
-            <button type="button" onClick={handleStartGame}>
-              <FaGamepad /> Start Game
+          </form>
+
+          {loading && (
+            <div className="loading">
+              🔍 Analyzing your audio file...
+            </div>
+          )}
+
+          {result && (
+            <div className={`result-container ${result.result.toLowerCase()}`}>
+              <h3>
+                {result.result === 'Real' ? 'Real Audio ✅ ' : 'Deepfake Detected ⚠️'}
+              </h3>
+              <p>Confidence: {result.confidence}%</p>
+              <p>
+                {result.result === 'Real' 
+                  ? 'This audio appears to be authentic human speech.'
+                  : 'This audio shows signs of artificial generation or manipulation.'
+                }
+              </p>
+            </div>
+          )}
+
+          {/* Game Button */}
+          <div className="game-button-container">
+            <button onClick={handleStartGame} className="game-button">
+              <div className="game-text">start the game</div>
             </button>
           </div>
-        </form>
 
-        {result && (
-          <div className="result-box">
-            <h3 className={result.result.toLowerCase()}>
-              {result.result}
-            </h3>
-            <p>Confidence: {result.confidence}%</p>
+          <div className="nav-links">
+            <a href="/profile">Profile 👤</a>
           </div>
-        )}
-
-        <button className="feedback-button" onClick={() => setShowFeedback(!showFeedback)}>
-          <FaComments />
-        </button>
-
-        {showFeedback && (
-          <div className="feedback-form">
-            <h3>Your Feedback</h3>
-            
-            <div className="feedback-question">
-              <label>Usability</label>
-              <div className="stars">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <span
-                    key={star}
-                    className={star <= ratings.usability ? 'active' : ''}
-                    onClick={() => handleRatingChange('usability', star)}
-                  >
-                    ★
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="feedback-question">
-              <label>Design</label>
-              <div className="stars">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <span
-                    key={star}
-                    className={star <= ratings.design ? 'active' : ''}
-                    onClick={() => handleRatingChange('design', star)}
-                  >
-                    ★
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="feedback-question">
-              <label>Performance</label>
-              <div className="stars">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <span
-                    key={star}
-                    className={star <= ratings.performance ? 'active' : ''}
-                    onClick={() => handleRatingChange('performance', star)}
-                  >
-                    ★
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <textarea
-              value={feedback}
-              onChange={(e) => setFeedback(e.target.value)}
-              placeholder="Share your thoughts..."
-            />
-            <button onClick={handleFeedbackSubmit}>Submit Feedback</button>
-          </div>
-        )}
+        </div>
       </div>
     </>
   );

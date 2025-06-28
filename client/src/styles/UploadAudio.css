@@ -1,211 +1,653 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Orbitron', sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+    background-attachment: fixed;
+    color: white;
+    overflow-x: hidden;
+}
+
+/* Wave animations for background */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(ellipse at 50% 100%, rgba(139, 69, 189, 0.3) 0%, transparent 70%),
+        radial-gradient(ellipse at 0% 50%, rgba(75, 0, 130, 0.2) 0%, transparent 50%),
+        radial-gradient(ellipse at 100% 50%, rgba(128, 0, 128, 0.2) 0%, transparent 50%);
+    z-index: -8;
+    animation: waveMovement 15s ease-in-out infinite;
+}
+
+@keyframes waveMovement {
+    0%, 100% {
+        transform: translateX(0) scale(1);
+        opacity: 0.3;
+    }
+    33% {
+        transform: translateX(-20px) scale(1.05);
+        opacity: 0.5;
+    }
+    66% {
+        transform: translateX(20px) scale(0.95);
+        opacity: 0.4;
+    }
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        linear-gradient(45deg, transparent 30%, rgba(147, 112, 219, 0.1) 50%, transparent 70%),
+        linear-gradient(-45deg, transparent 30%, rgba(138, 43, 226, 0.1) 50%, transparent 70%);
+    z-index: -6;
+    animation: crossWaves 12s ease-in-out infinite reverse;
+}
+
+@keyframes crossWaves {
+    0%, 100% {
+        transform: rotate(0deg) scale(1);
+    }
+    50% {
+        transform: rotate(2deg) scale(1.02);
+    }
+}
+
+/* Header styling matching homepage */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    backdrop-filter: blur(15px);
+}
+
+.navbar {
+    background: rgba(0, 0, 0, 0.85) !important;
+    backdrop-filter: blur(15px);
+    border-bottom: 2px solid rgba(147, 112, 219, 0.5);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    padding: 1rem 2rem;
+    height: 90px;
+}
+
+.navbar-brand {
+    color: white !important;
+    font-weight: bold;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-shadow: 0 0 15px rgba(147, 112, 219, 0.8);
+    position: relative;
+    top: -8px;
+}
+
+.navbar-brand .logo {
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+    filter: drop-shadow(0 0 15px rgba(147, 112, 219, 0.8));
+}
+
+.toolbar-icons {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.toolbar-icons a {
+    color: white;
+    font-size: 2rem;
+    text-decoration: none;
+    padding: 0.5rem;
+    border-radius: 8px;
+    background: rgba(147, 112, 219, 0.2);
+    border: 2px solid rgba(147, 112, 219, 0.5);
+    transition: all 0.3s ease;
+    text-shadow: 0 0 10px rgba(147, 112, 219, 0.8);
+}
+
+.toolbar-icons a:hover {
+    background: rgba(147, 112, 219, 0.4);
+    border-color: rgba(147, 112, 219, 0.8);
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(147, 112, 219, 0.6);
+}
+
+/* Main container - centered */
 .upload-container {
-  text-align: center;
-  margin-top: 80px;
-  padding: 20px;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-  min-height: calc(100vh - 80px);
-  position: relative;
+    min-height: 100vh;
+    padding-top: 120px;
+    padding-bottom: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 10;
 }
 
-.upload-container h1 {
-  font-size: 2.5em;
-  color: #00f0ff;
-  text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
-  margin-bottom: 30px;
+/* Upload form container */
+.upload-form-container {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 3.5rem;
+    border-radius: 25px;
+    box-shadow: 
+        0 25px 70px rgba(0, 0, 0, 0.6),
+        0 0 50px rgba(147, 112, 219, 0.3),
+        inset 0 2px 0 rgba(255, 255, 255, 0.15);
+    border: 3px solid rgba(147, 112, 219, 0.4);
+    backdrop-filter: blur(20px);
+    max-width: 700px;
+    width: 100%;
+    text-align: center;
+    margin: 2rem;
+    position: relative;
+    overflow: hidden;
 }
 
-.upload-container form {
-  background: rgba(0, 0, 0, 0.6);
-  padding: 30px;
-  border-radius: 15px;
-  border: 2px solid rgba(0, 240, 255, 0.3);
-  box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
-  margin-bottom: 30px;
+.upload-form-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(147, 112, 219, 0.8) 25%, 
+        rgba(138, 43, 226, 0.8) 50%, 
+        rgba(147, 112, 219, 0.8) 75%, 
+        transparent 100%);
+    animation: formGlow 4s ease-in-out infinite;
 }
 
-.upload-container input[type="file"] {
-  width: 100%;
-  padding: 15px;
-  margin-bottom: 20px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 2px dashed rgba(0, 240, 255, 0.5);
-  border-radius: 10px;
-  color: white;
-  cursor: pointer;
-  transition: all 0.3s ease;
+@keyframes formGlow {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
 }
 
-.upload-container input[type="file"]:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: #00f0ff;
-  box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+/* Title */
+h1 {
+    color: white;
+    font-size: 2.8rem;
+    margin-bottom: 2.5rem;
+    text-shadow: 0 0 25px rgba(147, 112, 219, 0.9);
+    font-weight: bold;
+    position: relative;
 }
 
-.upload-container button {
-  padding: 12px 30px;
-  background: linear-gradient(45deg, #00f0ff, #00ff88);
-  border: none;
-  border-radius: 25px;
-  color: black;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin: 10px;
-  font-size: 1.1em;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+h1::after {
+    content: '🎧';
+    font-size: 2rem;
+    margin-left: 1rem;
+    animation: uploadPulse 2s infinite ease-in-out;
 }
 
-.upload-container button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 240, 255, 0.4);
-  background: linear-gradient(45deg, #00ff88, #00f0ff);
+@keyframes uploadPulse {
+    0%, 100% { 
+        opacity: 0.7;
+        transform: scale(1);
+    }
+    50% { 
+        opacity: 1;
+        transform: scale(1.1);
+    }
 }
 
-/* Result Box Styling */
-.result-box {
-  background: rgba(0, 0, 0, 0.6);
-  padding: 25px;
-  border-radius: 15px;
-  margin-top: 30px;
-  border: 2px solid rgba(0, 240, 255, 0.3);
-  animation: fadeIn 0.5s ease-out;
+/* Form styling */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+/* File input styling */
+.file-input-container {
+    position: relative;
+    margin: 2rem 0;
 }
 
-.result-box h3 {
-  font-size: 2em;
-  margin-bottom: 15px;
-  text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+input[type="file"] {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    z-index: 2;
 }
 
-.result-box h3.real {
-  color: #00ff88;
+.file-input-label {
+    display: block;
+    padding: 3rem 2rem;
+    border: 3px dashed rgba(147, 112, 219, 0.6);
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(147, 112, 219, 0.1) 0%, rgba(138, 43, 226, 0.05) 100%);
+    color: rgba(147, 112, 219, 0.9);
+    font-size: 1.4rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
 }
 
-.result-box h3.fake {
-  color: #ff3366;
+.file-input-label::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(147, 112, 219, 0.2), transparent);
+    transition: left 0.6s ease;
 }
 
-.result-box p {
-  font-size: 1.5em;
-  color: #00f0ff;
-  margin: 10px 0;
-  padding: 10px;
-  background: rgba(0, 240, 255, 0.1);
-  border-radius: 8px;
-  display: inline-block;
+.file-input-label:hover::before {
+    left: 100%;
 }
 
-/* Feedback Button */
-.feedback-button {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: linear-gradient(45deg, #00f0ff, #00ff88);
-  border: none;
-  color: black;
-  font-size: 24px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 240, 255, 0.3);
+.file-input-label:hover {
+    border-color: rgba(147, 112, 219, 0.8);
+    background: linear-gradient(135deg, rgba(147, 112, 219, 0.2) 0%, rgba(138, 43, 226, 0.1) 100%);
+    box-shadow: 
+        0 0 30px rgba(147, 112, 219, 0.4),
+        inset 0 0 20px rgba(147, 112, 219, 0.1);
+    transform: translateY(-3px);
+    color: white;
 }
 
-.feedback-button:hover {
-  transform: scale(1.1) rotate(15deg);
-  box-shadow: 0 6px 20px rgba(0, 240, 255, 0.5);
+.file-input-label.has-file {
+    border-color: rgba(147, 112, 219, 1);
+    background: linear-gradient(135deg, rgba(147, 112, 219, 0.3) 0%, rgba(138, 43, 226, 0.2) 100%);
+    color: white;
+    box-shadow: 
+        0 0 30px rgba(147, 112, 219, 0.6),
+        inset 0 0 20px rgba(147, 112, 219, 0.2);
 }
 
-/* Feedback Form */
-.feedback-form {
-  position: fixed;
-  bottom: 100px;
-  right: 30px;
-  width: 300px;
-  background: rgba(0, 0, 0, 0.8);
-  border-radius: 15px;
-  padding: 20px;
-  border: 2px solid rgba(0, 240, 255, 0.3);
-  box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+.file-input-label .upload-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 1rem;
+    animation: iconFloat 3s ease-in-out infinite;
 }
 
-.feedback-form h3 {
-  color: #00f0ff;
-  margin-bottom: 15px;
-  text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+.file-input-label .upload-icon.wave-icon {
+    filter: drop-shadow(0 0 15px rgba(147, 112, 219, 0.8));
+    animation: soundWave 2s ease-in-out infinite;
 }
 
-.feedback-form .stars {
-  display: flex;
-  gap: 5px;
-  margin-bottom: 10px;
+@keyframes soundWave {
+    0%, 100% { 
+        transform: translateY(0) scale(1);
+        filter: drop-shadow(0 0 15px rgba(147, 112, 219, 0.8));
+    }
+    50% { 
+        transform: translateY(-10px) scale(1.1);
+        filter: drop-shadow(0 0 25px rgba(147, 112, 219, 1));
+    }
 }
 
-.feedback-form .stars span {
-  font-size: 24px;
-  cursor: pointer;
-  color: #666;
-  transition: color 0.3s ease;
+@keyframes iconFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
 }
 
-.feedback-form .stars span.active,
-.feedback-form .stars span:hover {
-  color: #00f0ff;
-  text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+.file-input-label .upload-text {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
 }
 
-.feedback-form textarea {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(0, 240, 255, 0.3);
-  border-radius: 8px;
-  color: white;
-  resize: vertical;
+.file-input-label .upload-subtext {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    color: rgba(255, 255, 255, 0.7);
 }
 
-.feedback-form button {
-  width: 100%;
-  padding: 10px;
-  background: linear-gradient(45deg, #00f0ff, #00ff88);
-  border: none;
-  border-radius: 8px;
-  color: black;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s ease;
+/* Button styling */
+button[type="submit"] {
+    padding: 1.2rem 3rem;
+    border: none;
+    border-radius: 15px;
+    background: linear-gradient(135deg, rgba(147, 112, 219, 0.9) 0%, rgba(138, 43, 226, 0.9) 100%);
+    color: white;
+    font-size: 1.3rem;
+    font-weight: bold;
+    font-family: 'Orbitron', sans-serif;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.4),
+        0 0 25px rgba(147, 112, 219, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    overflow: hidden;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
-.feedback-form button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 240, 255, 0.4);
+button[type="submit"]::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
 }
 
-/* כפתור התנתקות קטן בצד ימין למעלה */
-.logout-button {
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  background-color: #3649f4;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-size: 12px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+button[type="submit"]:hover::before {
+    left: 100%;
 }
 
-.logout-button:hover {
-  background-color: #2f4dd3;
+button[type="submit"]:hover {
+    transform: translateY(-3px);
+    box-shadow: 
+        0 15px 40px rgba(0, 0, 0, 0.5),
+        0 0 35px rgba(147, 112, 219, 0.7);
+    background: linear-gradient(135deg, rgba(138, 43, 226, 1) 0%, rgba(147, 112, 219, 1) 100%);
+}
+
+button[type="submit"]:active {
+    transform: translateY(-1px);
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+    background: linear-gradient(135deg, #555 0%, #333 100%);
+}
+
+/* Loading styling */
+.loading {
+    color: white;
+    font-size: 1.2rem;
+    margin-top: 2rem;
+    padding: 1rem;
+    background: rgba(147, 112, 219, 0.2);
+    border: 1px solid rgba(147, 112, 219, 0.4);
+    border-radius: 10px;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+/* Result display */
+.result-container {
+    margin-top: 3rem;
+    padding: 2.5rem;
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    border: 3px solid;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.result-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, currentColor, transparent);
+    animation: resultGlow 2s ease-in-out infinite;
+}
+
+@keyframes resultGlow {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+.result-container.real {
+    background: rgba(147, 112, 219, 0.15);
+    border-color: rgba(147, 112, 219, 0.6);
+    box-shadow: 
+        0 0 35px rgba(147, 112, 219, 0.4),
+        inset 0 0 20px rgba(147, 112, 219, 0.1);
+    color: white;
+}
+
+.result-container.fake {
+    background: rgba(255, 71, 87, 0.15);
+    border-color: rgba(255, 71, 87, 0.6);
+    box-shadow: 
+        0 0 35px rgba(255, 71, 87, 0.4),
+        inset 0 0 20px rgba(255, 71, 87, 0.1);
+    color: #ff4757;
+}
+
+.result-container h3 {
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 0 15px currentColor;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.result-container p {
+    font-size: 1.3rem;
+    margin: 0.8rem 0;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+/* Game Button Container */
+.game-button-container {
+    margin: 3rem 0 2rem 0;
+    display: flex;
+    justify-content: center;
+}
+
+.game-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem 3rem;
+    background: linear-gradient(135deg, rgba(147, 112, 219, 0.9) 0%, rgba(138, 43, 226, 0.9) 100%);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    box-shadow: 
+        0 15px 40px rgba(0, 0, 0, 0.4),
+        0 0 30px rgba(147, 112, 219, 0.5);
+    position: relative;
+    overflow: hidden;
+    min-width: 280px;
+    border: 3px solid rgba(147, 112, 219, 0.6);
+    font-family: 'Orbitron', sans-serif;
+}
+
+.game-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s ease;
+}
+
+.game-button:hover::before {
+    left: 100%;
+}
+
+.game-button:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 
+        0 20px 50px rgba(0, 0, 0, 0.5),
+        0 0 40px rgba(147, 112, 219, 0.7);
+    background: linear-gradient(135deg, rgba(138, 43, 226, 1) 0%, rgba(147, 112, 219, 1) 100%);
+    border-color: rgba(147, 112, 219, 0.9);
+}
+
+.game-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    animation: gameIconPulse 2s ease-in-out infinite;
+}
+
+@keyframes gameIconPulse {
+    0%, 100% { 
+        transform: scale(1);
+        filter: drop-shadow(0 0 10px rgba(147, 112, 219, 0.8));
+    }
+    50% { 
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 20px rgba(147, 112, 219, 1));
+    }
+}
+
+.game-text {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    font-family: 'Orbitron', sans-serif;
+}
+
+.game-subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    font-family: 'Orbitron', sans-serif;
+}
+
+/* Navigation links */
+.nav-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.nav-links a {
+    color: rgba(147, 112, 219, 0.9);
+    text-decoration: none;
+    padding: 1rem 2rem;
+    border: 2px solid rgba(147, 112, 219, 0.4);
+    border-radius: 12px;
+    background: rgba(147, 112, 219, 0.1);
+    transition: all 0.3s ease;
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(147, 112, 219, 0.3);
+}
+
+.nav-links a:hover {
+    color: white;
+    background: rgba(147, 112, 219, 0.3);
+    border-color: rgba(147, 112, 219, 0.8);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(147, 112, 219, 0.4);
+    text-decoration: none;
+    text-shadow: 0 0 10px rgba(147, 112, 219, 0.8);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .upload-form-container {
+        padding: 2.5rem 1.5rem;
+        margin: 1rem;
+        max-width: 95%;
+    }
+    
+    h1 {
+        font-size: 2.2rem;
+    }
+
+    h1::after {
+        font-size: 1.5rem;
+    }
+    
+    .file-input-label {
+        padding: 2rem 1.5rem;
+        font-size: 1.2rem;
+    }
+
+    .file-input-label .upload-icon {
+        font-size: 2.5rem;
+    }
+
+    .file-input-label .upload-text {
+        font-size: 1rem;
+    }
+
+    .file-input-label .upload-subtext {
+        font-size: 0.8rem;
+    }
+
+    button[type="submit"] {
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+        letter-spacing: 1px;
+    }
+
+    .result-container {
+        padding: 2rem;
+    }
+
+    .result-container h3 {
+        font-size: 1.8rem;
+    }
+
+    .game-button {
+        padding: 2rem 2.5rem;
+        min-width: 250px;
+    }
+
+    .game-icon {
+        font-size: 3rem;
+    }
+
+    .game-text {
+        font-size: 1.5rem;
+    }
+
+    .game-subtitle {
+        font-size: 1rem;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+    }
+
+    .nav-links a {
+        width: 80%;
+        text-align: center;
+    }
+
+    .navbar-brand {
+        font-size: 1.5rem;
+    }
+    
+    .navbar-brand .logo {
+        height: 50px;
+        width: 50px;
+    }
+    
+    .toolbar-icons a {
+        font-size: 1.5rem;
+    }
 }

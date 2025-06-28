@@ -8,11 +8,12 @@ import joblib
 import random
 
 # ---------------------- Config ----------------------
-LABEL_FILE = '../CodecFake/label/label/train.txt'
-AUDIO_FOLDER = '../CodecFake/train_split/train'
+LABEL_FILE = '../Codecfake/label/train.txt'
+AUDIO_FOLDER = '../Codecfake/train'
+AUDIO_FOLDER_2 = '../Codecfake/train-1'  # Additional folder for more files
 MODEL_SAVE_PATH = './models/model.h5'
 SCALER_SAVE_PATH = './scaler.save'
-SAMPLES_PER_CLASS = 5000  # 5K real + 5K fake = 10K total
+SAMPLES_PER_CLASS = 50000  # Increase to use more available data
 
 # ---------------------- Load Labels ----------------------
 def load_labels(label_path):
@@ -22,7 +23,8 @@ def load_labels(label_path):
             parts = line.strip().split()
             if len(parts) >= 2:
                 filename = parts[0].strip()
-                label = 0 if parts[1].strip() == 'real' else 1
+                label_str = parts[1].strip()
+                label = 0 if label_str == 'real' else 1
                 if label == 0:
                     real_files.append((filename, label))
                 else:
@@ -61,6 +63,15 @@ def extract_features(file_path):
         print(f"❌ Error with: {file_path}: {e}")
         return None
 
+# ---------------------- Find File in Multiple Directories ----------------------
+def find_file(filename, folders):
+    """Search for a file in multiple directories"""
+    for folder in folders:
+        full_path = os.path.join(folder, filename)
+        if os.path.exists(full_path):
+            return full_path
+    return None
+
 # ---------------------- Load Data ----------------------
 real_files, fake_files = load_labels(LABEL_FILE)
 print("👀 Real:", len(real_files), "| Fake:", len(fake_files))
@@ -80,12 +91,14 @@ random.shuffle(all_samples)
 x_data, y_data = [], []
 print(f"🔍 Loading {len(all_samples)} samples...")
 
+audio_folders = [AUDIO_FOLDER, AUDIO_FOLDER_2]
+
 for fname, label in all_samples:
-    full_path = os.path.join(AUDIO_FOLDER, fname)
+    full_path = find_file(fname, audio_folders)
     print(f"🔍 Trying to process: {fname}")
-    print(f"📂 Full path: {full_path}")
-    if os.path.exists(full_path):
-        print(f"✅ File exists")
+    
+    if full_path:
+        print(f"✅ File found at: {full_path}")
         features = extract_features(full_path)
         if features is not None:
             x_data.append(features)
@@ -94,7 +107,7 @@ for fname, label in all_samples:
         else:
             print(f"❌ Failed to extract features from {fname}")
     else:
-        print(f"❌ File not found: {full_path}")
+        print(f"❌ File not found in any directory: {fname}")
 
 x_data = np.array(x_data)
 y_data = np.array(y_data)

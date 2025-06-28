@@ -3,16 +3,16 @@ body, html {
   padding: 0;
   height: 100%;
   font-family: 'Orbitron', sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #2d1b69 0%, #0a0a23 100%);
   background-image: 
-    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+    radial-gradient(circle at 20% 80%, rgba(138, 43, 226, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(75, 0, 130, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(138, 43, 226, 0.2) 0%, transparent 50%);
   color: white;
   overflow-x: hidden;
 }
 
-/* Animated starfield background */
+/* Animated wave background */
 body::before {
   content: '';
   position: fixed;
@@ -21,15 +21,15 @@ body::before {
   right: 0;
   bottom: 0;
   background-image: 
-    radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
-    radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    radial-gradient(circle at 25% 25%, rgba(138, 43, 226, 0.2) 1px, transparent 1px),
+    radial-gradient(circle at 75% 75%, rgba(75, 0, 130, 0.2) 1px, transparent 1px);
   background-size: 50px 50px, 80px 80px;
-  animation: starfield 20s linear infinite;
+  animation: waveField 20s linear infinite;
   pointer-events: none;
   z-index: -10;
 }
 
-@keyframes starfield {
+@keyframes waveField {
   0% { transform: translateY(0); }
   100% { transform: translateY(-100px); }
 }
@@ -44,21 +44,22 @@ header {
 }
 
 .navbar {
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(26, 26, 46, 0.95) 100%) !important;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(45, 27, 105, 0.95) 100%) !important;
   box-shadow: 
     0 4px 20px rgba(0, 0, 0, 0.5),
-    0 0 30px rgba(0, 240, 255, 0.2),
+    0 0 30px rgba(138, 43, 226, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(15px);
-  border-bottom: 2px solid rgba(0, 240, 255, 0.3);
-  padding: 0.8rem 2rem;
+  border-bottom: 2px solid rgba(138, 43, 226, 0.4);
+  padding: 1rem 2rem;
+  height: 90px;
 }
 
 .navbar-brand {
-  color: #00f0ff !important;
+  color: #8a2be2 !important;
   font-weight: bold;
-  text-shadow: 0 0 15px rgba(0, 240, 255, 0.8);
-  font-size: 1.4rem;
+  text-shadow: 0 0 15px rgba(138, 43, 226, 0.8);
+  font-size: 1.8rem;
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -66,22 +67,23 @@ header {
 }
 
 .navbar-brand:hover {
-  color: #39ff14 !important;
-  text-shadow: 0 0 20px rgba(57, 255, 20, 0.8);
+  color: #da70d6 !important;
+  text-shadow: 0 0 20px rgba(218, 112, 214, 0.8);
   transform: scale(1.02);
 }
 
 .navbar-brand .logo {
-  height: 65px;
+  height: 80px;
   width: auto;
-  filter: drop-shadow(0 0 12px #00f0ff);
+  filter: drop-shadow(0 0 12px #8a2be2);
   margin-right: 0.5rem;
   transition: all 0.3s ease;
   border-radius: 8px;
+  margin-top: -8px;
 }
 
 .navbar-brand .logo:hover {
-  filter: drop-shadow(0 0 20px #00f0ff) drop-shadow(0 0 30px #39ff14);
+  filter: drop-shadow(0 0 20px #8a2be2) drop-shadow(0 0 30px #da70d6);
   transform: scale(1.05);
 }
 
@@ -92,15 +94,15 @@ header .toolbar-icons {
 }
 
 header .toolbar-icons a {
-  color: #00f0ff;
-  font-size: 2rem;
+  color: #8a2be2;
+  font-size: 2.5rem;
   text-decoration: none;
   transition: all 0.3s ease;
-  text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
-  padding: 0.8rem;
+  text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+  padding: 1rem;
   border-radius: 12px;
-  background: rgba(0, 240, 255, 0.1);
-  border: 2px solid rgba(0, 240, 255, 0.2);
+  background: rgba(138, 43, 226, 0.1);
+  border: 2px solid rgba(138, 43, 226, 0.2);
   backdrop-filter: blur(10px);
   position: relative;
   overflow: hidden;
@@ -113,7 +115,7 @@ header .toolbar-icons a::before {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.2), transparent);
+  background: linear-gradient(90deg, transparent, rgba(138, 43, 226, 0.2), transparent);
   transition: left 0.5s ease;
 }
 
@@ -122,14 +124,14 @@ header .toolbar-icons a:hover::before {
 }
 
 header .toolbar-icons a:hover {
-  color: #39ff14;
+  color: #da70d6;
   transform: scale(1.1) translateY(-2px);
-  text-shadow: 0 0 20px rgba(57, 255, 20, 0.8);
-  background: rgba(57, 255, 20, 0.15);
-  border-color: rgba(57, 255, 20, 0.4);
+  text-shadow: 0 0 20px rgba(218, 112, 214, 0.8);
+  background: rgba(218, 112, 214, 0.15);
+  border-color: rgba(218, 112, 214, 0.4);
   box-shadow: 
     0 8px 25px rgba(0, 0, 0, 0.3),
-    0 0 20px rgba(57, 255, 20, 0.4);
+    0 0 20px rgba(218, 112, 214, 0.4);
 }
 
 header .toolbar-icons a:active {
@@ -146,9 +148,9 @@ header .toolbar-icons a:active {
   height: 2px;
   background: linear-gradient(90deg, 
     transparent 0%, 
-    #00f0ff 25%, 
-    #39ff14 50%, 
-    #00f0ff 75%, 
+    #8a2be2 25%, 
+    #da70d6 50%, 
+    #8a2be2 75%, 
     transparent 100%);
   animation: navbarGlow 3s ease-in-out infinite;
 }
@@ -181,14 +183,15 @@ header .toolbar-icons a:active {
 @media (max-width: 768px) {
   .navbar {
     padding: 0.5rem 1rem;
+    height: 70px;
   }
   
   .navbar-brand {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
   }
   
   .navbar-brand .logo {
-    height: 50px;
+    height: 60px;
   }
   
   header .toolbar-icons {
@@ -196,15 +199,15 @@ header .toolbar-icons a:active {
   }
   
   header .toolbar-icons a {
-    font-size: 1.6rem;
-    padding: 0.6rem;
+    font-size: 2rem;
+    padding: 0.8rem;
   }
 }
 
 /* Main container */
 .profile-container {
   min-height: 100vh;
-  padding-top: 90px;
+  padding-top: 120px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -215,14 +218,14 @@ header .toolbar-icons a:active {
 
 /* Profile card */
 .profile-card {
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.85);
   padding: 3rem;
   border-radius: 20px;
   box-shadow: 
     0 20px 60px rgba(0, 0, 0, 0.5),
-    0 0 40px rgba(0, 240, 255, 0.2),
+    0 0 40px rgba(138, 43, 226, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  border: 2px solid rgba(0, 240, 255, 0.3);
+  border: 2px solid rgba(138, 43, 226, 0.4);
   backdrop-filter: blur(15px);
   max-width: 800px;
   width: 100%;
@@ -235,19 +238,20 @@ header .toolbar-icons a:active {
   margin-bottom: 3rem;
 }
 
+
 .profile-avatar {
   width: 120px;
   height: 120px;
   border-radius: 50%;
   margin: 0 auto 1.5rem;
-  background: linear-gradient(135deg, #00f0ff 0%, #39ff14 100%);
+  background: linear-gradient(135deg, #8a2be2 0%, #da70d6 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 3rem;
   box-shadow: 
     0 15px 35px rgba(0, 0, 0, 0.3),
-    0 0 30px rgba(0, 240, 255, 0.4);
+    0 0 30px rgba(138, 43, 226, 0.5);
   animation: avatarGlow 3s ease-in-out infinite;
 }
 
@@ -255,32 +259,32 @@ header .toolbar-icons a:active {
   0%, 100% { 
     box-shadow: 
       0 15px 35px rgba(0, 0, 0, 0.3),
-      0 0 30px rgba(0, 240, 255, 0.4);
+      0 0 30px rgba(138, 43, 226, 0.5);
   }
   50% { 
     box-shadow: 
       0 20px 45px rgba(0, 0, 0, 0.4),
-      0 0 40px rgba(0, 240, 255, 0.6);
+      0 0 40px rgba(138, 43, 226, 0.7);
   }
 }
 
 .profile-name {
-  color: #00f0ff;
+  color: #8a2be2;
   font-size: 2.5rem;
   margin-bottom: 0.5rem;
-  text-shadow: 0 0 20px rgba(0, 240, 255, 0.8);
+  text-shadow: 0 0 20px rgba(138, 43, 226, 0.8);
   font-weight: bold;
 }
 
 .profile-email {
-  color: #b0e0ff;
+  color: #d8bfd8;
   font-size: 1.2rem;
   margin-bottom: 1rem;
 }
 
 .institution-badge {
   display: inline-block;
-  background: linear-gradient(135deg, #39ff14 0%, #00f0ff 100%);
+  background: linear-gradient(135deg, #8a2be2 0%, #da70d6 100%);
   color: white;
   padding: 0.5rem 1rem;
   border-radius: 20px;
@@ -288,54 +292,68 @@ header .toolbar-icons a:active {
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 1px;
-  box-shadow: 0 5px 15px rgba(57, 255, 20, 0.3);
+  box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4);
 }
 
 /* Stats section */
 .profile-stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 2rem;
-  margin: 3rem 0;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1.5rem;
+  margin: 2.5rem 0;
+  max-width: 100%;
+  justify-items: center;
 }
 
 .stat-card {
-  background: linear-gradient(135deg, rgba(0, 240, 255, 0.1) 0%, rgba(57, 255, 20, 0.1) 100%);
-  border: 2px solid rgba(0, 240, 255, 0.3);
-  border-radius: 15px;
-  padding: 2rem;
+  background: linear-gradient(135deg, rgba(138, 43, 226, 0.15) 0%, rgba(218, 112, 214, 0.15) 100%);
+  border: 2px solid rgba(138, 43, 226, 0.4);
+  border-radius: 12px;
+  padding: 1.5rem 1rem;
   text-align: center;
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+  position: relative;
 }
 
 .stat-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-3px);
   box-shadow: 
-    0 20px 45px rgba(0, 0, 0, 0.4),
-    0 0 35px rgba(0, 240, 255, 0.4);
-  border-color: #00f0ff;
+    0 15px 35px rgba(0, 0, 0, 0.4),
+    0 0 25px rgba(138, 43, 226, 0.5);
+  border-color: #8a2be2;
 }
 
 .stat-icon {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
+  font-size: 2rem;
+  margin-bottom: 0.8rem;
   display: block;
 }
 
 .stat-value {
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: bold;
-  color: #00f0ff;
-  text-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
-  margin-bottom: 0.5rem;
+  color: #8a2be2;
+  text-shadow: 0 0 15px rgba(138, 43, 226, 0.6);
+  margin-bottom: 0.6rem;
+  line-height: 1.2;
 }
 
 .stat-label {
-  color: #b0e0ff;
-  font-size: 1rem;
+  color: #d8bfd8;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-align: center;
   text-transform: uppercase;
   letter-spacing: 1px;
+  line-height: 1.3;
+  margin: 0;
+  padding: 0;
 }
 
 /* Progress section */
@@ -344,10 +362,13 @@ header .toolbar-icons a:active {
 }
 
 .progress-section h3 {
-  color: #00f0ff;
+  color: #8a2be2;
   font-size: 1.8rem;
   margin-bottom: 2rem;
-  text-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+  text-shadow: 0 0 15px rgba(138, 43, 226, 0.6);
+  direction: rtl;
+  text-align: center;
+  font-weight: bold;
 }
 
 .level-progress {
@@ -371,19 +392,19 @@ header .toolbar-icons a:active {
 }
 
 .level-badge.completed {
-  background: linear-gradient(135deg, #39ff14 0%, #00f0ff 100%);
+  background: linear-gradient(135deg, #8a2be2 0%, #da70d6 100%);
   color: white;
   box-shadow: 
     0 8px 25px rgba(0, 0, 0, 0.3),
-    0 0 20px rgba(57, 255, 20, 0.4);
+    0 0 20px rgba(138, 43, 226, 0.5);
 }
 
 .level-badge.unlocked {
-  background: linear-gradient(135deg, #00f0ff 0%, #39ff14 100%);
+  background: linear-gradient(135deg, #da70d6 0%, #8a2be2 100%);
   color: white;
   box-shadow: 
     0 8px 25px rgba(0, 0, 0, 0.3),
-    0 0 20px rgba(0, 240, 255, 0.4);
+    0 0 20px rgba(218, 112, 214, 0.5);
   animation: levelPulse 2s infinite ease-in-out;
 }
 
@@ -397,12 +418,12 @@ header .toolbar-icons a:active {
   0%, 100% { 
     box-shadow: 
       0 8px 25px rgba(0, 0, 0, 0.3),
-      0 0 20px rgba(0, 240, 255, 0.4);
+      0 0 20px rgba(218, 112, 214, 0.5);
   }
   50% { 
     box-shadow: 
       0 12px 35px rgba(0, 0, 0, 0.4),
-      0 0 30px rgba(0, 240, 255, 0.6);
+      0 0 30px rgba(218, 112, 214, 0.7);
   }
 }
 
@@ -419,7 +440,7 @@ header .toolbar-icons a:active {
   padding: 1rem 2rem;
   border: none;
   border-radius: 12px;
-  background: linear-gradient(135deg, #00f0ff 0%, #39ff14 100%);
+  background: linear-gradient(135deg, #8a2be2 0%, #da70d6 100%);
   color: white;
   font-size: 1.1rem;
   font-weight: bold;
@@ -428,7 +449,7 @@ header .toolbar-icons a:active {
   transition: all 0.3s ease;
   box-shadow: 
     0 8px 25px rgba(0, 0, 0, 0.3),
-    0 0 20px rgba(0, 240, 255, 0.4);
+    0 0 20px rgba(138, 43, 226, 0.5);
   text-transform: uppercase;
   letter-spacing: 1px;
   text-decoration: none;
@@ -439,24 +460,24 @@ header .toolbar-icons a:active {
   transform: translateY(-2px);
   box-shadow: 
     0 12px 35px rgba(0, 0, 0, 0.4),
-    0 0 30px rgba(0, 240, 255, 0.6);
-  background: linear-gradient(135deg, #39ff14 0%, #00f0ff 100%);
+    0 0 30px rgba(138, 43, 226, 0.7);
+  background: linear-gradient(135deg, #da70d6 0%, #8a2be2 100%);
   color: white;
   text-decoration: none;
 }
 
 .action-btn.logout {
-  background: linear-gradient(135deg, #ff4757 0%, #ff3742 100%);
+  background: linear-gradient(135deg, #dc143c 0%, #b22222 100%);
   box-shadow: 
     0 8px 25px rgba(0, 0, 0, 0.3),
-    0 0 20px rgba(255, 71, 87, 0.4);
+    0 0 20px rgba(220, 20, 60, 0.4);
 }
 
 .action-btn.logout:hover {
-  background: linear-gradient(135deg, #ff3742 0%, #ff2f3a 100%);
+  background: linear-gradient(135deg, #b22222 0%, #8b0000 100%);
   box-shadow: 
     0 12px 35px rgba(0, 0, 0, 0.4),
-    0 0 30px rgba(255, 71, 87, 0.6);
+    0 0 30px rgba(220, 20, 60, 0.6);
 }
 
 /* Floating decorations */
@@ -475,8 +496,8 @@ header .toolbar-icons a:active {
   font-size: 1.8rem;
   animation: audioFloat 8s ease-in-out infinite;
   opacity: 0.3;
-  color: #00f0ff;
-  text-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+  color: #8a2be2;
+  text-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
 }
 
 @keyframes audioFloat {
@@ -500,28 +521,59 @@ header .toolbar-icons a:active {
   .profile-name {
     font-size: 2rem;
   }
-
+  
   .profile-stats {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 1rem;
   }
-
+  
   .level-progress {
-    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.5rem;
   }
-
+  
   .level-badge {
     width: 60px;
     height: 60px;
     font-size: 1rem;
   }
-
+  
   .profile-actions {
     flex-direction: column;
-    align-items: center;
+    gap: 1rem;
   }
-
+  
   .floating-audio-profile {
     font-size: 1.4rem;
   }
+}
+
+/* Loading and Error containers */
+.loading-container, .error-container {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #8a2be2;
+}
+
+.loading-container h2, .error-container h2 {
+  color: #8a2be2;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 15px rgba(138, 43, 226, 0.6);
+}
+
+.loading-spinner {
+  font-size: 3rem;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.error-container p {
+  color: #d8bfd8;
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
 } 

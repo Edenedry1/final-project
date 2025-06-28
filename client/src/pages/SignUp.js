@@ -40,30 +40,34 @@ const SignUp = () => {
     <>
     {/* Header */}
     <header data-bs-theme="dark">
-    <nav className="navbar">
-      <div className="container-fluid">
-        <div className="navbar-brand">
-          <img src={require('../images/logo.png')} alt="DeepFakeAudio Logo" className="logo" />
-          DeepFakeAudio
+      <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <div className="container-fluid">
+          <div className="navbar-brand">
+            <img src={require('../images/audio-detector-logo.png')} alt="DeepFakeAudio Logo" className="logo" />
+            DeepFakeAudio
+          </div>
+          <div className="toolbar-icons">
+            <a href="/">🏠</a>
+            <a href="/login">🔑</a>
+          </div>
         </div>
-        <div className="toolbar-icons">
-          <a href="/">🏠</a>
-          <a href="/login">🔑</a>
-        </div>
-      </div>
-    </nav>
-  </header>
+      </nav>
+    </header>
 
-  <div className="login-container">
-    {/* Floating decorations */}
-    <div className="signup-decorations">
-      <div className="floating-audio-signup" style={{left: '8%', top: '12%', animationDelay: '0s'}}>🎧</div>
-      <div className="floating-audio-signup" style={{left: '88%', top: '20%', animationDelay: '1.8s'}}>🎵</div>
-      <div className="floating-audio-signup" style={{left: '12%', top: '75%', animationDelay: '3.2s'}}>🔊</div>
-      <div className="floating-audio-signup" style={{left: '85%', top: '85%', animationDelay: '1.2s'}}>🎤</div>
-      <div className="floating-audio-signup" style={{left: '45%', top: '8%', animationDelay: '2.5s'}}>📻</div>
-      <div className="floating-audio-signup" style={{left: '25%', top: '45%', animationDelay: '0.7s'}}>🎶</div>
+    {/* Video Background */}
+    <div className="video-background">
+      <video 
+        autoPlay 
+        muted 
+        loop 
+        playsInline
+        className="bg-video"
+      >
+        <source src="/sound-waves-bg.mp4" type="video/mp4" />
+      </video>
     </div>
+
+    <div className="signup-container">
 
     <div className="signup-form-container">
       <div className="logo">
@@ -106,7 +110,7 @@ const SignUp = () => {
               checked={isInstitution}
               onChange={(e) => setIsInstitution(e.target.checked)}
             />
-            🎓 Educational Institution (Get access to hint features)
+            Educational Institution🎓 
           </label>
         </div>
         <button type="submit">Sign Up</button>

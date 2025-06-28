@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Game.css';
-import logo from '../images/logo.png';
-import soundwave from '../images/sound-waves.png';
 import padlock from '../images/padlock.png';
 
 const Game = () => {
@@ -31,29 +29,36 @@ const Game = () => {
   };
 
   const positions = [
-    { left: 15, top: 85 },  // Level 1 - Bottom left start
-    { left: 25, top: 75 },  // Level 2 - Going up-right
-    { left: 35, top: 65 },  // Level 3 - Continue up-right
-    { left: 50, top: 60 },  // Level 4 - Move to center
-    { left: 65, top: 55 },  // Level 5 - Continue right
-    { left: 75, top: 45 },  // Level 6 - Up-right
-    { left: 70, top: 35 },  // Level 7 - Slight left
-    { left: 55, top: 30 },  // Level 8 - Move left
-    { left: 40, top: 25 },  // Level 9 - Continue left
-    { left: 50, top: 15 }   // Level 10 - Final level at top center
+    { left: 5, top: 80 },   // Level 1 - Bottom left start
+    { left: 15, top: 75 },  // Level 2 - Slight up-right
+    { left: 25, top: 65 },  // Level 3 - Continue diagonal up
+    { left: 35, top: 70 },  // Level 4 - Slight curve down
+    { left: 45, top: 60 },  // Level 5 - Continue up
+    { left: 55, top: 50 },  // Level 6 - Keep ascending
+    { left: 65, top: 55 },  // Level 7 - Small curve
+    { left: 75, top: 45 },  // Level 8 - Continue up
+    { left: 85, top: 35 },  // Level 9 - Near the top
+    { left: 95, top: 25 }   // Level 10 - Top right finish
   ];
 
   return (
     <div className="neon-map-container">
-      <header className="neon-navbar">
-        <img src={logo} alt="Logo" className="neon-logo enlarged-logo" />
-        <div className="toolbar-icons">
-          <a href="/upload" title="Upload">🏠</a>
-          <a href="/profile" title="Profile">👤</a>
-        </div>
+      <header className="candy-navbar">
+        <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+          <div className="container-fluid">
+            <div className="navbar-brand">
+              <img src={require('../images/audio-detector-logo.png')} alt="DeepFakeAudio Logo" className="logo" />
+              DeepFakeAudio
+            </div>
+            <div className="toolbar-icons">
+              <a href="/upload" title="Upload">🏠</a>
+              <a href="/profile" title="Profile">👤</a>
+            </div>
+          </div>
+        </nav>
       </header>
 
-      <h1 className="neon-title">🎧 Audio Deepfake Quest</h1>
+      <h1 className="neon-title"> Audio Deepfake Quest 🎧</h1>
       <p className="neon-sub">Follow the path and complete each level!</p>
 
       {/* Progress indicator */}
@@ -108,7 +113,7 @@ const Game = () => {
         {/* SVG for connecting lines */}
         <svg className="path-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
           <defs>
-            <linearGradient id="unlocked-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <linearGradient id="candy-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="0%" stopColor="#00f0ff" />
               <stop offset="50%" stopColor="#39ff14" />
               <stop offset="100%" stopColor="#00f0ff" />
@@ -119,15 +124,20 @@ const Game = () => {
             const to = positions[index + 1];
             const isPathUnlocked = level <= unlockedLevel;
             
+            // Create smooth curved path using quadratic bezier
+            const midX = (from.left + to.left) / 2;
+            const midY = (from.top + to.top) / 2;
+            // Consistent curve offset for smooth path
+            const controlX = midX;
+            const controlY = midY - 4; // Consistent upward curve
+            
             return (
-              <line
-                key={`line-${level}`}
-                x1={from.left}
-                y1={from.top}
-                x2={to.left}
-                y2={to.top}
+              <path
+                key={`path-${level}`}
+                d={`M ${from.left} ${from.top} Q ${controlX} ${controlY} ${to.left} ${to.top}`}
                 className={`svg-connector ${isPathUnlocked ? 'unlocked-path' : 'locked-path'}`}
-                strokeWidth="0.8"
+                fill="none"
+                strokeWidth="2"
               />
             );
           })}
