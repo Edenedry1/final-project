@@ -618,17 +618,23 @@ header {
 }
 
 .quiz-section summary {
-  background: rgba(138, 43, 226, 0.3);
+  background: linear-gradient(135deg, rgba(138, 43, 226, 0.4) 0%, rgba(218, 112, 214, 0.3) 100%);
+  border: 2px solid rgba(138, 43, 226, 0.5);
   padding: 0.8rem;
   border-radius: 8px;
   cursor: pointer;
   color: #fff;
   font-weight: bold;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 10px rgba(138, 43, 226, 0.3);
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
 }
 
 .quiz-section summary:hover {
-  background: rgba(138, 43, 226, 0.5);
+  background: linear-gradient(135deg, rgba(138, 43, 226, 0.6) 0%, rgba(218, 112, 214, 0.5) 100%);
+  border-color: rgba(138, 43, 226, 0.8);
+  box-shadow: 0 5px 15px rgba(138, 43, 226, 0.5);
+  transform: translateY(-2px);
 }
 
 .quiz-section details[open] summary {
@@ -688,13 +694,16 @@ header {
   font-size: 1.1rem;
   font-weight: bold;
   border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  border: 2px solid rgba(40, 167, 69, 0.6);
+  box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
   transition: all 0.3s ease;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
 .practice-challenge .btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 25px rgba(40, 167, 69, 0.6);
+  border-color: rgba(32, 201, 151, 0.8);
 }
 
 .final-quiz {
@@ -754,32 +763,66 @@ header {
   font-size: 1.1rem;
   font-weight: bold;
   border-radius: 12px;
-  border: none;
+  border: 2px solid;
   cursor: pointer;
   transition: all 0.3s ease;
   text-decoration: none;
   display: inline-block;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
 .action-buttons .btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #8a2be2 0%, #da70d6 100%);
+  color: white;
+  border-color: rgba(138, 43, 226, 0.6);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #da70d6 0%, #8a2be2 100%);
+  border-color: rgba(218, 112, 214, 0.8);
+  box-shadow: 0 8px 25px rgba(138, 43, 226, 0.6);
 }
 
 .btn-secondary {
   background: linear-gradient(135deg, #6c757d 0%, #adb5bd 100%);
   color: white;
+  border-color: rgba(108, 117, 125, 0.6);
+}
+
+.btn-secondary:hover {
+  background: linear-gradient(135deg, #adb5bd 0%, #6c757d 100%);
+  border-color: rgba(173, 181, 189, 0.8);
+  box-shadow: 0 8px 25px rgba(108, 117, 125, 0.6);
 }
 
 .btn-info {
   background: linear-gradient(135deg, #17a2b8 0%, #5dade2 100%);
   color: white;
+  border-color: rgba(23, 162, 184, 0.6);
+}
+
+.btn-info:hover {
+  background: linear-gradient(135deg, #5dade2 0%, #17a2b8 100%);
+  border-color: rgba(93, 173, 226, 0.8);
+  box-shadow: 0 8px 25px rgba(23, 162, 184, 0.6);
 }
 
 .btn-success {
   background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
   color: white;
+  border-color: rgba(40, 167, 69, 0.6);
+}
+
+.btn-success:hover {
+  background: linear-gradient(135deg, #20c997 0%, #28a745 100%);
+  border-color: rgba(32, 201, 151, 0.8);
+  box-shadow: 0 8px 25px rgba(40, 167, 69, 0.6);
 }
 
 /* Responsive Design */
@@ -1064,35 +1107,63 @@ audio::-webkit-media-controls-panel {
 }
 
 .demo-btn {
-  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  background: linear-gradient(135deg, #8a2be2 0%, #da70d6 100%);
   color: white;
-  border: none;
+  border: 2px solid rgba(138, 43, 226, 0.6);
   padding: 1rem 1.5rem;
   border-radius: 12px;
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4);
   min-width: 140px;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
 .demo-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-  background: linear-gradient(135deg, #20c997 0%, #28a745 100%);
+  box-shadow: 0 8px 25px rgba(138, 43, 226, 0.6);
+  background: linear-gradient(135deg, #da70d6 0%, #8a2be2 100%);
+  border-color: rgba(218, 112, 214, 0.8);
+}
+
+.demo-btn.real-audio {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  border-color: rgba(40, 167, 69, 0.6);
+  box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
 }
 
 .demo-btn.real-audio:hover {
-  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  background: linear-gradient(135deg, #20c997 0%, #28a745 100%);
+  border-color: rgba(32, 201, 151, 0.8);
+  box-shadow: 0 8px 25px rgba(40, 167, 69, 0.6);
+}
+
+.demo-btn.fake-audio {
+  background: linear-gradient(135deg, #dc3545 0%, #ff6b7a 100%);
+  border-color: rgba(220, 53, 69, 0.6);
+  box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
 }
 
 .demo-btn.fake-audio:hover {
-  background: linear-gradient(135deg, #dc3545 0%, #ff6b7a 100%);
+  background: linear-gradient(135deg, #ff6b7a 0%, #dc3545 100%);
+  border-color: rgba(255, 107, 122, 0.8);
+  box-shadow: 0 8px 25px rgba(220, 53, 69, 0.6);
+}
+
+.demo-btn.mixed-audio {
+  background: linear-gradient(135deg, #ffc107 0%, #ffda6a 100%);
+  border-color: rgba(255, 193, 7, 0.6);
+  box-shadow: 0 5px 15px rgba(255, 193, 7, 0.4);
+  color: #333;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 .demo-btn.mixed-audio:hover {
-  background: linear-gradient(135deg, #ffc107 0%, #ffda6a 100%);
+  background: linear-gradient(135deg, #ffda6a 0%, #ffc107 100%);
+  border-color: rgba(255, 218, 106, 0.8);
+  box-shadow: 0 8px 25px rgba(255, 193, 7, 0.6);
 }
 
 .demo-result {
