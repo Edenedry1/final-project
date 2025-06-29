@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import '../styles/SignUp.css';
 import axios from 'axios';
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -11,6 +12,17 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isInstitution, setIsInstitution] = useState(false);
   const [message, setMessage] = useState('');
+  const location = useLocation();
+
+  useEffect(() => {
+    // Check if institution parameter is in URL
+    const searchParams = new URLSearchParams(location.search);
+    const institutionParam = searchParams.get('institution');
+    
+    if (institutionParam === 'true') {
+      setIsInstitution(true);
+    }
+  }, [location]);
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -74,6 +86,12 @@ const SignUp = () => {
         <img src={require('../images/userlogo.png')} alt="DeepFakeAudio Logo" className="logo" />
       </div>
       <h1>Sign Up</h1>
+      {isInstitution && (
+        <div className="institution-welcome">
+          <p>🎓 Welcome, Educational Institution!</p>
+          <p>You'll get access to hints and learning tools for your students.</p>
+        </div>
+      )}
       <form onSubmit={handleSignUp}>
         <input
           type="text"

@@ -22,6 +22,7 @@ import ManageGames from './pages/ManageGames';
 import AdminReports from './pages/AdminReports';
 import ManageUploads from './pages/ManageUploads';
 import Profile from './pages/Profile';
+import Educational from './pages/Educational';
 
 
 
@@ -57,6 +58,7 @@ const App = () => {
                 <Route path="/admin/games" element={<ManageGames />} />
                 <Route path="/admin/reports" element={<AdminReports />} />
                 <Route path="/admin/uploads" element={<ManageUploads />} />
+                <Route path="/educational" element={<Educational />} />
 
 
 

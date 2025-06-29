@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/UploadAudio.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -6,7 +6,17 @@ const UploadAudio = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [isInstitution, setIsInstitution] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check if user is from an educational institution
+    const loggedInUser = localStorage.getItem('loggedInUser');
+    if (loggedInUser) {
+      const user = JSON.parse(loggedInUser);
+      setIsInstitution(user.is_institution === 1); // SQLite stores boolean as 1/0
+    }
+  }, []);
 
   const handleFileSelect = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -126,6 +136,16 @@ const UploadAudio = () => {
 
           {/* Game Button */}
           <div className="game-button-container">
+            {/* Educational Button - Only for institutions */}
+            {isInstitution && (
+              <button 
+                onClick={() => navigate('/educational')} 
+                className="educational-button"
+              >
+                🎓 לומדה על זיהוי דיפ פייק באודיו
+              </button>
+            )}
+            
             <button onClick={handleStartGame} className="game-button">
               <div className="game-text">start the game</div>
             </button>
