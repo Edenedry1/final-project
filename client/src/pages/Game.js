@@ -29,16 +29,16 @@ const Game = () => {
   };
 
   const positions = [
-    { left: 5, top: 80 },   // Level 1 - Bottom left start
-    { left: 15, top: 75 },  // Level 2 - Slight up-right
-    { left: 25, top: 65 },  // Level 3 - Continue diagonal up
-    { left: 35, top: 70 },  // Level 4 - Slight curve down
-    { left: 45, top: 60 },  // Level 5 - Continue up
-    { left: 55, top: 50 },  // Level 6 - Keep ascending
-    { left: 65, top: 55 },  // Level 7 - Small curve
-    { left: 75, top: 45 },  // Level 8 - Continue up
-    { left: 85, top: 35 },  // Level 9 - Near the top
-    { left: 95, top: 25 }   // Level 10 - Top right finish
+    { left: 10, top: 85 },   // Level 1 - Bottom left corner
+    { left: 20, top: 75 },   // Level 2 - Slight up-right
+    { left: 30, top: 65 },   // Level 3 - Continue diagonal up
+    { left: 40, top: 70 },   // Level 4 - Curve down slightly
+    { left: 50, top: 55 },   // Level 5 - Middle area
+    { left: 60, top: 45 },   // Level 6 - Continue ascending
+    { left: 70, top: 50 },   // Level 7 - Small curve
+    { left: 80, top: 40 },   // Level 8 - Near top
+    { left: 85, top: 30 },   // Level 9 - Almost at top
+    { left: 90, top: 20 }    // Level 10 - Top right finish
   ];
 
   return (
@@ -132,6 +132,21 @@ const Game = () => {
         <div className="cosmic-particle" style={{left: '22%', top: '40%', animationDelay: '5s'}}></div>
         <div className="cosmic-particle" style={{left: '78%', top: '65%', animationDelay: '2.5s'}}></div>
         <div className="cosmic-particle" style={{left: '44%', top: '20%', animationDelay: '1.5s'}}></div>
+        
+        {/* Treasure-themed floating elements */}
+        <div className="floating-treasure" style={{left: '15%', top: '90%', animationDelay: '0s'}}>💰</div>
+        <div className="floating-treasure" style={{left: '25%', top: '85%', animationDelay: '1s'}}>🪙</div>
+        <div className="floating-treasure" style={{left: '35%', top: '90%', animationDelay: '2s'}}>💎</div>
+        <div className="floating-treasure" style={{left: '65%', top: '85%', animationDelay: '3s'}}>👑</div>
+        <div className="floating-treasure" style={{left: '75%', top: '90%', animationDelay: '1.5s'}}>🔮</div>
+        <div className="floating-treasure" style={{left: '85%', top: '85%', animationDelay: '2.5s'}}>⚱️</div>
+        
+        {/* Magic dust particles */}
+        <div className="magic-dust" style={{left: '18%', top: '30%', animationDelay: '0s'}}>✨</div>
+        <div className="magic-dust" style={{left: '42%', top: '40%', animationDelay: '1s'}}>⭐</div>
+        <div className="magic-dust" style={{left: '58%', top: '25%', animationDelay: '2s'}}>💫</div>
+        <div className="magic-dust" style={{left: '72%', top: '60%', animationDelay: '0.5s'}}>✨</div>
+        <div className="magic-dust" style={{left: '28%', top: '55%', animationDelay: '1.5s'}}>⭐</div>
       </div>
 
       <div className="level-path styled-path">
@@ -189,10 +204,13 @@ const Game = () => {
                 {isCompleted ? '✓' : level}
               </span>
               <div className="level-icon">
-                {isCompleted ? '🏆' : isUnlocked ? '🎵' : '🔒'}
+                {isCompleted ? '🏆' : isUnlocked ? '💎' : '🔒'}
               </div>
               {isUnlocked && !isCompleted && (
                 <div className="level-glow"></div>
+              )}
+              {isCompleted && (
+                <div className="treasure-sparkles"></div>
               )}
             </div>
           );
