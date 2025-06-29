@@ -197,7 +197,7 @@ const Level10 = () => {
             <p style={{color: '#ffd700', fontSize: '1.1rem', marginBottom: '1.5rem', fontWeight: 'bold'}}>
               👑 Level 10: Omniscient - Absolutely perfect synthetic audio, requires divine intuition!
             </p>
-            <p style={{color: '#90caf9', fontSize: '0.9rem', marginBottom: '1rem', fontStyle: 'italic'}}>
+            <p className="codecfake-info">
               🎯 Audio files randomly selected from Codecfake dataset
             </p>
 

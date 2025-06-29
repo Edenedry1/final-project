@@ -251,7 +251,7 @@ const Level1 = () => {
             <p style={{color: '#4caf50', fontSize: '1.1rem', marginBottom: '1.5rem', fontWeight: 'bold'}}>
               🟢 Level 1: Beginner - Easy fake audio with obvious AI artifacts!
             </p>
-            <p style={{color: '#90caf9', fontSize: '0.9rem', marginBottom: '1rem', fontStyle: 'italic'}}>
+            <p className="codecfake-info">
               🎯 Audio files randomly selected from Codecfake dataset
             </p>
 

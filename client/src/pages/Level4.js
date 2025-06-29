@@ -197,7 +197,7 @@ const Level4 = () => {
             <p style={{color: '#e91e63', fontSize: '1.1rem', marginBottom: '1.5rem', fontWeight: 'bold'}}>
               🔴 Level 4: Expert - High-quality fake audio with subtle differences!
             </p>
-            <p style={{color: '#90caf9', fontSize: '0.9rem', marginBottom: '1rem', fontStyle: 'italic'}}>
+            <p className="codecfake-info">
               🎯 Audio files randomly selected from Codecfake dataset
             </p>
 

@@ -196,7 +196,7 @@ const Level5 = () => {
             <p style={{color: '#9c27b0', fontSize: '1.1rem', marginBottom: '1.5rem', fontWeight: 'bold'}}>
               🟣 Level 5: Professional - Very high-quality fake audio, extreme precision needed!
             </p>
-            <p style={{color: '#90caf9', fontSize: '0.9rem', marginBottom: '1rem', fontStyle: 'italic'}}>
+            <p className="codecfake-info">
               🎯 Audio files randomly selected from Codecfake dataset
             </p>
 

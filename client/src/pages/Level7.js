@@ -186,6 +186,10 @@ const Level7 = () => {
               ⚫ Level 7: Legendary - Extremely convincing fake audio that's almost perfect!
             </p>
 
+            <p className="codecfake-info">
+              🎯 Audio files randomly selected from Codecfake dataset
+            </p>
+
             {!completed ? (
               <div className="question-block">
                 <div className="audio-group">

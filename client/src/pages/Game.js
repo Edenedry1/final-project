@@ -43,6 +43,11 @@ const Game = () => {
 
   return (
     <div className="neon-map-container">
+      {/* Background video */}
+      <video autoPlay muted loop className="background-video">
+        <source src="/sound-waves-bg.mp4" type="video/mp4" />
+      </video>
+      
       <header className="candy-navbar">
         <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
           <div className="container-fluid">
@@ -58,7 +63,14 @@ const Game = () => {
         </nav>
       </header>
 
-      <h1 className="neon-title"> Audio Deepfake Quest 🎧</h1>
+      <div className="title-decoration">💎</div>
+      
+      <h1 className="deepfake-quest-title">
+        DEEPFAKE
+        <span className="quest-word">QUEST</span>
+        <span className="audio-subtitle">AUDIO</span>
+      </h1>
+      
       <p className="neon-sub">Follow the path and complete each level!</p>
 
       {/* Progress indicator */}
@@ -92,31 +104,44 @@ const Game = () => {
         )}
       </div>
 
-      {/* Decorative elements */}
+      {/* Enhanced decorative elements */}
       <div className="map-decorations">
         <div className="floating-star" style={{left: '10%', top: '20%', animationDelay: '0s'}}>⭐</div>
         <div className="floating-star" style={{left: '85%', top: '30%', animationDelay: '1s'}}>✨</div>
         <div className="floating-star" style={{left: '20%', top: '50%', animationDelay: '2s'}}>💫</div>
         <div className="floating-star" style={{left: '80%', top: '70%', animationDelay: '1.5s'}}>⭐</div>
         <div className="floating-star" style={{left: '60%', top: '20%', animationDelay: '0.5s'}}>✨</div>
+        <div className="floating-star" style={{left: '15%', top: '80%', animationDelay: '2.5s'}}>🌟</div>
+        <div className="floating-star" style={{left: '90%', top: '15%', animationDelay: '3s'}}>💫</div>
         
         {/* Audio-themed decorations */}
-        <div className="floating-audio" style={{left: '15%', top: '35%', animationDelay: '0.8s'}}>🎵</div>
+        <div className="floating-audio" style={{left: '25%', top: '35%', animationDelay: '0.8s'}}>🎵</div>
         <div className="floating-audio" style={{left: '75%', top: '25%', animationDelay: '2.2s'}}>🎧</div>
-        <div className="floating-audio" style={{left: '30%', top: '75%', animationDelay: '1.3s'}}>🔊</div>
+        <div className="floating-audio" style={{left: '35%', top: '75%', animationDelay: '1.3s'}}>🔊</div>
         <div className="floating-audio" style={{left: '90%', top: '60%', animationDelay: '0.3s'}}>🎤</div>
         <div className="floating-audio" style={{left: '5%', top: '65%', animationDelay: '1.8s'}}>🎶</div>
         <div className="floating-audio" style={{left: '65%', top: '80%', animationDelay: '2.5s'}}>📻</div>
+        <div className="floating-audio" style={{left: '45%', top: '15%', animationDelay: '1.1s'}}>🎼</div>
+        
+        {/* Cosmic particles */}
+        <div className="cosmic-particle" style={{left: '12%', top: '25%', animationDelay: '0s'}}></div>
+        <div className="cosmic-particle" style={{left: '88%', top: '45%', animationDelay: '1s'}}></div>
+        <div className="cosmic-particle" style={{left: '33%', top: '60%', animationDelay: '2s'}}></div>
+        <div className="cosmic-particle" style={{left: '67%', top: '30%', animationDelay: '3s'}}></div>
+        <div className="cosmic-particle" style={{left: '55%', top: '75%', animationDelay: '4s'}}></div>
+        <div className="cosmic-particle" style={{left: '22%', top: '40%', animationDelay: '5s'}}></div>
+        <div className="cosmic-particle" style={{left: '78%', top: '65%', animationDelay: '2.5s'}}></div>
+        <div className="cosmic-particle" style={{left: '44%', top: '20%', animationDelay: '1.5s'}}></div>
       </div>
 
       <div className="level-path styled-path">
         {/* SVG for connecting lines */}
         <svg className="path-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
           <defs>
-            <linearGradient id="candy-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#00f0ff" />
-              <stop offset="50%" stopColor="#39ff14" />
-              <stop offset="100%" stopColor="#00f0ff" />
+            <linearGradient id="purple-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#8b5cf6" />
+              <stop offset="50%" stopColor="#a855f7" />
+              <stop offset="100%" stopColor="#c084fc" />
             </linearGradient>
           </defs>
           {levels.slice(1).map((level, index) => {
