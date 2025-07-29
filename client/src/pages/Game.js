@@ -29,16 +29,16 @@ const Game = () => {
   };
 
   const positions = [
-    { left: 10, top: 85 },   // Level 1 - Bottom left corner
-    { left: 20, top: 75 },   // Level 2 - Slight up-right
-    { left: 30, top: 65 },   // Level 3 - Continue diagonal up
-    { left: 40, top: 70 },   // Level 4 - Curve down slightly
-    { left: 50, top: 55 },   // Level 5 - Middle area
-    { left: 60, top: 45 },   // Level 6 - Continue ascending
-    { left: 70, top: 50 },   // Level 7 - Small curve
-    { left: 80, top: 40 },   // Level 8 - Near top
-    { left: 85, top: 30 },   // Level 9 - Almost at top
-    { left: 90, top: 20 }    // Level 10 - Top right finish
+    { left: 10, top: 70 },   // Level 1 - Start bottom left
+    { left: 20, top: 55 },   // Level 2 - Diagonal up-right
+    { left: 25, top: 40 },   // Level 3 - Steep ascent
+    { left: 35, top: 45 },   // Level 4 - Small curve down
+    { left: 45, top: 25 },   // Level 5 - Steep rise again
+    { left: 55, top: 35 },   // Level 6 - Small dip
+    { left: 65, top: 20 },   // Level 7 - Continue ascending
+    { left: 75, top: 15 },   // Level 8 - Near peak
+    { left: 85, top: 25 },   // Level 9 - Final curve
+    { left: 90, top: 10 }    // Level 10 - Epic finale at peak
   ];
 
   return (
@@ -63,15 +63,13 @@ const Game = () => {
         </nav>
       </header>
 
-      <div className="title-decoration">💎</div>
-      
       <h1 className="deepfake-quest-title">
-        DEEPFAKE
-        <span className="quest-word">QUEST</span>
+        <span className="main-word">DEEPFAKE</span>
+        <span className="hunter-word">QUEST</span>
         <span className="audio-subtitle">AUDIO</span>
       </h1>
       
-      <p className="neon-sub">Follow the path and complete each level!</p>
+      <p className="neon-sub">Begin your adventure to spot voices created by artificial intelligence</p>
 
       {/* Progress indicator */}
       <div className="progress-indicator">
@@ -104,49 +102,20 @@ const Game = () => {
         )}
       </div>
 
-      {/* Enhanced decorative elements */}
-      <div className="map-decorations">
-        <div className="floating-star" style={{left: '10%', top: '20%', animationDelay: '0s'}}>⭐</div>
-        <div className="floating-star" style={{left: '85%', top: '30%', animationDelay: '1s'}}>✨</div>
-        <div className="floating-star" style={{left: '20%', top: '50%', animationDelay: '2s'}}>💫</div>
-        <div className="floating-star" style={{left: '80%', top: '70%', animationDelay: '1.5s'}}>⭐</div>
-        <div className="floating-star" style={{left: '60%', top: '20%', animationDelay: '0.5s'}}>✨</div>
-        <div className="floating-star" style={{left: '15%', top: '80%', animationDelay: '2.5s'}}>🌟</div>
-        <div className="floating-star" style={{left: '90%', top: '15%', animationDelay: '3s'}}>💫</div>
-        
-        {/* Audio-themed decorations */}
-        <div className="floating-audio" style={{left: '25%', top: '35%', animationDelay: '0.8s'}}>🎵</div>
-        <div className="floating-audio" style={{left: '75%', top: '25%', animationDelay: '2.2s'}}>🎧</div>
-        <div className="floating-audio" style={{left: '35%', top: '75%', animationDelay: '1.3s'}}>🔊</div>
-        <div className="floating-audio" style={{left: '90%', top: '60%', animationDelay: '0.3s'}}>🎤</div>
-        <div className="floating-audio" style={{left: '5%', top: '65%', animationDelay: '1.8s'}}>🎶</div>
-        <div className="floating-audio" style={{left: '65%', top: '80%', animationDelay: '2.5s'}}>📻</div>
-        <div className="floating-audio" style={{left: '45%', top: '15%', animationDelay: '1.1s'}}>🎼</div>
-        
-        {/* Cosmic particles */}
-        <div className="cosmic-particle" style={{left: '12%', top: '25%', animationDelay: '0s'}}></div>
-        <div className="cosmic-particle" style={{left: '88%', top: '45%', animationDelay: '1s'}}></div>
-        <div className="cosmic-particle" style={{left: '33%', top: '60%', animationDelay: '2s'}}></div>
-        <div className="cosmic-particle" style={{left: '67%', top: '30%', animationDelay: '3s'}}></div>
-        <div className="cosmic-particle" style={{left: '55%', top: '75%', animationDelay: '4s'}}></div>
-        <div className="cosmic-particle" style={{left: '22%', top: '40%', animationDelay: '5s'}}></div>
-        <div className="cosmic-particle" style={{left: '78%', top: '65%', animationDelay: '2.5s'}}></div>
-        <div className="cosmic-particle" style={{left: '44%', top: '20%', animationDelay: '1.5s'}}></div>
-        
-        {/* Treasure-themed floating elements */}
-        <div className="floating-treasure" style={{left: '15%', top: '90%', animationDelay: '0s'}}>💰</div>
-        <div className="floating-treasure" style={{left: '25%', top: '85%', animationDelay: '1s'}}>🪙</div>
-        <div className="floating-treasure" style={{left: '35%', top: '90%', animationDelay: '2s'}}>💎</div>
-        <div className="floating-treasure" style={{left: '65%', top: '85%', animationDelay: '3s'}}>👑</div>
-        <div className="floating-treasure" style={{left: '75%', top: '90%', animationDelay: '1.5s'}}>🔮</div>
-        <div className="floating-treasure" style={{left: '85%', top: '85%', animationDelay: '2.5s'}}>⚱️</div>
-        
-        {/* Magic dust particles */}
-        <div className="magic-dust" style={{left: '18%', top: '30%', animationDelay: '0s'}}>✨</div>
-        <div className="magic-dust" style={{left: '42%', top: '40%', animationDelay: '1s'}}>⭐</div>
-        <div className="magic-dust" style={{left: '58%', top: '25%', animationDelay: '2s'}}>💫</div>
-        <div className="magic-dust" style={{left: '72%', top: '60%', animationDelay: '0.5s'}}>✨</div>
-        <div className="magic-dust" style={{left: '28%', top: '55%', animationDelay: '1.5s'}}>⭐</div>
+      {/* Twinkling Stars */}
+      <div className="twinkling-stars">
+        {[...Array(60)].map((_, i) => (
+          <div
+            key={i}
+            className="twinkling-star"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 4}s`,
+              animationDuration: `${3 + Math.random() * 4}s`
+            }}
+          />
+        ))}
       </div>
 
       <div className="level-path styled-path">
@@ -204,13 +173,10 @@ const Game = () => {
                 {isCompleted ? '✓' : level}
               </span>
               <div className="level-icon">
-                {isCompleted ? '🏆' : isUnlocked ? '💎' : '🔒'}
+                {isCompleted ? '🏆' : isUnlocked ? '🎵' : '🔒'}
               </div>
               {isUnlocked && !isCompleted && (
                 <div className="level-glow"></div>
-              )}
-              {isCompleted && (
-                <div className="treasure-sparkles"></div>
               )}
             </div>
           );

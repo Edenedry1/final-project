@@ -95,6 +95,7 @@ body, html {
     display: flex;
     gap: 2rem;
     align-items: center;
+    margin-top: 8px;
   }
   
   header .toolbar-icons a {
@@ -199,6 +200,7 @@ body, html {
     
     header .toolbar-icons {
         gap: 1rem;
+        margin-top: 8px;
     }
     
     header .toolbar-icons a {
@@ -658,6 +660,27 @@ body, html {
     font-style: italic;
     text-shadow: 0 0 10px rgba(218, 112, 214, 0.6);
     font-weight: 500;
+  }
+
+  /* Question transition animations */
+  @keyframes pulse {
+    0%, 100% { 
+      opacity: 0.8;
+      transform: scale(1);
+    }
+    50% { 
+      opacity: 1;
+      transform: scale(1.02);
+    }
+  }
+
+  @keyframes spin {
+    from { 
+      transform: rotate(0deg);
+    }
+    to { 
+      transform: rotate(360deg);
+    }
   }
   
   

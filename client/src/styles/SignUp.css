@@ -131,6 +131,7 @@ header {
   display: flex;
   gap: 1.5rem;
   align-items: center;
+  margin-top: 8px;
 }
 
 .toolbar-icons a {
@@ -214,7 +215,7 @@ h1 {
 }
 
 .institution-welcome p:first-child {
-  color: #8a2be2;
+  color: white;
   font-weight: bold;
   font-size: 1.2rem;
   text-shadow: 0 0 10px rgba(138, 43, 226, 0.6);

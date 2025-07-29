@@ -91,6 +91,7 @@ header .toolbar-icons {
   display: flex;
   gap: 2rem;
   align-items: center;
+  margin-top: 8px;
 }
 
 header .toolbar-icons a {
@@ -196,6 +197,7 @@ header .toolbar-icons a:active {
   
   header .toolbar-icons {
     gap: 1rem;
+    margin-top: 8px;
   }
   
   header .toolbar-icons a {

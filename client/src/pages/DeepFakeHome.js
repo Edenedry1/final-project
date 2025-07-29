@@ -74,10 +74,9 @@ const DeepFakeHome = () => {
       <main>
         {!isLoggedIn ? (
           <div className="container mt-5 text-center">
-            <h1 className="mb-4 featurette-heading">Welcome to DeepFakeAudio</h1>
+            <h1 className="mb-4 featurette-heading">Welcome to Deepfake Audio Hunter</h1>
             <p className="mb-4 custom-paragraph">
-                Join the revolution in audio analysis! 
-                Uncover hidden truths, challenge your skills, and have fun!
+                Hunting the truth behind every voice.
             </p>
                 <div className="text-center">
                 <img
@@ -137,9 +136,9 @@ const DeepFakeHome = () => {
                 <div className="carousel-item active">
                   <div className="container">
                     <div className="carousel-caption text-start">
-                      <h1>Welcome to DeepFakeAudio</h1>
+                      <h1>Welcome to Deepfake Audio Hunter </h1>
                       <p>
-                        Analyze and detect fake audio files using advanced technologies.
+                          Hunting the truth behind every voice.
                       </p>
                       <p>
                         <a className="btn btn-lg btn-primary" href="#">

@@ -5,16 +5,14 @@ body, html {
   padding: 0;
   height: 100%;
   font-family: 'Orbitron', sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  background-image: 
-    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+  background: linear-gradient(135deg, #1a1a2e 0%, #2a1a3a 25%, #3a1a4a 50%, #4a1a5a 75%, #5a1a6a 100%);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
   color: white;
   overflow-x: hidden;
 }
 
-/* Animated starfield background */
+/* Beautiful gradient overlay */
 body::before {
   content: '';
   position: fixed;
@@ -23,17 +21,40 @@ body::before {
   right: 0;
   bottom: 0;
   background-image: 
-    radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
-    radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-  background-size: 50px 50px, 80px 80px;
-  animation: starfield 20s linear infinite;
+    radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.15) 40%, transparent 70%),
+    radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.2) 20%, transparent 60%),
+    radial-gradient(circle at 40% 40%, rgba(192, 132, 252, 0.1) 30%, transparent 70%);
+  background-size: 100% 100%;
+  animation: gradientFloat 20s ease-in-out infinite;
   pointer-events: none;
-  z-index: -10;
+  z-index: -5;
 }
 
-@keyframes starfield {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-100px); }
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes gradientFloat {
+  0%, 100% {
+    transform: translateX(0) translateY(0);
+    opacity: 0.8;
+  }
+  33% {
+    transform: translateX(30px) translateY(-20px);
+    opacity: 1;
+  }
+  66% {
+    transform: translateX(-20px) translateY(30px);
+    opacity: 0.9;
+  }
 }
 
 /* Main container */
@@ -88,23 +109,22 @@ body::before {
 .search-input {
   width: 100%;
   padding: 1rem 1.5rem;
-  border: 2px solid rgba(0, 240, 255, 0.3);
+  border: 2px solid rgba(139, 92, 246, 0.4);
   border-radius: 15px;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(15, 12, 40, 0.9);
   color: white;
   font-size: 1.1rem;
   font-family: 'Orbitron', sans-serif;
-  backdrop-filter: blur(10px);
   transition: all 0.3s ease;
 }
 
 .search-input:focus {
   outline: none;
-  border-color: #00f0ff;
+  border-color: #8b5cf6;
   box-shadow: 
-    0 0 20px rgba(0, 240, 255, 0.4),
-    inset 0 0 20px rgba(0, 240, 255, 0.1);
-  background: rgba(0, 0, 0, 0.9);
+    0 0 20px rgba(139, 92, 246, 0.6),
+    inset 0 0 20px rgba(139, 92, 246, 0.2);
+  background: rgba(15, 12, 40, 1);
 }
 
 .search-input::placeholder {
@@ -125,20 +145,19 @@ body::before {
 
 .filter-select {
   padding: 0.8rem 1.2rem;
-  border: 2px solid rgba(0, 240, 255, 0.3);
+  border: 2px solid rgba(139, 92, 246, 0.4);
   border-radius: 10px;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(15, 12, 40, 0.9);
   color: white;
   font-family: 'Orbitron', sans-serif;
   font-size: 1rem;
-  backdrop-filter: blur(10px);
   transition: all 0.3s ease;
 }
 
 .filter-select:focus {
   outline: none;
-  border-color: #00f0ff;
-  box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+  border-color: #8b5cf6;
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.6);
 }
 
 .uploads-stats {
@@ -148,11 +167,11 @@ body::before {
 
 .stat-item {
   text-align: center;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(15, 12, 40, 0.9);
   padding: 1rem 1.5rem;
   border-radius: 15px;
-  border: 2px solid rgba(0, 240, 255, 0.3);
-  backdrop-filter: blur(10px);
+  border: 2px solid rgba(139, 92, 246, 0.5);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
 }
 
 .stat-number {
@@ -183,7 +202,6 @@ body::before {
   text-align: center;
   color: #ff4757;
   font-size: 1.1rem;
-  backdrop-filter: blur(10px);
 }
 
 .loading-message {
@@ -201,15 +219,14 @@ body::before {
 }
 
 .upload-card {
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(15, 12, 40, 0.95);
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 
-    0 20px 60px rgba(0, 0, 0, 0.5),
-    0 0 40px rgba(0, 240, 255, 0.2),
+    0 20px 60px rgba(0, 0, 0, 0.7),
+    0 0 40px rgba(139, 92, 246, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  border: 2px solid rgba(0, 240, 255, 0.3);
-  backdrop-filter: blur(15px);
+  border: 2px solid rgba(139, 92, 246, 0.5);
   transition: all 0.3s ease;
   position: relative;
 }
@@ -238,10 +255,10 @@ body::before {
 .upload-card:hover {
   transform: translateY(-5px);
   box-shadow: 
-    0 25px 70px rgba(0, 0, 0, 0.6),
-    0 0 50px rgba(0, 240, 255, 0.4),
+    0 25px 70px rgba(0, 0, 0, 0.8),
+    0 0 50px rgba(139, 92, 246, 0.6),
     inset 0 1px 0 rgba(255, 255, 255, 0.15);
-  border-color: #00f0ff;
+  border-color: #8b5cf6;
 }
 
 /* Upload Header */
@@ -460,10 +477,10 @@ body::before {
   grid-column: 1 / -1;
   text-align: center;
   padding: 4rem 2rem;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(15, 12, 40, 0.9);
   border-radius: 20px;
-  border: 2px solid rgba(0, 240, 255, 0.3);
-  backdrop-filter: blur(15px);
+  border: 2px solid rgba(139, 92, 246, 0.5);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
 }
 
 .no-uploads-icon {

@@ -101,9 +101,10 @@ header {
 }
 
 .toolbar-icons {
-    display: flex;
-    gap: 1.5rem;
-    align-items: center;
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  margin-top: 8px;
 }
 
 .toolbar-icons a {
@@ -133,31 +134,64 @@ header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     position: relative;
     z-index: 10;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: 2rem;
+    padding-right: 2rem;
 }
 
-/* Upload form container */
-.upload-form-container {
-    background: rgba(0, 0, 0, 0.8);
-    padding: 3.5rem;
-    border-radius: 25px;
-    box-shadow: 
-        0 25px 70px rgba(0, 0, 0, 0.6),
-        0 0 50px rgba(147, 112, 219, 0.3),
-        inset 0 2px 0 rgba(255, 255, 255, 0.15);
-    border: 3px solid rgba(147, 112, 219, 0.4);
-    backdrop-filter: blur(20px);
-    max-width: 700px;
-    width: 100%;
+/* Main title */
+.main-title {
     text-align: center;
-    margin: 2rem;
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 20px;
+    border: 2px solid rgba(147, 112, 219, 0.4);
+    backdrop-filter: blur(20px);
+    width: 100%;
+    max-width: 800px;
+}
+
+.main-title h1 {
+    color: white;
+    font-size: 2.8rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 25px rgba(147, 112, 219, 0.9);
+    font-weight: bold;
+}
+
+.main-title p {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+}
+
+/* Section containers */
+.section-container {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 2.5rem;
+    border-radius: 25px;
+    backdrop-filter: blur(20px);
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 2rem;
+    text-align: center;
     position: relative;
     overflow: hidden;
 }
 
-.upload-form-container::before {
+.analysis-section {
+    border: 3px solid rgba(147, 112, 219, 0.6);
+    box-shadow: 
+        0 25px 70px rgba(0, 0, 0, 0.6),
+        0 0 50px rgba(147, 112, 219, 0.3);
+}
+
+.analysis-section::before {
     content: '';
     position: absolute;
     top: 0;
@@ -170,46 +204,114 @@ header {
         rgba(138, 43, 226, 0.8) 50%, 
         rgba(147, 112, 219, 0.8) 75%, 
         transparent 100%);
-    animation: formGlow 4s ease-in-out infinite;
+    animation: sectionGlow 4s ease-in-out infinite;
 }
 
-@keyframes formGlow {
+.game-section {
+    border: 3px solid rgba(76, 175, 80, 0.6);
+    box-shadow: 
+        0 25px 70px rgba(0, 0, 0, 0.6),
+        0 0 50px rgba(76, 175, 80, 0.3);
+}
+
+.game-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(76, 175, 80, 0.8) 25%, 
+        rgba(139, 195, 74, 0.8) 50%, 
+        rgba(76, 175, 80, 0.8) 75%, 
+        transparent 100%);
+    animation: sectionGlow 4s ease-in-out infinite;
+}
+
+.educational-section {
+    border: 3px solid rgba(255, 193, 7, 0.6);
+    box-shadow: 
+        0 25px 70px rgba(0, 0, 0, 0.6),
+        0 0 50px rgba(255, 193, 7, 0.3);
+}
+
+.educational-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(255, 193, 7, 0.8) 25%, 
+        rgba(255, 235, 59, 0.8) 50%, 
+        rgba(255, 193, 7, 0.8) 75%, 
+        transparent 100%);
+    animation: sectionGlow 4s ease-in-out infinite;
+}
+
+@keyframes sectionGlow {
     0%, 100% { opacity: 0.6; }
     50% { opacity: 1; }
 }
 
-/* Title */
-h1 {
+/* Section headers */
+.section-header {
+    margin-bottom: 2rem;
+}
+
+.section-header h2 {
     color: white;
-    font-size: 2.8rem;
-    margin-bottom: 2.5rem;
-    text-shadow: 0 0 25px rgba(147, 112, 219, 0.9);
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 20px currentColor;
     font-weight: bold;
-    position: relative;
 }
 
-h1::after {
-    content: '🎧';
-    font-size: 2rem;
-    margin-left: 1rem;
-    animation: uploadPulse 2s infinite ease-in-out;
+.section-header p {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
 }
 
-@keyframes uploadPulse {
-    0%, 100% { 
-        opacity: 0.7;
-        transform: scale(1);
-    }
-    50% { 
-        opacity: 1;
-        transform: scale(1.1);
-    }
+/* Section content */
+.section-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
 }
+
+/* Feature lists */
+.feature-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    width: 100%;
+    max-width: 500px;
+}
+
+.feature-item {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 1rem;
+    text-align: left;
+    direction: ltr;
+}
+
+/* Remove old title styles - now handled in section-header */
 
 /* Form styling */
 form {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 2.5rem;
 }
 
@@ -318,8 +420,8 @@ input[type="file"] {
     color: rgba(255, 255, 255, 0.7);
 }
 
-/* Button styling */
-button[type="submit"] {
+/* Analyze Button */
+.analyze-button {
     padding: 1.2rem 3rem;
     border: none;
     border-radius: 15px;
@@ -338,9 +440,11 @@ button[type="submit"] {
     position: relative;
     overflow: hidden;
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    width: 100%;
+    max-width: 300px;
 }
 
-button[type="submit"]::before {
+.analyze-button::before {
     content: '';
     position: absolute;
     top: 0;
@@ -351,11 +455,11 @@ button[type="submit"]::before {
     transition: left 0.5s ease;
 }
 
-button[type="submit"]:hover::before {
+.analyze-button:hover::before {
     left: 100%;
 }
 
-button[type="submit"]:hover {
+.analyze-button:hover {
     transform: translateY(-3px);
     box-shadow: 
         0 15px 40px rgba(0, 0, 0, 0.5),
@@ -363,11 +467,11 @@ button[type="submit"]:hover {
     background: linear-gradient(135deg, rgba(138, 43, 226, 1) 0%, rgba(147, 112, 219, 1) 100%);
 }
 
-button[type="submit"]:active {
+.analyze-button:active {
     transform: translateY(-1px);
 }
 
-button:disabled {
+.analyze-button:disabled {
     opacity: 0.6;
     cursor: not-allowed;
     transform: none !important;
@@ -462,26 +566,27 @@ button:disabled {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 1rem;
     padding: 1.5rem 2.5rem;
-    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-    color: white !important;
-    border: none !important;
-    border-radius: 20px !important;
+    background: linear-gradient(135deg, #FFC107 0%, #FF9800 100%);
+    color: white;
+    border: none;
+    border-radius: 20px;
     cursor: pointer;
-    font-size: 1.1rem !important;
-    font-weight: bold !important;
-    font-family: 'Orbitron', sans-serif !important;
-    transition: all 0.4s ease !important;
+    font-size: 1.2rem;
+    font-weight: bold;
+    font-family: 'Orbitron', sans-serif;
+    transition: all 0.4s ease;
     box-shadow: 
         0 10px 30px rgba(0, 0, 0, 0.4),
-        0 0 25px rgba(40, 167, 69, 0.5) !important;
-    min-width: 280px !important;
-    border: 3px solid rgba(40, 167, 69, 0.6) !important;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5) !important;
+        0 0 25px rgba(255, 193, 7, 0.5);
+    min-width: 280px;
+    border: 3px solid rgba(255, 193, 7, 0.6);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
     position: relative;
     overflow: hidden;
-    margin: 0 !important;
-    width: 100% !important;
+    width: 100%;
+    max-width: 400px;
 }
 
 .educational-button::before {
@@ -500,33 +605,38 @@ button:disabled {
 }
 
 .educational-button:hover {
-    transform: translateY(-3px) scale(1.02) !important;
+    transform: translateY(-3px);
     box-shadow: 
         0 15px 40px rgba(0, 0, 0, 0.5),
-        0 0 35px rgba(40, 167, 69, 0.7) !important;
-    background: linear-gradient(135deg, #20c997 0%, #28a745 100%) !important;
+        0 0 35px rgba(255, 193, 7, 0.7);
+    background: linear-gradient(135deg, #FF9800 0%, #FFC107 100%);
+    border-color: rgba(255, 193, 7, 0.9);
 }
 
 .game-button {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 2.5rem 3rem;
-    background: linear-gradient(135deg, rgba(147, 112, 219, 0.9) 0%, rgba(138, 43, 226, 0.9) 100%);
+    padding: 1.5rem 2.5rem;
+    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
     color: white;
     border: none;
-    border-radius: 25px;
+    border-radius: 20px;
     cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: bold;
+    font-family: 'Orbitron', sans-serif;
     transition: all 0.4s ease;
     box-shadow: 
-        0 15px 40px rgba(0, 0, 0, 0.4),
-        0 0 30px rgba(147, 112, 219, 0.5);
+        0 10px 30px rgba(0, 0, 0, 0.4),
+        0 0 25px rgba(76, 175, 80, 0.5);
+    min-width: 280px;
+    border: 3px solid rgba(76, 175, 80, 0.6);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
     position: relative;
     overflow: hidden;
-    min-width: 280px;
-    border: 3px solid rgba(147, 112, 219, 0.6);
-    font-family: 'Orbitron', sans-serif;
+    width: 100%;
+    max-width: 400px;
 }
 
 .game-button::before {
@@ -545,43 +655,24 @@ button:disabled {
 }
 
 .game-button:hover {
-    transform: translateY(-5px) scale(1.05);
+    transform: translateY(-3px);
     box-shadow: 
-        0 20px 50px rgba(0, 0, 0, 0.5),
-        0 0 40px rgba(147, 112, 219, 0.7);
-    background: linear-gradient(135deg, rgba(138, 43, 226, 1) 0%, rgba(147, 112, 219, 1) 100%);
-    border-color: rgba(147, 112, 219, 0.9);
+        0 15px 40px rgba(0, 0, 0, 0.5),
+        0 0 35px rgba(76, 175, 80, 0.7);
+    background: linear-gradient(135deg, #45a049 0%, #4CAF50 100%);
+    border-color: rgba(76, 175, 80, 0.9);
 }
 
-.game-icon {
-    font-size: 4rem;
-    margin-bottom: 1rem;
-    animation: gameIconPulse 2s ease-in-out infinite;
+/* Button Icons */
+.game-icon, .educational-icon {
+    font-size: 2rem;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
 }
 
-@keyframes gameIconPulse {
-    0%, 100% { 
-        transform: scale(1);
-        filter: drop-shadow(0 0 10px rgba(147, 112, 219, 0.8));
-    }
-    50% { 
-        transform: scale(1.1);
-        filter: drop-shadow(0 0 20px rgba(147, 112, 219, 1));
-    }
-}
-
-.game-text {
-    font-size: 1.8rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-    text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
-    font-family: 'Orbitron', sans-serif;
-}
-
-.game-subtitle {
+.game-text, .educational-text {
     font-size: 1.2rem;
-    opacity: 0.9;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
     font-family: 'Orbitron', sans-serif;
 }
 
@@ -617,18 +708,35 @@ button:disabled {
 
 /* Responsive design */
 @media (max-width: 768px) {
-    .upload-form-container {
-        padding: 2.5rem 1.5rem;
-        margin: 1rem;
-        max-width: 95%;
+    .upload-container {
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
     
-    h1 {
+    .main-title {
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+    
+    .main-title h1 {
         font-size: 2.2rem;
     }
-
-    h1::after {
-        font-size: 1.5rem;
+    
+    .main-title p {
+        font-size: 1rem;
+    }
+    
+    .section-container {
+        padding: 2rem 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .section-header h2 {
+        font-size: 1.8rem;
+    }
+    
+    .section-header p {
+        font-size: 1rem;
     }
     
     .file-input-label {
@@ -648,7 +756,7 @@ button:disabled {
         font-size: 0.8rem;
     }
 
-    button[type="submit"] {
+    .analyze-button {
         padding: 1rem 2rem;
         font-size: 1.1rem;
         letter-spacing: 1px;
@@ -662,20 +770,26 @@ button:disabled {
         font-size: 1.8rem;
     }
 
-    .game-button {
-        padding: 2rem 2.5rem;
+    .feature-list {
+        gap: 0.8rem;
+    }
+    
+    .feature-item {
+        padding: 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    .game-button, .educational-button {
+        padding: 1.2rem 2rem;
         min-width: 250px;
+        font-size: 1rem;
     }
 
-    .game-icon {
-        font-size: 3rem;
-    }
-
-    .game-text {
+    .game-icon, .educational-icon {
         font-size: 1.5rem;
     }
 
-    .game-subtitle {
+    .game-text, .educational-text {
         font-size: 1rem;
     }
 

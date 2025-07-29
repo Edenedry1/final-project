@@ -7,10 +7,9 @@ const Profile = () => {
   const [profile, setProfile] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
+  const [totalCoins, setTotalCoins] = useState(0);
 
   const fetchProfile = async () => {
-    setLoading(true);
-    setError('');
     const storedUser = JSON.parse(localStorage.getItem('loggedInUser'));
     if (storedUser && storedUser.id) {
       try {
@@ -20,9 +19,25 @@ const Profile = () => {
           setError(data.error);
         } else {
           setProfile(data);
+          
+          // Get coins from localStorage and use the higher value
+          const localCoins = parseInt(localStorage.getItem('totalCoins') || '0');
+          const serverCoins = data.total_coins || 0;
+          const maxCoins = Math.max(localCoins, serverCoins);
+          
+          setTotalCoins(maxCoins);
+          
+          // If localStorage has more coins, sync with server
+          if (localCoins > serverCoins) {
+            console.log(`Local coins (${localCoins}) > server coins (${serverCoins}), syncing...`);
+            // Optional: send update to server here
+          }
         }
       } catch (err) {
         setError('Failed to fetch profile data.');
+        // Fallback to localStorage if server fails
+        const localCoins = parseInt(localStorage.getItem('totalCoins') || '0');
+        setTotalCoins(localCoins);
       }
     } else {
       setError('User not logged in.');
@@ -45,7 +60,37 @@ const Profile = () => {
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
+  }, []); // Remove totalCoins dependency to prevent infinite loop
+  
+  // Initial coin loading
+  useEffect(() => {
+    const localCoins = parseInt(localStorage.getItem('totalCoins') || '0');
+    setTotalCoins(localCoins);
   }, []);
+  
+  // Separate useEffect for localStorage monitoring
+  useEffect(() => {
+    // Listen for localStorage changes (when coins are updated in games)
+    const handleStorageChange = () => {
+      const localCoins = parseInt(localStorage.getItem('totalCoins') || '0');
+      setTotalCoins(localCoins);
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    
+    // Check localStorage periodically but less frequently to avoid constant updates
+    const interval = setInterval(() => {
+      const localCoins = parseInt(localStorage.getItem('totalCoins') || '0');
+      if (localCoins !== totalCoins) {
+        setTotalCoins(localCoins);
+      }
+    }, 3000); // Changed from 1000ms to 3000ms to reduce frequency
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      clearInterval(interval);
+    };
+  }, [totalCoins]);
 
   return (
     <>
@@ -102,7 +147,7 @@ const Profile = () => {
               </div>
               <div className="stat-card">
                 <span className="stat-icon">🪙</span>
-                <div className="stat-value">{profile?.total_coins || 0}</div>
+                <div className="stat-value">{totalCoins}</div>
                 <div className="stat-label">Total Coins</div>
               </div>
               <div className="stat-card">

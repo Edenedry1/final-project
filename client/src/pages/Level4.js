@@ -16,6 +16,7 @@ const Level4 = () => {
   const [questions, setQuestions] = useState([]);
   const [questionsLoading, setQuestionsLoading] = useState(true);
   const [showHint, setShowHint] = useState(false);
+  const [questionChanging, setQuestionChanging] = useState(false);
 
   const hints = [
     "💡 Hint: Listen for subtle audio compression artifacts unique to AI generation.",

@@ -137,6 +137,7 @@ header {
     display: flex;
     gap: 2rem;
     align-items: center;
+    margin-top: 8px;
 }
 
   .toolbar-icons a {
@@ -158,73 +159,121 @@ header {
     box-shadow: 0 0 20px rgba(139, 92, 246, 0.6);
   }
 
-/* Artistic main title inspired by the image */
+/* Crystal Icon removed */
+
+/* Twinkling Stars */
+.twinkling-stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.twinkling-star {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.5;
+    animation: twinkle 4s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+    0%, 100% { 
+        opacity: 0.3; 
+        transform: scale(0.8); 
+    }
+    50% { 
+        opacity: 1; 
+        transform: scale(1.2); 
+    }
+}
+
+/* Beautiful clean title inspired by the reference design */
 .deepfake-quest-title {
-    font-size: 4.5rem;
-    font-weight: 900;
-    color: #ffffff;
     text-align: center;
-    margin: 2rem 0 1rem 0;
+    margin: 2rem 0 1.5rem 0;
     line-height: 1.1;
     position: relative;
     z-index: 10;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 0.1em;
     
-    /* 3D text effect */
-    text-shadow: 
-        0 0 30px rgba(147, 51, 234, 1),
-        0 0 60px rgba(147, 51, 234, 0.8),
-        0 0 90px rgba(147, 51, 234, 0.6),
-        0 5px 0 rgba(138, 43, 226, 0.8),
-        0 10px 0 rgba(129, 38, 206, 0.7),
-        0 15px 0 rgba(120, 33, 186, 0.6),
-        0 20px 0 rgba(111, 28, 166, 0.5),
-        0 25px 20px rgba(0, 0, 0, 0.4),
-        0 30px 30px rgba(0, 0, 0, 0.3);
-    
-    /* Gradient text */
-    background: linear-gradient(135deg, #f3e7fc 0%, #e9d5ff 30%, #ddd6fe 70%, #c4b5fd 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    
-    animation: titleGlow 3s ease-in-out infinite alternate;
-    font-family: 'Orbitron', 'Arial Black', sans-serif;
+    /* Clean drop shadow */
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
 }
 
-.deepfake-quest-title .quest-word {
+.deepfake-quest-title .main-word {
     display: block;
-    font-size: 4rem;
-    margin-top: -1rem;
-    background: linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 30%, #a78bfa 70%, #8b5cf6 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    font-size: 5rem;
+    font-weight: 900;
+    color: #e879f9;
+    letter-spacing: 0.15em;
+    margin-bottom: -0.2rem;
+    text-shadow: 0 0 30px rgba(232, 121, 249, 0.6);
+    animation: titleGlow1 3s ease-in-out infinite alternate;
+}
+
+.deepfake-quest-title .hunter-word {
+    display: block;
+    font-size: 5rem;
+    font-weight: 900;
+    color: #a5b4fc;
+    letter-spacing: 0.15em;
+    margin-bottom: 0.2rem;
+    text-shadow: 0 0 30px rgba(165, 180, 252, 0.6);
+    animation: titleGlow2 3s ease-in-out infinite alternate 0.5s;
 }
 
 .deepfake-quest-title .audio-subtitle {
     display: block;
-    font-size: 2rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #e879f9;
+    letter-spacing: 0.3em;
     margin-top: 0.5rem;
-    color: #60a5fa;
-    text-shadow: 
-        0 0 20px rgba(96, 165, 250, 0.8),
-        0 3px 0 rgba(59, 130, 246, 0.6),
-        0 6px 0 rgba(37, 99, 235, 0.5),
-        0 9px 10px rgba(0, 0, 0, 0.3);
-    background: linear-gradient(135deg, #93c5fd 0%, #60a5fa 50%, #3b82f6 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    text-shadow: 0 0 20px rgba(232, 121, 249, 0.5);
+    animation: titleGlow3 3s ease-in-out infinite alternate 1s;
 }
 
-@keyframes titleGlow {
+@keyframes titleGlow1 {
     0% {
-        filter: drop-shadow(0 0 20px rgba(147, 51, 234, 0.6));
+        text-shadow: 0 0 30px rgba(232, 121, 249, 0.4);
+        transform: scale(1);
     }
     100% {
-        filter: drop-shadow(0 0 40px rgba(147, 51, 234, 1));
+        text-shadow: 0 0 40px rgba(232, 121, 249, 0.8);
+        transform: scale(1.02);
     }
 }
+
+@keyframes titleGlow2 {
+    0% {
+        text-shadow: 0 0 30px rgba(165, 180, 252, 0.4);
+        transform: scale(1);
+    }
+    100% {
+        text-shadow: 0 0 40px rgba(165, 180, 252, 0.8);
+        transform: scale(1.02);
+    }
+}
+
+@keyframes titleGlow3 {
+    0% {
+        text-shadow: 0 0 20px rgba(232, 121, 249, 0.3);
+    }
+    100% {
+        text-shadow: 0 0 30px rgba(232, 121, 249, 0.7);
+    }
+}
+
+/* Removed old animations - using unified title animation instead */
+
+/* Removed titleGlow - using titleMasterGlow instead */
 
 /* Diamond/gem decoration above title */
 .title-decoration {
@@ -250,14 +299,27 @@ header {
 
 /* Subtitle below main title */
 .neon-sub {
-    font-size: 1.2rem;
-    color: rgba(255, 255, 255, 0.9);
-    text-shadow: 0 0 15px rgba(147, 112, 219, 0.6);
-    margin-bottom: 2rem;
+    font-size: 1.3rem;
+    color: black;
+    text-shadow: 
+        0 0 20px rgba(255, 255, 255, 0.8),
+        0 2px 4px rgba(0, 0, 0, 0.5);
+    margin-bottom: 1.5rem;
     text-align: center;
-    font-weight: 500;
+    font-weight: 600;
     position: relative;
     z-index: 10;
+    font-style: italic;
+    animation: subtitleGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes subtitleGlow {
+    0% {
+        filter: drop-shadow(0 0 15px rgba(147, 112, 219, 0.6));
+    }
+    100% {
+        filter: drop-shadow(0 0 25px rgba(147, 112, 219, 0.9));
+    }
 }
 
 /* Diagonal path layout */
@@ -266,7 +328,10 @@ header {
     width: 100%;
     height: calc(100vh - 200px);
     background: none;
-    z-index: 2;
+    z-index: 50 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    margin-top: -30px;
 }
 
 /* Thin curved trail path */
@@ -307,13 +372,13 @@ header {
     }
 }
 
-/* Realistic 3D treasure chest styling */
+/* Simple elegant level circles - DESKTOP OPTIMIZED */
 .level-circle {
     position: absolute;
-    width: 100px;
-    height: 85px;
-    border-radius: 15px 15px 8px 8px;
-    background: linear-gradient(145deg, #8B4513 0%, #A0522D 20%, #CD853F 60%, #DEB887 100%);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #312e81 0%, #1e1b4b 100%);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -322,211 +387,124 @@ header {
     transform: translate(-50%, -50%);
     cursor: pointer;
     z-index: 10;
-    
-    /* 3D wooden chest effect */
     box-shadow: 
-        0 12px 25px rgba(0, 0, 0, 0.4),
-        0 6px 12px rgba(0, 0, 0, 0.3),
-        inset 0 2px 4px rgba(255, 255, 255, 0.3),
-        inset 0 -2px 4px rgba(0, 0, 0, 0.2);
-    
-    /* Wood grain texture simulation */
-    background-image: 
-        repeating-linear-gradient(90deg, 
-            transparent, 
-            transparent 2px, 
-            rgba(0, 0, 0, 0.1) 2px, 
-            rgba(0, 0, 0, 0.1) 3px),
-        linear-gradient(145deg, #8B4513 0%, #A0522D 20%, #CD853F 60%, #DEB887 100%);
-    
-    /* Metal bands on chest */
-    position: relative;
+        0 8px 25px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(139, 92, 246, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border: 3px solid rgba(139, 92, 246, 0.4);
 }
 
-.level-circle::before {
-    content: '';
-    position: absolute;
-    top: 20%;
-    left: 10%;
-    right: 10%;
-    height: 6px;
-    background: linear-gradient(145deg, #4A4A4A 0%, #707070 50%, #9A9A9A 100%);
-    border-radius: 3px;
-    box-shadow: 
-        0 2px 4px rgba(0, 0, 0, 0.3),
-        inset 0 1px 2px rgba(255, 255, 255, 0.3);
-}
-
-.level-circle::after {
-    content: '';
-    position: absolute;
-    bottom: 20%;
-    left: 10%;
-    right: 10%;
-    height: 6px;
-    background: linear-gradient(145deg, #4A4A4A 0%, #707070 50%, #9A9A9A 100%);
-    border-radius: 3px;
-    box-shadow: 
-        0 2px 4px rgba(0, 0, 0, 0.3),
-        inset 0 1px 2px rgba(255, 255, 255, 0.3);
-}
-
-/* Unlocked treasure chest - Glowing with gems */
+/* Unlocked level - Bright purple style */
 .level-circle.unlocked {
     cursor: pointer;
-    animation: chestGlow 3s infinite ease-in-out;
-    background: linear-gradient(145deg, #8B4513 0%, #A0522D 20%, #CD853F 60%, #F4A460 100%);
+    animation: levelPulse 3s infinite ease-in-out;
+    background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
     box-shadow: 
-        0 12px 30px rgba(0, 0, 0, 0.5),
-        0 0 25px rgba(139, 92, 246, 0.6),
-        0 0 40px rgba(168, 85, 247, 0.4),
-        inset 0 2px 4px rgba(255, 255, 255, 0.4),
-        inset 0 -2px 4px rgba(0, 0, 0, 0.2);
-    border: 2px solid rgba(168, 85, 247, 0.8);
+        0 8px 25px rgba(0, 0, 0, 0.4),
+        0 0 30px rgba(139, 92, 246, 0.8),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    border: 3px solid rgba(168, 85, 247, 0.8);
 }
 
-/* Completed treasure chest - Golden with success gems */
+/* Completed level - Gold/success style */
 .level-circle.completed {
-    background: linear-gradient(145deg, #B8860B 0%, #DAA520 20%, #FFD700 60%, #FFFFE0 100%) !important;
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%) !important;
     box-shadow: 
-        0 12px 30px rgba(0, 0, 0, 0.5),
-        0 0 25px rgba(255, 215, 0, 0.8),
-        0 0 40px rgba(255, 223, 0, 0.6),
-        inset 0 2px 4px rgba(255, 255, 255, 0.5),
-        inset 0 -2px 4px rgba(0, 0, 0, 0.2) !important;
-    border: 2px solid rgba(255, 215, 0, 0.9) !important;
+        0 8px 25px rgba(0, 0, 0, 0.4),
+        0 0 30px rgba(16, 185, 129, 0.8),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+    border: 3px solid rgba(52, 211, 153, 0.8) !important;
 }
 
-.level-circle.completed::before,
-.level-circle.completed::after {
-    background: linear-gradient(145deg, #B8860B 0%, #DAA520 50%, #FFD700 100%);
-}
-
-/* Locked treasure chest - Dark and closed */
+/* Locked level - Dark cosmic style */
 .level-circle.locked {
     cursor: not-allowed;
-    opacity: 0.7;
-    background: linear-gradient(145deg, #2F2F2F 0%, #1A1A1A 20%, #0F0F0F 60%, #000000 100%);
+    opacity: 0.6;
+    background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
     box-shadow: 
-        0 8px 20px rgba(0, 0, 0, 0.6),
-        inset 0 2px 4px rgba(255, 255, 255, 0.1),
-        inset 0 -2px 4px rgba(0, 0, 0, 0.4);
-    border: 2px solid rgba(75, 85, 99, 0.5);
+        0 4px 15px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border: 3px solid rgba(75, 85, 99, 0.5);
 }
 
-.level-circle.locked::before,
-.level-circle.locked::after {
-    background: linear-gradient(145deg, #1A1A1A 0%, #0F0F0F 50%, #000000 100%);
-}
-
-/* Gem/crystal decorations on top of chests */
+/* Level number styling */
 .level-number {
-    font-size: 0.8rem;
+    font-size: 1rem;
     color: #fff;
     font-weight: 900;
-    text-shadow: 
-        0 0 8px rgba(255, 255, 255, 0.8), 
-        0 2px 4px rgba(0, 0, 0, 0.8),
-        0 0 15px rgba(139, 92, 246, 0.6);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 2px 4px rgba(0, 0, 0, 0.6);
     margin: 0;
     z-index: 12;
     position: relative;
-    margin-bottom: 2px;
+    margin-bottom: 3px;
     font-family: 'Orbitron', sans-serif;
 }
 
 .level-icon {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     z-index: 12;
     position: relative;
     filter: 
         drop-shadow(0 0 8px rgba(255, 255, 255, 0.6)) 
-        drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5))
-        drop-shadow(0 0 12px rgba(139, 92, 246, 0.4));
-    margin-top: 2px;
+        drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
 }
 
-/* Enhanced hover effects for treasure chests */
+/* Hover effects */
 .level-circle.unlocked:hover {
-    transform: translate(-50%, -50%) scale(1.15) rotateY(5deg);
+    transform: translate(-50%, -50%) scale(1.15);
     box-shadow: 
-        0 15px 40px rgba(0, 0, 0, 0.6),
-        0 0 30px rgba(139, 92, 246, 0.8),
-        0 0 50px rgba(168, 85, 247, 0.6),
-        inset 0 3px 6px rgba(255, 255, 255, 0.5),
-        inset 0 -3px 6px rgba(0, 0, 0, 0.3);
+        0 12px 35px rgba(0, 0, 0, 0.5),
+        0 0 40px rgba(139, 92, 246, 1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
     border: 3px solid rgba(168, 85, 247, 1);
 }
 
 .level-circle.completed:hover {
-    transform: translate(-50%, -50%) scale(1.15) rotateY(-5deg);
+    transform: translate(-50%, -50%) scale(1.15);
     box-shadow: 
-        0 15px 40px rgba(0, 0, 0, 0.6),
-        0 0 35px rgba(255, 215, 0, 1),
-        0 0 50px rgba(255, 223, 0, 0.8),
-        inset 0 3px 6px rgba(255, 255, 255, 0.6),
-        inset 0 -3px 6px rgba(0, 0, 0, 0.3);
-    border: 3px solid rgba(255, 215, 0, 1);
+        0 12px 35px rgba(0, 0, 0, 0.5),
+        0 0 40px rgba(16, 185, 129, 1),
+        inset 0 2px 12px rgba(255, 255, 255, 0.6);
+    border: 3px solid rgba(52, 211, 153, 1);
 }
 
-/* Floating gems around active chest */
+/* Glow for current level */
 .level-glow {
     position: absolute;
-    width: 150%;
-    height: 150%;
+    width: 130%;
+    height: 130%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.4) 0%, transparent 70%);
+    animation: levelGlow 2s ease-in-out infinite;
+    z-index: -1;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: -1;
-    pointer-events: none;
 }
 
-.level-glow::before {
-    content: '💎';
-    position: absolute;
-    top: -20px;
-    left: -10px;
-    font-size: 1.2rem;
-    animation: gemFloat1 3s ease-in-out infinite;
-    filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.8));
-}
-
-.level-glow::after {
-    content: '✨';
-    position: absolute;
-    top: -15px;
-    right: -15px;
-    font-size: 1rem;
-    animation: gemFloat2 2.5s ease-in-out infinite;
-    filter: drop-shadow(0 0 6px rgba(168, 85, 247, 0.8));
-}
-
-@keyframes chestGlow {
+@keyframes levelPulse {
     0%, 100% {
-        filter: drop-shadow(0 0 15px rgba(139, 92, 246, 0.4));
         transform: translate(-50%, -50%) scale(1);
+        box-shadow: 
+            0 8px 25px rgba(0, 0, 0, 0.4),
+            0 0 30px rgba(139, 92, 246, 0.6),
+            inset 0 1px 0 rgba(255, 255, 255, 0.3);
     }
     50% {
-        filter: drop-shadow(0 0 25px rgba(139, 92, 246, 0.8));
-        transform: translate(-50%, -50%) scale(1.02);
+        transform: translate(-50%, -50%) scale(1.05);
+        box-shadow: 
+            0 12px 35px rgba(0, 0, 0, 0.5),
+            0 0 40px rgba(139, 92, 246, 1),
+            inset 0 1px 0 rgba(255, 255, 255, 0.4);
     }
 }
 
-@keyframes gemFloat1 {
+@keyframes levelGlow {
     0%, 100% {
-        transform: translateY(0) rotate(0deg);
+        background: radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, transparent 70%);
     }
     50% {
-        transform: translateY(-10px) rotate(180deg);
-    }
-}
-
-@keyframes gemFloat2 {
-    0%, 100% {
-        transform: translateY(0) rotate(0deg);
-    }
-    50% {
-        transform: translateY(-8px) rotate(-180deg);
+        background: radial-gradient(circle, rgba(139, 92, 246, 0.6) 0%, transparent 70%);
     }
 }
 
@@ -751,32 +729,6 @@ header {
 }
 
 /* Animations */
-@keyframes levelPulse {
-    0%, 100% { 
-        box-shadow: 
-            0 8px 25px rgba(0, 0, 0, 0.3),
-            0 0 20px rgba(0, 240, 255, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    }
-    50% { 
-        box-shadow: 
-            0 8px 25px rgba(0, 0, 0, 0.3),
-            0 0 40px rgba(0, 240, 255, 0.8),
-            inset 0 1px 0 rgba(255, 255, 255, 0.4);
-    }
-}
-
-@keyframes levelGlow {
-    0%, 100% { 
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 0.5;
-    }
-    50% { 
-        transform: translate(-50%, -50%) scale(1.2);
-        opacity: 0.8;
-    }
-}
-
 @keyframes mountainSway {
     0%, 100% { 
         transform: translateY(0px);
@@ -1063,78 +1015,6 @@ header {
     }
 }
 
-/* Enhanced chest lock for locked levels */
-.level-circle.locked .level-icon {
-    font-size: 1.6rem;
-    color: #666;
-    filter: 
-        drop-shadow(0 0 4px rgba(102, 102, 102, 0.6)) 
-        drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8));
-}
-
-/* Completed chest number styling */
-.level-circle.completed .level-number {
-    font-size: 1rem;
-    color: #fff;
-    text-shadow: 
-        0 0 10px rgba(255, 255, 255, 1), 
-        0 2px 4px rgba(0, 0, 0, 0.8),
-        0 0 20px rgba(255, 215, 0, 0.8);
-}
-
-/* Treasure-themed floating elements */
-.floating-treasure {
-    position: absolute;
-    font-size: 1.8rem;
-    animation: treasureFloat 10s ease-in-out infinite;
-    color: rgba(255, 215, 0, 0.8);
-    text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
-    z-index: 1;
-}
-
-.magic-dust {
-    position: absolute;
-    font-size: 1.2rem;
-    animation: magicDustFloat 8s ease-in-out infinite;
-    color: rgba(255, 255, 255, 0.9);
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-    z-index: 2;
-}
-
-@keyframes treasureFloat {
-    0%, 100% { 
-        transform: translateY(0px) scale(1) rotate(0deg);
-        opacity: 0.8;
-    }
-    25% {
-        transform: translateY(-15px) scale(1.1) rotate(90deg);
-        opacity: 1;
-    }
-    50% { 
-        transform: translateY(-25px) scale(1.2) rotate(180deg);
-        opacity: 0.9;
-    }
-    75% {
-        transform: translateY(-15px) scale(1.1) rotate(270deg);
-        opacity: 1;
-    }
-}
-
-@keyframes magicDustFloat {
-    0%, 100% { 
-        transform: translateY(0px) scale(0.8) rotate(0deg);
-        opacity: 0.6;
-    }
-    33% {
-        transform: translateY(-20px) scale(1.3) rotate(120deg);
-        opacity: 1;
-    }
-    66% { 
-        transform: translateY(-10px) scale(1) rotate(240deg);
-        opacity: 0.8;
-    }
-}
-
 /* Responsive design */
 @media (max-width: 768px) {
     .level-circle {
@@ -1188,6 +1068,7 @@ header {
     
     .neon-sub {
         font-size: 1.1rem;
+        color: black;
     }
     
     .progress-indicator {

@@ -16,6 +16,7 @@ const Level1 = () => {
   const [questions, setQuestions] = useState([]);
   const [questionsLoading, setQuestionsLoading] = useState(true);
   const [showHint, setShowHint] = useState(false);
+  const [questionChanging, setQuestionChanging] = useState(false);
 
   const hints = [
     "💡 Hint: Listen for naturalness - fake audio often sounds metallic or robotic.",
@@ -174,8 +175,12 @@ const Level1 = () => {
       setTimeout(() => {
         setFeedback('');
         if (current + 1 < questions.length) {
-          setCurrent(current + 1);
-          setShowHint(false); // Reset hint for next question
+          setQuestionChanging(true);
+          setTimeout(() => {
+            setCurrent(current + 1);
+            setShowHint(false); // Reset hint for next question
+            setQuestionChanging(false);
+          }, 1000);
         } else {
           setCompleted(true);
           localStorage.setItem('unlockedLevel', '2');
@@ -254,31 +259,49 @@ const Level1 = () => {
             <p className="codecfake-info">
               🎯 Audio files randomly selected from Codecfake dataset
             </p>
+            
+            {questionChanging && (
+              <div style={{
+                textAlign: 'center',
+                padding: '2rem',
+                background: 'rgba(0, 240, 255, 0.1)',
+                border: '2px solid rgba(0, 240, 255, 0.4)',
+                borderRadius: '15px',
+                margin: '2rem 0',
+                animation: 'pulse 1s infinite'
+              }}>
+                <h3 style={{color: 'black', marginBottom: '1rem'}}>🔄 Loading Next Question...</h3>
+                <p style={{color: 'black', fontSize: '1.1rem'}}>
+                  🎵 Fetching new audio files from Codecfake dataset...
+                </p>
+                <div style={{fontSize: '2rem', animation: 'spin 1s linear infinite'}}>⏳</div>
+              </div>
+            )}
 
-            {!completed ? (
-              <div className="question-block">
-                <div className="audio-group">
-                  <div className="audio-box">
-                    <p>Audio File 1</p>
-                    <audio controls src={questions[current]?.leftFile} />
-                    <button 
-                      onClick={() => handleChoice('left')} 
-                      disabled={loading}
-                    >
-                      {loading ? 'Checking...' : 'This one is fake'}
-                    </button>
+                          {!completed ? (
+                <div className="question-block">
+                  <div className="audio-group">
+                    <div className="audio-box">
+                      <p>Audio File 1</p>
+                      <audio controls src={questions[current]?.leftFile} key={`left-${current}`} />
+                      <button 
+                        onClick={() => handleChoice('left')} 
+                        disabled={loading || questionChanging}
+                      >
+                        {loading ? 'Checking...' : 'This one is fake'}
+                      </button>
+                    </div>
+                    <div className="audio-box">
+                      <p>Audio File 2</p>
+                      <audio controls src={questions[current]?.rightFile} key={`right-${current}`} />
+                      <button 
+                        onClick={() => handleChoice('right')}
+                        disabled={loading || questionChanging}
+                      >
+                        {loading ? 'Checking...' : 'This one is fake'}
+                      </button>
+                    </div>
                   </div>
-                  <div className="audio-box">
-                    <p>Audio File 2</p>
-                    <audio controls src={questions[current]?.rightFile} />
-                    <button 
-                      onClick={() => handleChoice('right')}
-                      disabled={loading}
-                    >
-                      {loading ? 'Checking...' : 'This one is fake'}
-                    </button>
-                  </div>
-                </div>
                 {feedback && (
                   <div className={`feedback-message ${feedback.includes('✔️') ? 'success' : 'error'}`}>
                     {feedback}

@@ -16,6 +16,7 @@ const Level6 = () => {
   const [questions, setQuestions] = useState([]);
   const [questionsLoading, setQuestionsLoading] = useState(true);
   const [showHint, setShowHint] = useState(false);
+  const [questionChanging, setQuestionChanging] = useState(false);
 
   const hints = [
     "💡 Hint: Analyze temporal envelope consistency across phonemes.",

@@ -76,8 +76,18 @@ const UploadAudio = () => {
       </header>
 
       <div className="upload-container">
-        <div className="upload-form-container">
-          <h1>🎧 Audio Deepfake Detection</h1>
+        {/* Main Title */}
+        <div className="main-title">
+          <h1>🎧 Audio Deepfake Detection Platform</h1>
+          <p>Choose your path to explore deepfake audio technology</p>
+        </div>
+
+        {/* Section 1: Audio Analysis */}
+        <div className="section-container analysis-section">
+          <div className="section-header">
+            <h2>🔍 Audio Analysis</h2>
+            <p>Upload an audio file to detect if it's real or AI-generated</p>
+          </div>
           
           <form onSubmit={handleUpload}>
             <div className="file-input-container">
@@ -108,7 +118,7 @@ const UploadAudio = () => {
               </label>
             </div>
             
-            <button type="submit" disabled={!selectedFile || loading}>
+            <button type="submit" disabled={!selectedFile || loading} className="analyze-button">
               {loading ? 'Analyzing...' : 'Analyze Audio'}
             </button>
           </form>
@@ -133,27 +143,56 @@ const UploadAudio = () => {
               </p>
             </div>
           )}
+        </div>
 
-          {/* Game Button */}
-          <div className="game-button-container">
-            {/* Educational Button - Only for institutions */}
-            {isInstitution && (
-              <button 
-                onClick={() => navigate('/educational')} 
-                className="educational-button"
-              >
-                🎓 לומדה על זיהוי דיפ פייק באודיו
-              </button>
-            )}
+        {/* Section 2: Game Mode */}
+        <div className="section-container game-section">
+          <div className="section-header">
+            <h2>🎮 Interactive Game</h2>
+            <p>Test your skills with our deepfake detection challenge</p>
+          </div>
+          
+          <div className="section-content">
+            <div className="feature-list">
+              <div className="feature-item">🎯 Multiple difficulty levels</div>
+              <div className="feature-item">🏆 Score tracking and achievements</div>
+              <div className="feature-item">📊 Real-time feedback</div>
+            </div>
             
             <button onClick={handleStartGame} className="game-button">
-              <div className="game-text">start the game</div>
+              <div className="game-text">Start the Game</div>
             </button>
           </div>
+        </div>
 
-          <div className="nav-links">
-            <a href="/profile">Profile 👤</a>
+        {/* Section 3: Educational Mode - Only for institutions */}
+        {isInstitution && (
+          <div className="section-container educational-section">
+            <div className="section-header">
+              <h2>🎓 Educational Mode</h2>
+              <p>Comprehensive learning module for institutions</p>
+            </div>
+            
+            <div className="section-content">
+                          <div className="feature-list">
+              <div className="feature-item">📚 Step-by-step learning process</div>
+              <div className="feature-item">🔬 Scientific research and data</div>
+              <div className="feature-item">💡 Interactive demonstrations</div>
+            </div>
+            
+            <button 
+              onClick={() => navigate('/educational')} 
+              className="educational-button"
+            >
+              <div className="educational-icon">🎓</div>
+              <div className="educational-text">Audio Deepfake Detection Tutorial</div>
+            </button>
+            </div>
           </div>
+        )}
+
+        <div className="nav-links">
+          <a href="/profile">Profile 👤</a>
         </div>
       </div>
     </>
